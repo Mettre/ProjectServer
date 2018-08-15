@@ -1,6 +1,7 @@
-package com.example.myproject.serviceimpl;
+package com.example.myproject.serviceImpl;
 
 import com.example.myproject.mapper.AddressMapper;
+import com.example.myproject.po.Address;
 import com.example.myproject.service.AddressService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class AddressServiceImpl implements AddressService {
     @Autowired
     private AddressMapper addressMapper;
 
-    public AddressMapper getAddressMapper() {
-        return addressMapper;
+    @Override
+    public Address dd() {
+        return addressMapper.xxx();
     }
-
 }

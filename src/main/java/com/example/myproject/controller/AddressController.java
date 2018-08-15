@@ -1,5 +1,8 @@
 package com.example.myproject.controller;
 
+import com.example.myproject.po.Address;
+import com.example.myproject.po.Result;
+import com.example.myproject.po.ResultUtil;
 import com.example.myproject.service.AddressService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -17,5 +20,11 @@ public class AddressController {
 
     @Autowired
     private AddressService addressService;
+
+    public Result<Object> getAddress() {
+
+        Address address = addressService.dd();
+        return new ResultUtil<Object>().setData(address);
+    }
 
 }
