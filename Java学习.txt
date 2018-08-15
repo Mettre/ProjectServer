@@ -1,0 +1,9 @@
+请求入参@RequestParam 默认代表不能为空   加不加@@RequestParam 接口拿到参数没有影响，区别是参数能不能为空，不加===@RequestParam(required=false)
+
+beetl  代码自动生成 bean生成数据库 mapper/service/serviceImpl/mapper  运行项目后自动生成数据库表
+
+Json Web Token(JWT)   安全认证
+
+MyBatis-Plus   复杂联表查询
+
+Lombok    自动生成set/get 方法 简化清晰代码
