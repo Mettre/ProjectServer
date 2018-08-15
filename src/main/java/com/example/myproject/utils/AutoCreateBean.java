@@ -1,4 +1,4 @@
-package main.java.com.example.myproject.utils;
+package com.example.myproject.utils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -38,13 +38,20 @@ public class AutoCreateBean {
 
     private boolean f_sql = false; // 是否需要导入包java.sql.*
 
+
+//    public static void main(String[] args) throws Exception {
+//        AutoCreateBean auto = new AutoCreateBean();
+//        List<String> list = auto.TBlist();
+//        auto.GenEntity(list, "com/example/myproject");
+//    }
+
     /**
      * 获取指定数据库中包含的表 TBlist
      *
-     * @time 2016年3月4日下午5:54:52
-     * @packageName com.util
      * @return 返回所有表名(将表名放到一个集合中)
      * @throws Exception
+     * @time 2016年3月4日下午5:54:52
+     * @packageName com.util
      */
     public List<String> TBlist() throws Exception {
         // 访问数据库 采用 JDBC方式
@@ -71,7 +78,7 @@ public class AutoCreateBean {
         return list;
     }
 
-    public void GenEntity(List<String> TBlist, String packageName)throws Exception {
+    public void GenEntity(List<String> TBlist, String packageName) throws Exception {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSetMetaData rsmd = null;
@@ -132,12 +139,10 @@ public class AutoCreateBean {
     /**
      * 创建java 文件 将生成的属性 get/set 方法 保存到 文件中 markerBean
      *
+     * @param className 类名称
+     * @param content   类内容 包括属性 getset 方法
      * @time 2015年9月29日下午4:15:22
      * @packageName fanshe
-     * @param className
-     *            类名称
-     * @param content
-     *            类内容 包括属性 getset 方法
      */
     public void markerBean(String className, String content, String packageName) {
         String folder = System.getProperty("user.dir") + "/src/" + packageName + "/";
@@ -209,7 +214,7 @@ public class AutoCreateBean {
 
     private String sqlType2JavaType(String sqlType) {
         if (sqlType.equalsIgnoreCase("bit")) {
-            return "bool";
+            return "boolean";
         } else if (sqlType.equalsIgnoreCase("tinyint")) {
             return "byte";
         } else if (sqlType.equalsIgnoreCase("smallint")) {
@@ -233,11 +238,9 @@ public class AutoCreateBean {
                 || sqlType.equalsIgnoreCase("nchar")) {
             return "String";
         } else if (sqlType.equalsIgnoreCase("datetime")
-                ||sqlType.equalsIgnoreCase("date")){
+                || sqlType.equalsIgnoreCase("date")) {
             return "Date";
-        }
-
-        else if (sqlType.equalsIgnoreCase("image")) {
+        } else if (sqlType.equalsIgnoreCase("image")) {
             return "Blob";
         } else if (sqlType.equalsIgnoreCase("text")) {
             return "Clob";
@@ -248,6 +251,6 @@ public class AutoCreateBean {
     public static void main(String[] args) throws Exception {
         AutoCreateBean auto = new AutoCreateBean();
         List<String> list = auto.TBlist();
-        auto.GenEntity(list, "main/java/com/example/myproject");
+        auto.GenEntity(list, "main/java/com/example/myproject/po");
     }
 }

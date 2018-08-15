@@ -1,0 +1,11 @@
+package ${entity.daoPackage};
+
+import java.util.List;
+
+/**
+ * ${entity.description}数据处理层
+ * @author ${entity.author}
+ */
+public interface ${entity.className}Mapper {
+
+}
