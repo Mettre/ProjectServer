@@ -251,6 +251,6 @@ public class AutoCreateBean {
     public static void main(String[] args) throws Exception {
         AutoCreateBean auto = new AutoCreateBean();
         List<String> list = auto.TBlist();
-        auto.GenEntity(list, "main/java/com/example/myproject/po");
+        auto.GenEntity(list, "main/java/com/example/myproject/pojo");
     }
 }

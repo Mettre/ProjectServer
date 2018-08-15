@@ -7,3 +7,5 @@ Json Web Token(JWT)   安全认证
 MyBatis-Plus   复杂联表查询
 
 Lombok    自动生成set/get 方法 简化清晰代码
+
+****报错Invalid bound statement (not found): com.example.myproject.mapper.LoginMapper.login

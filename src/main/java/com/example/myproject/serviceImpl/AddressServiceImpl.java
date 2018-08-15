@@ -1,7 +1,7 @@
 package com.example.myproject.serviceImpl;
 
 import com.example.myproject.mapper.AddressMapper;
-import com.example.myproject.po.Address;
+import com.example.myproject.pojo.Address;
 import com.example.myproject.service.AddressService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

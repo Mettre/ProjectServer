@@ -46,7 +46,7 @@ public class Generator {
     /**
      * 实体类对应包
      */
-    private static final String entityPackage = "com.example.myproject.po";
+    private static final String entityPackage = "com.example.myproject.pojo";
 
     /**
      * dao对应包
@@ -121,7 +121,7 @@ public class Generator {
         String entityResult = entityTemplate.render();
         log.info(entityResult);
         //创建文件
-        String entityFileUrl = System.getProperty("user.dir")+"/src/main/java/com/example/myproject/po/"+className+".java";
+        String entityFileUrl = System.getProperty("user.dir")+"/src/main/java/com/example/myproject/pojo/"+className+".java";
         File entityFile = new File(entityFileUrl);
         if(!entityFile.exists()){
             //实体类若存在则不重新生成

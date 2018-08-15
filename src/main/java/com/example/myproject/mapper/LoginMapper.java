@@ -1,6 +1,6 @@
 package com.example.myproject.mapper;
 
-import com.example.myproject.po.Users;
+import com.example.myproject.pojo.Users;
 
 public interface LoginMapper {
 

@@ -1,4 +1,4 @@
-package	com.example.myproject.po;
+package	com.example.myproject.pojo;
 import java.util.Date;
 public class User {
 	private String user_id;
