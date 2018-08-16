@@ -2,6 +2,7 @@ package com.example.myproject.pojo;
 
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.example.myproject.base.MettreBaseEntity;
+import com.example.myproject.menu.MettreMenu;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -36,7 +37,7 @@ public class Users extends MettreBaseEntity {
     private int age;
 
     @ApiModelProperty(value = "性别")
-    private int sex;
+    private String sex;
 
     @ApiModelProperty(value = "头像")
     private String avatar;
@@ -49,4 +50,16 @@ public class Users extends MettreBaseEntity {
 
     @ApiModelProperty(value = "token")
     private String token;
+
+    public Users() {
+    }
+
+    public Users(String name, String phone, String password, int age, int sex) {
+        this.name = name;
+        this.phone = phone;
+        this.password = password;
+        this.age = age;
+        this.sex = MettreMenu.getSexStr(sex);
+        this.type = 1;
+    }
 }

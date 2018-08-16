@@ -30,12 +30,12 @@ public interface CommonConstant {
     /**
      * 性别男
      */
-    Integer SEX_MAN = 0;
+    Integer SEX_MAN = 1;
 
     /**
      * 性别女
      */
-    Integer SEX_WOMAN = 1;
+    Integer SEX_WOMAN = 0;
 
     /**
      * 性别保密

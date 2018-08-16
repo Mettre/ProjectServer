@@ -17,7 +17,17 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public Users login(String phone, String newPassword) {
-        return loginMapper.login(phone, newPassword);
+    public Users login(String phone, String password) {
+        return loginMapper.login(phone, password);
+    }
+
+    @Override
+    public int insert(Users record) {
+        return loginMapper.insert(record);
+    }
+
+    @Override
+    public Users selectUser(String phone) {
+        return loginMapper.selectUser(phone);
     }
 }
