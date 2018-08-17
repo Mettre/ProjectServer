@@ -3,6 +3,7 @@ package com.example.myproject.constant;
 
 /**
  * 常量
+ *
  * @author Exrickx
  */
 public interface CommonConstant {
@@ -86,4 +87,19 @@ public interface CommonConstant {
      * 3级菜单
      */
     Integer LEVEL_THREE = 3;
+
+    /**
+     * 注册验证码
+     */
+    Integer REGISTER_CAPTCHA = 1;
+
+    /**
+     * 修改密码验证码
+     */
+    Integer MODIFY_CAPTCHA = 2;
+
+    /**
+     * 忘记密码验证码
+     */
+    Integer GOGET_CAPTCHA = 3;
 }
