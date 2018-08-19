@@ -8,5 +8,11 @@ public interface UserService {
 
     int insert(Users record);
 
-    Users findUser(String phone);
+    Users findUserByPhone(String phone);
+
+    Users findUserByUserId(String userId);
+
+    int modifyPassword(String oldPassword, String newPassword);
+
+    int forgetPassword(String phone, String password);
 }

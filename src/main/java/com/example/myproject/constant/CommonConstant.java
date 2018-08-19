@@ -94,12 +94,15 @@ public interface CommonConstant {
     Integer REGISTER_CAPTCHA = 1;
 
     /**
-     * 修改密码验证码
-     */
-    Integer MODIFY_CAPTCHA = 2;
-
-    /**
      * 忘记密码验证码
      */
-    Integer GOGET_CAPTCHA = 3;
+    Integer FORGET_CAPTCHA = 2;
+
+
+    String JWT_TOKEN = "secretkey";
+
+    /**
+     * 权限参数头
+     */
+    String AUTHORITIES = "authorities";
 }

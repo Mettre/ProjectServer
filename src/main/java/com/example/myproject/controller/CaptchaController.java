@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/controller")
+@RequestMapping("/api/controller")
 @Api(description = "基础配置")
 public class CaptchaController {
 
@@ -31,14 +31,13 @@ public class CaptchaController {
     private StringRedisTemplate redisTemplate;
 
 
-
     @RequestMapping(value = "/captcha", method = RequestMethod.POST)
     @ApiOperation(value = "生成验证码")
     public Result<Object> login(@RequestParam String phone, @RequestParam int captchaType) {
         if (StrUtil.isBlank(phone)) {
             return new ResultUtil<Object>().setErrorMsg("手机号不能为空");
         }
-        Users users = loginService.findUser(phone);
+        Users users = loginService.findUserByPhone(phone);
         switch (captchaType) {
             case 1:
                 if (users != null) {

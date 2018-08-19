@@ -9,6 +9,12 @@ public interface UserMapper {
 
     int insert(Users users);
 
-    Users selectUser(String phone);
+    Users findUserByPhone(String phone);
+
+    Users findUserByUserId(String id);
+
+    int modifyPassword(@Param(value = "oldPassword") String oldPassword, @Param(value = "newPassword") String newPassword);
+
+    int forgetPassword(@Param(value = "phone") String phone, @Param(value = "password") String password);
 
 }

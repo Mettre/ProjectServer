@@ -16,4 +16,14 @@ public class AssembleUtils {
     public static String registerUtils(String phone) {
         return phone + "-" + CommonConstant.REGISTER_CAPTCHA;
     }
+
+    /**
+     * 忘记密码
+     *
+     * @param phone
+     * @return
+     */
+    public static String forgetUtils(String phone) {
+        return phone + "-" + CommonConstant.FORGET_CAPTCHA;
+    }
 }

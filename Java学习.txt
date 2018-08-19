@@ -13,3 +13,7 @@ jdbcType="DATETIMEOFFSET" 不能有空格
 @Test 接口单元测试
 
 doubb 项目框架
+
+java枚举
+
+dao层 当传入多个参数的时候需要加@Param 加入字段名

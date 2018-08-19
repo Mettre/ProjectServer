@@ -6,7 +6,7 @@ import com.example.myproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("loginService")
+@Service("UserService")
 public class UserServiceImpl implements UserService {
 
     private UserMapper userMapper;
@@ -27,7 +27,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users findUser(String phone) {
-        return userMapper.selectUser(phone);
+    public Users findUserByPhone(String phone) {
+        return userMapper.findUserByPhone(phone);
+    }
+
+    @Override
+    public Users findUserByUserId(String userId) {
+        return userMapper.findUserByUserId(userId);
+    }
+
+    @Override
+    public int modifyPassword(String oldPassword, String newPassword) {
+        return userMapper.modifyPassword(oldPassword, newPassword);
+    }
+
+    @Override
+    public int forgetPassword(String phone, String password) {
+        return userMapper.forgetPassword(phone, password);
     }
 }

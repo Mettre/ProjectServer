@@ -86,22 +86,10 @@ ProjectServer:
   logRecord:
     es: false
 
-# 忽略鉴权url
+# 鉴权url
 ignored:
   urls:
-    - /xboot/permission/getMenuList/**
-    - /user/**
-    - /xboot/common/**
-    - /swagger-ui.html
-    - /swagger-resources/**
-    - /swagger/**
-    - /**/v2/api-docs
-    - /**/*.js
-    - /**/*.css
-    - /**/*.png
-    - /**/*.ico
-    - /xboot/student/**
-    - /xboot/address/**
+    - /api/user/loginEd/**
 
 # Swagger界面内容配置
 swagger:

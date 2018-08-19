@@ -8,8 +8,8 @@ import com.example.myproject.pojo.Address;
  *
  * @author Mettre
  */
-public interface AddressMapper {
+public interface DeliveryMapper {
 
-    Address xxx();
+    int insert(Address address);
 
 }

@@ -1,8 +1,8 @@
 package com.example.myproject.serviceImpl;
 
-import com.example.myproject.mapper.AddressMapper;
+import com.example.myproject.mapper.DeliveryMapper;
 import com.example.myproject.pojo.Address;
-import com.example.myproject.service.AddressService;
+import com.example.myproject.service.DeliveryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,13 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @Transactional
-public class AddressServiceImpl implements AddressService {
+public class DeliveryServiceImpl implements DeliveryService {
 
     @Autowired
-    private AddressMapper addressMapper;
+    private DeliveryMapper addressMapper;
 
     @Override
-    public Address dd() {
-        return addressMapper.xxx();
+    public int insert(Address address) {
+        return addressMapper.insert(address);
     }
 }

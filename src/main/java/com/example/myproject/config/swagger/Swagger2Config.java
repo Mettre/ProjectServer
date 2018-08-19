@@ -1,18 +1,30 @@
 package com.example.myproject.config.swagger;
 
+import com.example.myproject.constant.CommonConstant;
+import com.example.myproject.jwt.IgnoredUrls;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static springfox.documentation.builders.PathSelectors.regex;
 
 /**
  * @author Exrickx
@@ -43,16 +55,19 @@ public class Swagger2Config {
     @Value("${swagger.contact.email}")
     private String email;
 
+    @Autowired
+    private IgnoredUrls ignoredUrls;
+
     @Bean
     public Docket createRestApi() {
 
-        log.info("加载Swagger2");
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo()).select()
-                //扫描所有有注解的api，用这种方式更灵活
+                .apiInfo(apiInfo())
+                .select()
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .globalOperationParameters(setHeaderToken());
     }
 
     private ApiInfo apiInfo() {
@@ -63,5 +78,13 @@ public class Swagger2Config {
                 .contact(new Contact(name, url, email))
                 .version(version)
                 .build();
+    }
+
+    private List<Parameter> setHeaderToken() {
+        ParameterBuilder tokenPar = new ParameterBuilder();
+        List<Parameter> pars = new ArrayList<>();
+        tokenPar.name(CommonConstant.AUTHORITIES).description("token").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
+        pars.add(tokenPar.build());
+        return pars;
     }
 }
