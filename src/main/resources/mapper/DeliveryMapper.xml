@@ -10,11 +10,12 @@
         <result column="province" property="province" jdbcType="VARCHAR"/>
         <result column="city" property="city" jdbcType="VARCHAR"/>
         <result column="county" property="county" jdbcType="VARCHAR"/>
-        <result column="create_time" property="createTime" jdbcType="DATETIMEOFFSET"/>
         <result column="defaults" property="defaults" jdbcType="BIT"/>
-        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
-        <result column="token" property="token" jdbcType="VARCHAR"/>
     </resultMap>
+
+    <sql id="Base_address_List">
+      id, name,phone,province,city,county,address,defaults
+    </sql>
 
     <insert id="insert" parameterType="com.example.myproject.pojo.Address">
         insert into t_address
@@ -52,7 +53,7 @@
                 #{id,jdbcType=VARCHAR},
             </if>
             <if test="userId != null">
-                #{user_id,jdbcType=VARCHAR},
+                #{userId,jdbcType=VARCHAR},
             </if>
             <if test="phone != null">
                 #{phone,jdbcType=VARCHAR},
@@ -73,8 +74,54 @@
                 #{county,jdbcType=VARCHAR},
             </if>
             <if test="defaults != null">
-                #{defaults,jdbcType=INTEGER},
+                #{defaults,jdbcType=BIT},
             </if>
         </trim>
     </insert>
+
+    <update id="update" parameterType="com.example.myproject.pojo.Address">
+        UPDATE t_address
+        <set>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+                province = #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="county != null">
+                county = #{county,jdbcType=VARCHAR},
+            </if>
+            <if test="defaults != null">
+                defaults = #{defaults,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 分页查找收货地址 -->
+    <select id="findByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_address_List"></include>
+        from t_address
+        where user_id = #{userId,jdbcType=VARCHAR}
+        <if test="limit!=null and offset!=null">
+            limit ${offset},${limit}
+        </if>
+    </select>
+
+    <!-- 删除收货地址 -->
+    <delete id="deleteAddress">
+		delete from
+		   t_address
+		where id=#{id,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=VARCHAR}
+	</delete>
 </mapper>

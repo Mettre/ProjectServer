@@ -32,24 +32,24 @@ public abstract class MettreBaseEntity implements Serializable {
     @ApiModelProperty(value = "唯一标识")
     public String id = String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId());
 
-    @ApiModelProperty(value = "创建者")
+    @ApiModelProperty(value = "创建者", hidden = true)
     public String createBy;
 
     @CreatedDate
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "创建时间")
+    @ApiModelProperty(value = "创建时间", hidden = true)
     public Date createTime = new Date();
 
-    @ApiModelProperty(value = "更新者")
+    @ApiModelProperty(value = "更新者", hidden = true)
     public String updateBy;
 
     @LastModifiedDate
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "更新时间")
-    public Date updateTime= new Date();
+    @ApiModelProperty(value = "更新时间", hidden = true)
+    public Date updateTime = new Date();
 
-    @ApiModelProperty(value = "删除标志 默认0")
+    @ApiModelProperty(value = "删除标志 默认0", hidden = true)
     public Integer delFlag = CommonConstant.STATUS_NORMAL;
 }

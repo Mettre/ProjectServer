@@ -38,6 +38,6 @@ public class Address extends MettreBaseEntity {
     @ApiModelProperty(value = "是否默认")
     private boolean defaults;
 
-    @ApiModelProperty(value = "用户id")
+    @ApiModelProperty(value = "用户id", hidden = true)
     private String userId;
 }

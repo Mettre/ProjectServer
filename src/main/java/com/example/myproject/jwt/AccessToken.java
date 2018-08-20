@@ -11,8 +11,8 @@ public class AccessToken {
 
     private long expires_in;
 
-//    public AccessToken() {
-//    }
+    public AccessToken() {
+    }
 
     public AccessToken(String access_token, String token_type, long expires_in) {
         this.access_token = access_token;
