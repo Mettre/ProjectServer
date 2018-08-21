@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.myproject.mapper.CategoryMapper">
+    <!--<cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>-->
+    <resultMap id="BaseResultMap" type="com.example.myproject.pojo.Category">
+        <id column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
+        <result column="creation_time" property="creationTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="is_show" property="isShow" jdbcType="BIT"/>
+        <result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+        <result column="recommend" property="recommend" jdbcType="BIT"/>
+    </resultMap>
+
+    <sql id="Base_address_List">
+      category_id, parent_id,category_name,creation_time,is_show,recommend,keywords
+    </sql>
+
+    <insert id="addCategory" parameterType="com.example.myproject.pojo.Category">
+        insert into t_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="categoryName != null">
+                category_name,
+            </if>
+            <if test="creationTime != null">
+                creation_time,
+            </if>
+            <if test="isShow != null">
+                is_show,
+            </if>
+            <if test="keywords != null">
+                keywords,
+            </if>
+            <if test="recommend != null">
+                recommend,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="categoryName != null">
+                #{categoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="creationTime != null">
+                #{creationTime,jdbcType=VARCHAR},
+            </if>
+            <if test="isShow != null">
+                #{isShow,jdbcType=VARCHAR},
+            </if>
+            <if test="keywords != null">
+                #{keywords,jdbcType=VARCHAR},
+            </if>
+            <if test="recommend != null">
+                #{recommend,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.example.myproject.pojo.Address">
+        UPDATE t_address
+        <set>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+                province = #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="county != null">
+                county = #{county,jdbcType=VARCHAR},
+            </if>
+            <if test="defaults != null">
+                defaults = #{defaults,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 分页查找收货地址 -->
+    <select id="findByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_address_List"></include>
+        from t_address
+        where user_id = #{userId,jdbcType=VARCHAR}
+        <if test="limit!=null and offset!=null">
+            limit ${offset},${limit}
+        </if>
+    </select>
+
+    <!-- 删除收货地址 -->
+    <delete id="deleteAddress">
+		delete from
+		   t_address
+		where id=#{id,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=VARCHAR}
+	</delete>
+</mapper>
