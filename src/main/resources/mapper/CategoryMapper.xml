@@ -13,10 +13,24 @@
         <result column="recommend" property="recommend" jdbcType="BIT"/>
     </resultMap>
 
+
+    <resultMap id="BaseResult_Simple_Map" type="com.example.myproject.vojo.CategoryBean">
+        <id column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
     <sql id="Base_category_List">
       category_id, parent_id,category_name,creation_time,is_show,recommend,keywords
     </sql>
 
+    <sql id="Base_category_simple_list">
+      category_id,category_name,parent_id
+    </sql>
+
+
+    <!--新增商品分类-->
     <insert id="addCategory" parameterType="com.example.myproject.pojo.Category">
         insert into t_category
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -74,7 +88,7 @@
     </insert>
 
 
-    <!-- 查找分类 -->
+    <!-- 查找商品分类 -->
     <select id="findCategory" resultMap="BaseResultMap">
         select
         <include refid="Base_category_List"></include>
@@ -88,7 +102,24 @@
                 and (category_name like #{categoryName,jdbcType=VARCHAR})
             </if>
         </where>
+    </select>
 
+
+
+    <!-- 查找全部可取商品分类 -->
+    <select id="findAllCategory" resultMap="BaseResult_Simple_Map">
+        select
+        <include refid="Base_category_simple_list"></include>
+        from t_category
+        <where>
+            1=1
+            <if test="isShow != null">
+                and is_show = #{isShow,jdbcType=BIT}
+            </if>
+            <if test="recommend != null">
+                and recommend = #{recommend,jdbcType=BIT}
+            </if>
+        </where>
     </select>
 
     <!-- 删除商品分类 -->

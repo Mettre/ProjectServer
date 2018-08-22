@@ -5,6 +5,7 @@ import com.example.myproject.pojo.Category;
 import com.example.myproject.pojo.Result;
 import com.example.myproject.pojo.ResultUtil;
 import com.example.myproject.service.CategoryService;
+import com.example.myproject.vojo.CategoryBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -58,11 +59,58 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/category/findCategory", method = RequestMethod.POST)
-    @ApiOperation(value = "查找分类")
+    @ApiOperation(value = "查找具体分类")
     public Result<Object> findCategory(@RequestParam(value = "categoryId", required = false) Integer categoryId, @RequestParam(value = "categoryName", required = false) String categoryName) {
         List<Category> categoryList = categoryService.findCategory(categoryId, categoryName);
         return new ResultUtil<Object>().setData(categoryList);
     }
+
+
+    @RequestMapping(value = "/category/findAllCategory", method = RequestMethod.POST)
+    @ApiOperation(value = "查找全部可取商品分类")
+    public Result<Object> findAllCategory(@RequestParam(value = "isShow", required = false) Boolean isShow, @RequestParam(value = "recommend", required = false) Boolean recommend) {
+        List<CategoryBean> categoryList = categoryService.findAllCategory(isShow, recommend);
+
+        return new ResultUtil<Object>().setData(getCategoryBaseList(categoryList,new ArrayList<>()));
+    }
+
+
+    /**
+     * 递归每层分类
+     * @param categoryList
+     * @param categoryAllList
+     * @return
+     */
+    private List<CategoryBean> getCategoryList(List<CategoryBean> categoryList,List<CategoryBean> categoryAllList){
+
+        for (int i=0;i<categoryAllList.size();i++){
+            List<CategoryBean> categoryChildList = new ArrayList<>();
+            for (CategoryBean categoryBean:categoryList) {
+                if(categoryBean.getParentId()==categoryAllList.get(i).getCategoryId()){
+                    categoryChildList.add(categoryBean);
+                }
+                categoryAllList.get(i).setChildCategory(categoryChildList);
+            }
+        }
+
+        return categoryAllList;
+    }
+
+
+    /**
+     * 取出基层
+     * @param categoryList
+     * @return
+     */
+    private List<CategoryBean> getCategoryBaseList(List<CategoryBean> categoryList,List<CategoryBean> categoryAllList){
+        for ( CategoryBean categoryBean:categoryList) {
+            if(categoryBean.getParentId()==0){
+                categoryAllList.add(categoryBean);
+            }
+        }
+        return getCategoryList(categoryList,categoryAllList);
+    }
+
 
     @RequestMapping(value = "/category/deleteCategory", method = RequestMethod.POST)
     @ApiOperation(value = "删除商品分类")

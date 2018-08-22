@@ -41,7 +41,7 @@ public class Category {
     private boolean recommend;
 
     @ApiModelProperty(value = "是否显示")
-    private boolean isShow;
+    private boolean isShow = true;
 
     @CreatedDate
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
