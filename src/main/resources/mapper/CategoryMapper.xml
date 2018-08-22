@@ -6,13 +6,14 @@
         <id column="category_id" property="categoryId" jdbcType="INTEGER"/>
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
+        <result column="category_describe" property="categoryDescribe" jdbcType="VARCHAR"/>
         <result column="creation_time" property="creationTime" jdbcType="DATETIMEOFFSET"/>
         <result column="is_show" property="isShow" jdbcType="BIT"/>
         <result column="keywords" property="keywords" jdbcType="VARCHAR"/>
         <result column="recommend" property="recommend" jdbcType="BIT"/>
     </resultMap>
 
-    <sql id="Base_address_List">
+    <sql id="Base_category_List">
       category_id, parent_id,category_name,creation_time,is_show,recommend,keywords
     </sql>
 
@@ -27,6 +28,9 @@
             </if>
             <if test="categoryName != null">
                 category_name,
+            </if>
+            <if test="categoryDescribe != null">
+                category_describe,
             </if>
             <if test="creationTime != null">
                 creation_time,
@@ -43,72 +47,54 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="categoryId != null">
-                #{categoryId,jdbcType=VARCHAR},
+                #{categoryId,jdbcType=INTEGER},
             </if>
             <if test="parentId != null">
-                #{parentId,jdbcType=VARCHAR},
+                #{parentId,jdbcType=INTEGER},
             </if>
             <if test="categoryName != null">
                 #{categoryName,jdbcType=VARCHAR},
             </if>
+            <if test="categoryDescribe != null">
+                #{categoryDescribe,jdbcType=VARCHAR},
+            </if>
             <if test="creationTime != null">
-                #{creationTime,jdbcType=VARCHAR},
+                #{creationTime,jdbcType=DATETIMEOFFSET},
             </if>
             <if test="isShow != null">
-                #{isShow,jdbcType=VARCHAR},
+                #{isShow,jdbcType=BIT},
             </if>
             <if test="keywords != null">
                 #{keywords,jdbcType=VARCHAR},
             </if>
             <if test="recommend != null">
-                #{recommend,jdbcType=VARCHAR},
+                #{recommend,jdbcType=BIT},
             </if>
         </trim>
     </insert>
 
-    <update id="update" parameterType="com.example.myproject.pojo.Address">
-        UPDATE t_address
-        <set>
-            <if test="phone != null">
-                phone = #{phone,jdbcType=VARCHAR},
-            </if>
-            <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
-            </if>
-            <if test="address != null">
-                address = #{address,jdbcType=VARCHAR},
-            </if>
-            <if test="province != null">
-                province = #{province,jdbcType=VARCHAR},
-            </if>
-            <if test="city != null">
-                city = #{city,jdbcType=VARCHAR},
-            </if>
-            <if test="county != null">
-                county = #{county,jdbcType=VARCHAR},
-            </if>
-            <if test="defaults != null">
-                defaults = #{defaults,jdbcType=BIT},
-            </if>
-        </set>
-        where id = #{id,jdbcType=VARCHAR}
-    </update>
 
-    <!-- 分页查找收货地址 -->
-    <select id="findByPage" resultMap="BaseResultMap">
+    <!-- 查找分类 -->
+    <select id="findCategory" resultMap="BaseResultMap">
         select
-        <include refid="Base_address_List"></include>
-        from t_address
-        where user_id = #{userId,jdbcType=VARCHAR}
-        <if test="limit!=null and offset!=null">
-            limit ${offset},${limit}
-        </if>
+        <include refid="Base_category_List"></include>
+        from t_category
+        <where>
+            1=1
+            <if test="categoryId != null and categoryId !=0">
+                and category_id = #{categoryId,jdbcType=INTEGER}
+            </if>
+            <if test="categoryName != null and categoryName !='' ">
+                and (category_name like #{categoryName,jdbcType=VARCHAR})
+            </if>
+        </where>
+
     </select>
 
-    <!-- 删除收货地址 -->
-    <delete id="deleteAddress">
+    <!-- 删除商品分类 -->
+    <delete id="deleteCategory" parameterType="java.lang.Integer">
 		delete from
-		   t_address
-		where id=#{id,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=VARCHAR}
+		   t_category
+		where category_id=#{categoryId,jdbcType=INTEGER}
 	</delete>
 </mapper>

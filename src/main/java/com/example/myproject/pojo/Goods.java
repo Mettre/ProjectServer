@@ -24,7 +24,7 @@ import java.util.Date;
 public class Goods {
 
     @Id
-    @ApiModelProperty(value = "商品id自增, hidden = true")
+    @ApiModelProperty(value = "商品id自增", hidden = true)
     private Long goodId;
 
     @ApiModelProperty(value = "商品分类id，取值category的categoryId")

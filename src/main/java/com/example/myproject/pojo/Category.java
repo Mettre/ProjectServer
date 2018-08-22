@@ -1,8 +1,11 @@
 package com.example.myproject.pojo;
 
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -19,7 +22,7 @@ import java.util.Date;
 public class Category {
 
     @Id
-    @ApiModelProperty(value = "分类id自增, hidden = true")
+    @ApiModelProperty(value = "分类id自增", hidden = true)
     private int categoryId;
 
     @ApiModelProperty(value = "分类名称")
@@ -40,6 +43,9 @@ public class Category {
     @ApiModelProperty(value = "是否显示")
     private boolean isShow;
 
-    @ApiModelProperty(value = "创建时间")
-    private Date creationTime;
+    @CreatedDate
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "创建时间", hidden = true)
+    private Date creationTime = new Date();
 }
