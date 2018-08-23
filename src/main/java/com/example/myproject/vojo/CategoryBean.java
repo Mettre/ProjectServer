@@ -1,5 +1,6 @@
 package com.example.myproject.vojo;
 
+import com.google.gson.annotations.Expose;
 import lombok.Data;
 
 import java.util.List;

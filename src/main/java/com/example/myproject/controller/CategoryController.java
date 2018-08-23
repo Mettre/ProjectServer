@@ -70,45 +70,37 @@ public class CategoryController {
     @ApiOperation(value = "查找全部可取商品分类")
     public Result<Object> findAllCategory(@RequestParam(value = "isShow", required = false) Boolean isShow, @RequestParam(value = "recommend", required = false) Boolean recommend) {
         List<CategoryBean> categoryList = categoryService.findAllCategory(isShow, recommend);
-
-        return new ResultUtil<Object>().setData(getCategoryBaseList(categoryList,new ArrayList<>()));
+        return new ResultUtil<Object>().setData(getCategoryList(categoryList, 0));
     }
 
 
     /**
-     * 递归每层分类
-     * @param categoryList
+     * 递归分类
+     *
      * @param categoryAllList
+     * @param parentId
      * @return
      */
-    private List<CategoryBean> getCategoryList(List<CategoryBean> categoryList,List<CategoryBean> categoryAllList){
+    private List<CategoryBean> getCategoryList(List<CategoryBean> categoryAllList, int parentId) {
+        List<CategoryBean> categoryParentList = new ArrayList<>();
+        List<CategoryBean> categoryChildList = new ArrayList<>();
 
-        for (int i=0;i<categoryAllList.size();i++){
-            List<CategoryBean> categoryChildList = new ArrayList<>();
-            for (CategoryBean categoryBean:categoryList) {
-                if(categoryBean.getParentId()==categoryAllList.get(i).getCategoryId()){
-                    categoryChildList.add(categoryBean);
+        if (categoryAllList != null && categoryAllList.size() > 0) {
+            for (CategoryBean categoryList : categoryAllList) {
+                if (categoryList.getParentId() == parentId) {
+                    categoryParentList.add(categoryList);
+                } else {
+                    categoryChildList.add(categoryList);
                 }
-                categoryAllList.get(i).setChildCategory(categoryChildList);
             }
         }
 
-        return categoryAllList;
-    }
-
-
-    /**
-     * 取出基层
-     * @param categoryList
-     * @return
-     */
-    private List<CategoryBean> getCategoryBaseList(List<CategoryBean> categoryList,List<CategoryBean> categoryAllList){
-        for ( CategoryBean categoryBean:categoryList) {
-            if(categoryBean.getParentId()==0){
-                categoryAllList.add(categoryBean);
+        if (categoryParentList != null && categoryParentList.size() > 0) {
+            for (CategoryBean categoryList : categoryParentList) {
+                categoryList.setChildCategory(getCategoryList(categoryChildList, categoryList.getCategoryId()));
             }
         }
-        return getCategoryList(categoryList,categoryAllList);
+        return categoryParentList;
     }
 
 
