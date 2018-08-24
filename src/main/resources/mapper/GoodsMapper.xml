@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.myproject.mapper.GoodsMapper">
+    <!--<cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>-->
+    <resultMap id="BaseResultMap" type="com.example.myproject.pojo.Goods">
+        <id column="goods_id" property="goodsId" jdbcType="BIGINT"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="brand_id" property="brandId" jdbcType="INTEGER"/>
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+        <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="goods_brief" property="goodsBrief" jdbcType="VARCHAR"/>
+        <result column="goods_desc" property="goodsDesc" jdbcType="VARCHAR"/>
+        <result column="stock" property="stock" jdbcType="INTEGER"/>
+        <result column="goods_sn" property="goodsSn" jdbcType="BIGINT"/>
+        <result column="is_delete" property="isDelete" jdbcType="BIT"/>
+        <result column="is_hot" property="isHot" jdbcType="BIT"/>
+        <result column="is_new" property="isNew" jdbcType="BIT"/>
+        <result column="is_promote" property="isPromote" jdbcType="BIT"/>
+        <result column="is_sale" property="isSale" jdbcType="BIT"/>
+        <result column="keywords" property="keywords" jdbcType="VARCHAR"/>
+        <result column="shop_price" property="shopPrice" jdbcType="DECIMAL"/>
+        <result column="promote_price" property="promotePrice" jdbcType="DECIMAL"/>
+        <result column="market_price" property="marketPrice" jdbcType="DECIMAL"/>
+        <result column="promote_end_date" property="promoteEndDate" jdbcType="DATETIMEOFFSET"/>
+        <result column="promote_start_date" property="promoteStartDate" jdbcType="DATETIMEOFFSET"/>
+        <result column="seller_note" property="sellerNote" jdbcType="VARCHAR"/>
+
+    </resultMap>
+
+    <sql id="Base_List">
+      goodS_id,goods_name,brand_id, category_id,create_time,goods_brief,goods_desc,stock,goods_sn,
+      is_promote,shop_price,promote_price,market_price,promote_end_date,promote_start_date
+    </sql>
+
+    <!--新增商品-->
+    <insert id="addGoods" parameterType="com.example.myproject.pojo.Goods">
+        insert into t_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="brandId != null">
+                brand_id,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="goodsName != null">
+                goods_name,
+            </if>
+            <if test="goodsBrief != null">
+                goods_brief,
+            </if>
+            <if test="goodsDesc != null">
+                goods_desc,
+            </if>
+            <if test="stock != null">
+                stock,
+            </if>
+            <if test="goodsSn != null">
+                goods_sn,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="isHot != null">
+                is_hot,
+            </if>
+            <if test="isNew != null">
+                is_new,
+            </if>
+            <if test="isPromote != null">
+                is_promote,
+            </if>
+            <if test="isSale != null">
+                is_sale,
+            </if>
+            <if test="keywords != null">
+                keywords,
+            </if>
+            <if test="lastUpdate != null">
+                last_update,
+            </if>
+            <if test="marketPrice != null">
+                market_price,
+            </if>
+            <if test="promoteEndDate != null">
+                promote_end_date,
+            </if>
+            <if test="promotePrice != null">
+                promote_price,
+            </if>
+            <if test="promoteStartDate != null">
+                promote_start_date,
+            </if>
+            <if test="sellerNote != null">
+                seller_note,
+            </if>
+            <if test="shopPrice != null">
+                shop_price,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null">
+                #{goodsId},
+            </if>
+            <if test="brandId != null">
+                #{brandId},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="goodsName != null">
+                #{goodsName},
+            </if>
+            <if test="goodsBrief != null">
+                #{goodsBrief},
+            </if>
+            <if test="goodsDesc != null">
+                #{goodsDesc},
+            </if>
+            <if test="stock != null">
+                #{stock},
+            </if>
+            <if test="goodsSn != null">
+                #{goodsSn},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+            <if test="isHot != null">
+                #{isHot},
+            </if>
+            <if test="isNew != null">
+                #{isNew},
+            </if>
+            <if test="isPromote != null">
+                #{isPromote},
+            </if>
+            <if test="isSale != null">
+                #{isSale},
+            </if>
+            <if test="keywords != null">
+                #{keywords},
+            </if>
+            <if test="lastUpdate != null">
+                #{lastUpdate},
+            </if>
+            <if test="marketPrice != null">
+                #{marketPrice},
+            </if>
+            <if test="promoteEndDate != null">
+                #{promoteEndDate},
+            </if>
+            <if test="promotePrice != null">
+                #{promotePrice},
+            </if>
+            <if test="promoteStartDate != null">
+                #{promoteStartDate},
+            </if>
+            <if test="sellerNote != null">
+                #{sellerNote},
+            </if>
+            <if test="shopPrice != null">
+                #{shopPrice},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!-- 查找商品-->
+    <select id="findGoods" resultMap="BaseResultMap" parameterType="com.example.myproject.pojo.Goods">
+        select
+        <include refid="Base_List"></include>
+        from t_goods
+        <where>
+            1=1
+            <if test="goodsId != null">
+                and goods_id = #{goodsId}
+            </if>
+            <if test="brandId != null">
+                and brand_id = #{brandId}
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="goodsName != null">
+                and goods_name = #{goodsName}
+            </if>
+            <if test="goodsBrief != null">
+                and goods_brief = #{goodsBrief}
+            </if>
+            <if test="goodsDesc != null">
+                and goods_desc = #{goodsDesc}
+            </if>
+
+            <if test="stock != null">
+                and stock = #{stock}
+            </if>
+            <if test="goodsSn != null">
+                and goods_sn = #{goodsSn}
+            </if>
+            <if test="isDelete != null">
+                and is_delete = #{isDelete}
+            </if>
+            <if test="isHot != null ">
+                and is_hot = #{isHot}
+            </if>
+            <if test="isNew != null">
+                and is_new = #{isNew}
+            </if>
+            <if test="isPromote != null">
+                and is_promote = #{isPromote}
+            </if>
+            <if test="isSale != null">
+                and is_sale = #{isSale}
+            </if>
+            <if test="keywords != null">
+                and keywords = #{keywords}
+            </if>
+            <if test="lastUpdate != null">
+                and last_update = #{lastUpdate}
+            </if>
+            <if test="marketPrice != null">
+                and market_price = #{marketPrice}
+            </if>
+            <if test="promoteEndDate != null">
+                and promote_end_date = #{promoteEndDate}
+            </if>
+            <if test="promotePrice != null">
+                and promote_price = #{promotePrice}
+            </if>
+            <if test="promoteStartDate != null ">
+                and promote_start_date = #{promoteStartDate}
+            </if>
+            <if test="sellerNote != null">
+                and seller_note = #{sellerNote}
+            </if>
+            <if test="shopPrice != null">
+                and shop_price = #{shopPrice}
+            </if>
+        </where>
+    </select>
+
+
+    <!-- 查找全部可取品牌 -->
+    <select id="findAllBrand" resultMap="BaseResultMap">
+        select
+        <include refid="Base_List"></include>
+        from t_goods
+        <where>
+            1=1
+            <if test="isShow != null">
+                and is_show = #{isShow,jdbcType=BIT}
+            </if>
+            <if test="recommend != null">
+                and recommend = #{recommend,jdbcType=BIT}
+            </if>
+        </where>
+    </select>
+
+    <!-- 删除品牌 -->
+    <delete id="deleteGoods" parameterType="java.lang.Integer">
+		delete from
+		   t_goods
+		where brand_id=#{brandId,jdbcType=BIGINT}
+	</delete>
+</mapper>

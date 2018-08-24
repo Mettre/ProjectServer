@@ -67,12 +67,11 @@ public class CategoryController {
 
 
     @RequestMapping(value = "/category/findAllCategory", method = RequestMethod.POST)
-    @ApiOperation(value = "查找全部可取商品分类")
+    @ApiOperation(value = "多级分类列表")
     public Result<Object> findAllCategory(@RequestParam(value = "isShow", required = false) Boolean isShow, @RequestParam(value = "recommend", required = false) Boolean recommend) {
         List<CategoryBean> categoryList = categoryService.findAllCategory(isShow, recommend);
         return new ResultUtil<Object>().setData(getCategoryList(categoryList, 0));
     }
-
 
     /**
      * 递归分类

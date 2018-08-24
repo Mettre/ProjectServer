@@ -55,9 +55,6 @@ public class Swagger2Config {
     @Value("${swagger.contact.email}")
     private String email;
 
-    @Autowired
-    private IgnoredUrls ignoredUrls;
-
     @Bean
     public Docket createRestApi() {
 

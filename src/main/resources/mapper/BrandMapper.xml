@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.myproject.mapper.BrandMapper">
+    <!--<cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>-->
+    <resultMap id="BaseResultMap" type="com.example.myproject.pojo.Brand">
+        <id column="brand_id" property="brandId" jdbcType="BIGINT"/>
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+        <result column="brand_desc" property="brandDesc" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="is_show" property="isShow" jdbcType="BIT"/>
+        <result column="recommend" property="recommend" jdbcType="BIT"/>
+    </resultMap>
+
+
+    <sql id="Base_brand_List">
+      brand_id, brand_name,brand_desc,create_time,is_show,recommend
+    </sql>
+
+    <!--新增品牌-->
+    <insert id="addBrand" parameterType="com.example.myproject.pojo.Brand">
+        insert into t_brand
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="brandId != null">
+                brand_id,
+            </if>
+            <if test="brandName != null">
+                brand_name,
+            </if>
+            <if test="brandDesc != null">
+                brand_desc,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="isShow != null">
+                is_show,
+            </if>
+            <if test="recommend != null">
+                recommend,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="brandId != null">
+                #{brandId,jdbcType=BIGINT},
+            </if>
+            <if test="brandName != null">
+                #{brandName,jdbcType=VARCHAR},
+            </if>
+            <if test="brandDesc != null">
+                #{brandDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATETIMEOFFSET},
+            </if>
+            <if test="isShow != null">
+                #{isShow,jdbcType=BIT},
+            </if>
+            <if test="recommend != null">
+                #{recommend,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!-- 查找品牌 -->
+    <select id="findBrand" resultMap="BaseResultMap">
+        select
+        <include refid="Base_brand_List"></include>
+        from t_brand
+        <where>
+            1=1
+            <if test="brandName != null and brandName !='' ">
+                and (brand_name like #{brandName,jdbcType=VARCHAR})
+            </if>
+        </where>
+    </select>
+
+
+    <!-- 查找全部可取品牌 -->
+    <select id="findAllBrand" resultMap="BaseResultMap">
+        select
+        <include refid="Base_brand_List"></include>
+        from t_brand
+        <where>
+            1=1
+            <if test="isShow != null">
+                and is_show = #{isShow,jdbcType=BIT}
+            </if>
+            <if test="recommend != null">
+                and recommend = #{recommend,jdbcType=BIT}
+            </if>
+        </where>
+    </select>
+
+    <!-- 删除品牌 -->
+    <delete id="deleteBrand" parameterType="java.lang.Integer">
+		delete from
+		   t_brand
+		where brand_id=#{brandId,jdbcType=BIGINT}
+	</delete>
+</mapper>

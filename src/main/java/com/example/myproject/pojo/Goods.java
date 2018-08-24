@@ -1,6 +1,7 @@
 package com.example.myproject.pojo;
 
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.example.myproject.utils.SnowFlakeUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,9 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -24,20 +23,32 @@ import java.util.Date;
 public class Goods {
 
     @Id
-    @ApiModelProperty(value = "商品id自增", hidden = true)
-    private Long goodId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(value = "商品id", hidden = true)
+    private Long goodsId;
+
+    @ApiModelProperty(value = "商品名称")
+    private String goodsName;
 
     @ApiModelProperty(value = "商品分类id，取值category的categoryId")
     private int categoryId;
 
+    @Transient
+    @ApiModelProperty(value = "商品分类名称", hidden = true)
+    private int categoryName;
+
     @ApiModelProperty(value = "商品的唯一货号")
-    private Long goodsSn;
+    private Long goodsSn = SnowFlakeUtil.getFlowIdInstance().nextId();
 
     @ApiModelProperty(value = "品牌id，取值于brand 的brandId")
     private int brandId;
 
+    @Transient
+    @ApiModelProperty(value = "品牌名称", hidden = true)
+    private String brandName;
+
     @ApiModelProperty(value = "商品库存数量")
-    private int goodsNumber;
+    private int stock;
 
     @ApiModelProperty(value = "市场价")
     private BigDecimal marketPrice;
@@ -70,7 +81,7 @@ public class Goods {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "商品的添加时间", hidden = true)
-    private Date createTime;
+    private Date createTime = new Date();
 
     @ApiModelProperty(value = "商品是否已经删除，0，否；1，已删除")
     private Boolean isDelete;
@@ -93,4 +104,6 @@ public class Goods {
     @ApiModelProperty(value = "商品的商家备注，仅商家可见")
     private String sellerNote;
 
+    public Goods() {
+    }
 }
