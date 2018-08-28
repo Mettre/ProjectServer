@@ -37,5 +37,5 @@ public class Result<T> implements Serializable{
     /**
      * 结果对象
      */
-    private T result;
+    private T data;
 }

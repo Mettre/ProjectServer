@@ -69,7 +69,7 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ApiOperation(value = "用户注册")
-    public Result<Object> insert(@RequestParam String captchaCode, @RequestParam String name, @RequestParam String password, @RequestParam String phone, @RequestParam int sex, @RequestParam int type, @RequestParam int age) {
+    public Result<Object> insert(@RequestParam String phone, @RequestParam String password, @RequestParam String captchaCode) {
 
         if (StrUtil.isBlank(phone)) {
             return new ResultUtil<Object>().setErrorMsg("手机号不能为空");
@@ -88,7 +88,7 @@ public class UserController {
         if (users != null) {
             return new ResultUtil<Object>().setErrorMsg("该手机号已被注册");
         }
-        Users user = new Users(name, phone, password, age, sex);
+        Users user = new Users("", phone, password, 22, 1);
         int insertResult = loginService.insert(user);
         if (insertResult == -1) {
             return new ResultUtil<Object>().setSuccessMsg("注册失败");
