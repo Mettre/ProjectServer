@@ -11,11 +11,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -33,7 +31,11 @@ public class CaptchaController {
 
     @RequestMapping(value = "/captcha", method = RequestMethod.POST)
     @ApiOperation(value = "生成验证码")
-    public Result<Object> login(@RequestParam String phone, @RequestParam int captchaType) {
+    public Result<Object> login(@RequestBody HashMap<String, Object> map) {
+
+        String phone = (String) map.get("phone");
+        int captchaType = (int) map.get("captchaType");
+
         if (StrUtil.isBlank(phone)) {
             return new ResultUtil<Object>().setErrorMsg("手机号不能为空");
         }

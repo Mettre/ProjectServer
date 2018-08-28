@@ -8,6 +8,7 @@ import com.example.myproject.pojo.ResultUtil;
 import com.example.myproject.pojo.Users;
 import com.example.myproject.service.UserService;
 import com.example.myproject.utils.AssembleUtils;
+import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.HashMap;
 
 @Slf4j
 @RestController
@@ -42,8 +44,10 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ApiOperation(value = "用户登录")
-    public Result<Object> login(@RequestParam String phone, @RequestParam String password) {
+    public Result<Object> login(@RequestBody HashMap<String, Object> map) {
 
+        String phone = (String) map.get("phone");
+        String password = (String) map.get("password");
 
         Users user = loginService.login(phone, password);
         if (user == null) {
@@ -69,7 +73,11 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ApiOperation(value = "用户注册")
-    public Result<Object> insert(@RequestParam String phone, @RequestParam String password, @RequestParam String captchaCode) {
+    public Result<Object> insert(@RequestBody HashMap<String, Object> map) {
+
+        String phone = (String) map.get("phone");
+        String password = (String) map.get("password");
+        String captchaCode = (String) map.get("captchaCode");
 
         if (StrUtil.isBlank(phone)) {
             return new ResultUtil<Object>().setErrorMsg("手机号不能为空");
@@ -93,7 +101,7 @@ public class UserController {
         if (insertResult == -1) {
             return new ResultUtil<Object>().setSuccessMsg("注册失败");
         }
-        return new ResultUtil<Object>().setErrorMsg("注册成功");
+        return new ResultUtil<Object>().setSuccessMsg("注册成功");
     }
 
     @RequestMapping(value = "/loginEd/modifyPassword", method = RequestMethod.POST)
