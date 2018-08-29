@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -26,11 +27,21 @@ public class DeliveryController {
 
     @RequestMapping(value = "/loginEd/insertAddress", method = RequestMethod.POST)
     @ApiOperation(value = "新增收货地址")
-    public Result<Object> addDelivery(HttpServletRequest request, @ModelAttribute Address address) {
+    public Result<Object> addDelivery(HttpServletRequest request, @RequestBody Address address) {
 
         final Claims claims = (Claims) request.getAttribute("claims");
         String userId = claims.getSubject();
         address.setUserId(userId);
+        if (address.isDefaults()) {
+            Address address2 = addressService.findDefaultDelivery(userId);
+            if (address2 != null) {
+                address2.setDefaults(false);
+                int insertResult2 = addressService.update(address2);
+                if (insertResult2 == -1) {
+                    return new ResultUtil<Object>().setErrorMsg("新增收货地址失败");
+                }
+            }
+        }
         int insertResult = addressService.insert(address);
         if (insertResult == -1) {
             return new ResultUtil<Object>().setErrorMsg("新增收货地址失败");
@@ -40,11 +51,21 @@ public class DeliveryController {
 
     @RequestMapping(value = "/loginEd/updateAddress", method = RequestMethod.POST)
     @ApiOperation(value = "修改收货地址")
-    public Result<Object> updateDelivery(HttpServletRequest request, @ModelAttribute Address address) {
+    public Result<Object> updateDelivery(HttpServletRequest request, @RequestBody Address address) {
 
         final Claims claims = (Claims) request.getAttribute("claims");
         String userId = claims.getSubject();
         address.setUserId(userId);
+        if (address.isDefaults()) {
+            Address address2 = addressService.findDefaultDelivery(userId);
+            if (address2 != null) {
+                address2.setDefaults(false);
+                int insertResult2 = addressService.update(address2);
+                if (insertResult2 == -1) {
+                    return new ResultUtil<Object>().setErrorMsg("修改收货地址失败");
+                }
+            }
+        }
         int insertResult = addressService.update(address);
         if (insertResult == -1) {
             return new ResultUtil<Object>().setErrorMsg("修改收货地址失败");
@@ -52,9 +73,26 @@ public class DeliveryController {
         return new ResultUtil<Object>().setSuccessMsg("修改地址成功");
     }
 
+
+    @RequestMapping(value = "/loginEd/findDefaultDelivery", method = RequestMethod.POST)
+    @ApiOperation(value = "查找默认收货地址")
+    public Result<Object> findDefaultDelivery(HttpServletRequest request) {
+
+        final Claims claims = (Claims) request.getAttribute("claims");
+        String userId = claims.getSubject();
+        Address address = addressService.findDefaultDelivery(userId);
+        if (address == null) {
+            return new ResultUtil<Object>().setErrorMsg("查找默认收货地址失败");
+        }
+        return new ResultUtil<Object>().setSuccessMsg("查找默认收货地址成功");
+    }
+
     @RequestMapping(value = "/loginEd/findByPage", method = RequestMethod.POST)
     @ApiOperation(value = "分页查找收货地址")
-    public Result<Object> findByPage(HttpServletRequest request, @RequestParam Integer page, @RequestParam Integer size) {
+    public Result<Object> findByPage(HttpServletRequest request, @RequestBody HashMap<String, String> map) {
+
+        Integer page = Integer.parseInt(map.get("page"));
+        Integer size = Integer.parseInt(map.get("size"));
 
         final Claims claims = (Claims) request.getAttribute("claims");
         String userId = claims.getSubject();
@@ -71,7 +109,8 @@ public class DeliveryController {
 
     @RequestMapping(value = "/loginEd/deleteDelivery", method = RequestMethod.POST)
     @ApiOperation(value = "删除收货地址")
-    public Result<Object> deleteDelivery(HttpServletRequest request, @RequestParam String addressIds) {
+    public Result<Object> deleteDelivery(HttpServletRequest request, @RequestBody HashMap<String, Object> map) {
+        String addressIds = (String) map.get("addressIds");
         final Claims claims = (Claims) request.getAttribute("claims");
         String userId = claims.getSubject();
         String ids[] = addressIds.split(",");

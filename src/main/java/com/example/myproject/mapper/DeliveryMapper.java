@@ -17,6 +17,8 @@ public interface DeliveryMapper {
 
     int update(Address address);
 
+    Address findDefaultDelivery(String userId);
+
     List<Address> findByPage(@Param(value = "userId") String userId, @Param(value = "limit") Integer limit, @Param(value = "offset") Integer offset);
 
     int deleteAddress(@Param(value = "userId") String userId, @Param(value = "id") String id);

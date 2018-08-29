@@ -12,6 +12,8 @@ public interface UserService {
 
     Users findUserByUserId(String userId);
 
+    int editUserInfo(Users users);
+
     int modifyPassword(String oldPassword, String newPassword);
 
     int forgetPassword(String phone, String password);

@@ -15,6 +15,8 @@ public interface DeliveryService {
 
     int update(Address address);
 
+    Address findDefaultDelivery(String userId);
+
     List<Address> findByPage(String userId, Integer limit, Integer offset);
 
     int deleteAddress(String userId, String id);

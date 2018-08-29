@@ -107,6 +107,17 @@
         where id = #{id,jdbcType=VARCHAR}
     </update>
 
+
+    <!--查找默认收货地址-->
+    <select id="findDefaultDelivery" resultMap="BaseResultMap">
+        select
+        <include refid="Base_address_List"></include>
+        from t_address
+        where user_id = #{userId,jdbcType=VARCHAR}
+        and defaults = true
+        LIMIT 1
+    </select>
+
     <!-- 分页查找收货地址 -->
     <select id="findByPage" resultMap="BaseResultMap">
         select

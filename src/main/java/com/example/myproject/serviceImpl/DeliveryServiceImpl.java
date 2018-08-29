@@ -34,13 +34,18 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
+    public Address findDefaultDelivery(String userId) {
+        return addressMapper.findDefaultDelivery(userId);
+    }
+
+    @Override
     public List<Address> findByPage(String userId, Integer limit, Integer offset) {
         return addressMapper.findByPage(userId, limit, offset);
     }
 
     @Override
     public int deleteAddress(String userId, String id) {
-        return addressMapper.deleteAddress(userId,id);
+        return addressMapper.deleteAddress(userId, id);
     }
 
 }

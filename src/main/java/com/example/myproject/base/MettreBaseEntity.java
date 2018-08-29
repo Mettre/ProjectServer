@@ -29,8 +29,8 @@ public abstract class MettreBaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @ApiModelProperty(value = "唯一标识")
-    public String id = String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId());
+    @ApiModelProperty(value = "唯一标识", hidden = true)
+    public Long id = SnowFlakeUtil.getFlowIdInstance().nextId();
 
     @ApiModelProperty(value = "创建者", hidden = true)
     public String createBy;

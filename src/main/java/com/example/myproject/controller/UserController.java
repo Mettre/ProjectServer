@@ -31,7 +31,7 @@ import java.util.HashMap;
 public class UserController {
 
     @Value("${ProjectService.tokenExpireTime}")
-    private Integer tokenExpireTime;
+    private Long tokenExpireTime;
 
     @Value("${ProjectService.saveLoginTime}")
     private Integer saveLoginTime;
@@ -59,7 +59,7 @@ public class UserController {
         //登陆成功生成token
         String token = Jwts.builder()
                 //主题 放入用户名
-                .setSubject(user.getId())
+                .setSubject(String.valueOf(user.getId()))
                 //失效时间
                 .setExpiration(new Date(tokenExpiration))
                 //签名算法和密钥
@@ -155,15 +155,33 @@ public class UserController {
         return new ResultUtil<Object>().setSuccessMsg("修改密码成功");
     }
 
-    @RequestMapping(value = "/loginEd/getUserId", method = RequestMethod.GET)
+    @RequestMapping(value = "/loginEd/getUserInfo", method = RequestMethod.GET)
     @ApiOperation(value = "获取用户信息")
     public Result<Object> getUserId(HttpServletRequest request) {
         final Claims claims = (Claims) request.getAttribute("claims");
         String userId = claims.getSubject();
         Users user = loginService.findUserByUserId(userId);
+        user.setPassword("");
         if (user == null) {
             return new ResultUtil<Object>().setErrorMsg("用户为空");
         }
         return new ResultUtil<Object>().setData(user);
+    }
+
+
+    @RequestMapping(value = "/loginEd/editUserInfo", method = RequestMethod.POST)
+    @ApiOperation(value = "修改用户信息")
+    public Result<Object> editUserInfo(HttpServletRequest request, @RequestBody Users users) {
+        final Claims claims = (Claims) request.getAttribute("claims");
+        String userId = claims.getSubject();
+        if (StrUtil.isBlank(userId)) {
+            return new ResultUtil<Object>().setErrorMsg("用户为空");
+        }
+        users.setId(Long.parseLong(userId));
+        int editResult = loginService.editUserInfo(users);
+        if (editResult == -1) {
+            return new ResultUtil<Object>().setErrorMsg("修改个人信息失败");
+        }
+        return new ResultUtil<Object>().setSuccessMsg("修改成功");
     }
 }
