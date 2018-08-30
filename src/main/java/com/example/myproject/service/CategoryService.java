@@ -13,5 +13,5 @@ public interface CategoryService {
 
     List<Category> findCategory(Integer categoryId, String categoryName);
 
-    List<CategoryBean> findAllCategory(Boolean isShow, Boolean recommend);
+    List<CategoryBean> findAllCategory(Boolean isShow);
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -68,10 +69,11 @@ public class CategoryController {
 
     @RequestMapping(value = "/category/findAllCategory", method = RequestMethod.POST)
     @ApiOperation(value = "多级分类列表")
-    public Result<Object> findAllCategory(@RequestParam(value = "isShow", required = false) Boolean isShow, @RequestParam(value = "recommend", required = false) Boolean recommend) {
-        List<CategoryBean> categoryList = categoryService.findAllCategory(isShow, recommend);
+    public Result<Object> findAllCategory() {
+        List<CategoryBean> categoryList = categoryService.findAllCategory(true);
         return new ResultUtil<Object>().setData(getCategoryList(categoryList, 0));
     }
+
 
     /**
      * 递归分类

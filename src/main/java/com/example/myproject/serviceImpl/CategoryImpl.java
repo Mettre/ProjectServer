@@ -35,7 +35,7 @@ public class CategoryImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryBean> findAllCategory(Boolean isShow, Boolean recommend) {
-        return categoryMapper.findAllCategory(isShow,recommend);
+    public List<CategoryBean> findAllCategory(Boolean isShow) {
+        return categoryMapper.findAllCategory(isShow);
     }
 }

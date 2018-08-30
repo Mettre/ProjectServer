@@ -116,9 +116,6 @@
             <if test="isShow != null">
                 and is_show = #{isShow,jdbcType=BIT}
             </if>
-            <if test="recommend != null">
-                and recommend = #{recommend,jdbcType=BIT}
-            </if>
         </where>
     </select>
 

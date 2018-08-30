@@ -14,5 +14,5 @@ public interface CategoryMapper {
 
     List<Category> findCategory(@Param(value = "categoryId") Integer categoryId, @Param(value = "categoryName") String categoryName);
 
-    List<CategoryBean> findAllCategory(@Param(value = "isShow")Boolean isShow, @Param(value = "recommend") Boolean recommend);
+    List<CategoryBean> findAllCategory(@Param(value = "isShow") Boolean isShow);
 }
