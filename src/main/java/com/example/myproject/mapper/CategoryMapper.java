@@ -12,7 +12,9 @@ public interface CategoryMapper {
 
     int deleteCategory(int categoryId);
 
-    List<Category> findCategory(@Param(value = "categoryId") Integer categoryId, @Param(value = "categoryName") String categoryName);
+    int modifyCategory(Category category);
+
+    List<Category> findCategory(@Param(value = "categoryId") Integer categoryId, @Param(value = "categoryName") String categoryName,@Param(value = "parentId") Integer parentId);
 
     List<CategoryBean> findAllCategory(@Param(value = "isShow") Boolean isShow);
 }

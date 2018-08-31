@@ -25,13 +25,18 @@ public class CategoryImpl implements CategoryService {
     }
 
     @Override
+    public int modifyCategory(Category category) {
+        return categoryMapper.modifyCategory(category);
+    }
+
+    @Override
     public int deleteCategory(int category_id) {
         return categoryMapper.deleteCategory(category_id);
     }
 
     @Override
-    public List<Category> findCategory(Integer categoryId, String categoryName) {
-        return categoryMapper.findCategory(categoryId,categoryName);
+    public List<Category> findCategory(Integer categoryId, String categoryName,Integer parentId) {
+        return categoryMapper.findCategory(categoryId,categoryName,parentId);
     }
 
     @Override

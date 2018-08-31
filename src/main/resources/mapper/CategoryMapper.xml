@@ -88,6 +88,38 @@
     </insert>
 
 
+    <!--修改商品分类-->
+    <insert id="modifyCategory" parameterType="com.example.myproject.pojo.Category">
+        update t_category
+        <set>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                parent_id =#{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryName != null">
+                category_name = #{categoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="categoryDescribe != null">
+                category_describe = #{categoryDescribe,jdbcType=VARCHAR},
+            </if>
+            <if test="creationTime != null">
+                creation_time = #{creationTime,jdbcType=DATETIMEOFFSET},
+            </if>
+            <if test="isShow != null">
+                is_show = #{isShow,jdbcType=BIT},
+            </if>
+            <if test="keywords != null">
+                keywords = #{keywords,jdbcType=VARCHAR},
+            </if>
+            <if test="recommend != null">
+                recommend = #{recommend,jdbcType=BIT},
+            </if>
+        </set>
+    </insert>
+
+
     <!-- 查找商品分类 -->
     <select id="findCategory" resultMap="BaseResultMap">
         select
@@ -101,9 +133,11 @@
             <if test="categoryName != null and categoryName !='' ">
                 and (category_name like #{categoryName,jdbcType=VARCHAR})
             </if>
+            <if test="parentId != null and parentId !=0 ">
+                and (parent_id = #{parentId,jdbcType=INTEGER})
+            </if>
         </where>
     </select>
-
 
 
     <!-- 查找全部可取商品分类 -->

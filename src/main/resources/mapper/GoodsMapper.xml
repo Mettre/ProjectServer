@@ -176,79 +176,146 @@
     </insert>
 
 
+    <!--修改商品-->
+    <insert id="modifyGoods" parameterType="com.example.myproject.pojo.Goods">
+        update t_goods
+        <set>
+            <if test="goodsId != null and goodsId!=0">
+                goods_id = #{goodsId},
+            </if>
+            <if test="brandId != null">
+                brand_id =#{brandId},
+            </if>
+            <if test="categoryId != null">
+                categoryId =#{categoryId},
+            </if>
+            <if test="createTime != null">
+                create_time =#{createTime},
+            </if>
+            <if test="goodsName != null">
+                goods_name = #{goodsName},
+            </if>
+            <if test="goodsBrief != null">
+                goods_brief = #{goodsBrief},
+            </if>
+            <if test="goodsDesc != null">
+                goods_desc =#{goodsDesc},
+            </if>
+            <if test="stock != null">
+                stock = #{stock},
+            </if>
+            <if test="goodsSn != null">
+                goods_sn = #{goodsSn},
+            </if>
+            <if test="isDelete != null">
+                is_delete=#{isDelete},
+            </if>
+            <if test="isHot != null">
+                is_hot =#{isHot},
+            </if>
+            <if test="isNew != null">
+                is_new=#{isNew},
+            </if>
+            <if test="isPromote != null">
+                is_promote = #{isPromote},
+            </if>
+            <if test="isSale != null">
+                is_sale = #{isSale},
+            </if>
+            <if test="keywords != null">
+                keywords =#{keywords},
+            </if>
+            <if test="marketPrice != null">
+                market_price =#{marketPrice},
+            </if>
+            <if test="promoteEndDate != null">
+                promote_endDate =#{promoteEndDate},
+            </if>
+            <if test="promotePrice != null">
+                promote_price = #{promotePrice},
+            </if>
+            <if test="promoteStartDate != null">
+                promote_start_date =#{promoteStartDate},
+            </if>
+            <if test="sellerNote != null">
+                seller_note = #{sellerNote},
+            </if>
+            <if test="shopPrice != null">
+                shop_price =#{shopPrice},
+            </if>
+        </set>
+    </insert>
+
+
     <!-- 查找商品-->
-    <select id="findGoods" resultMap="BaseResultMap" parameterType="com.example.myproject.pojo.Goods">
+    <select id="findGoods" resultMap="BaseResultMap">
         select
         <include refid="Base_List"></include>
         from t_goods
         <where>
             1=1
-            <if test="goodsId != null">
-                and goods_id = #{goodsId}
+            <if test="goods.goodsId != null and goods.goodsId!=0">
+                and goods_id = #{goods.goodsId}
             </if>
-            <if test="brandId != null">
-                and brand_id = #{brandId}
+            <if test="goods.brandId != null and goods.brandId!=0">
+                and brand_id = #{goods.brandId}
             </if>
-            <if test="categoryId != null">
-                and category_id = #{categoryId}
+            <if test="goods.categoryId != null and goods.categoryId!=0">
+                and category_id = #{goods.categoryId}
             </if>
-            <if test="createTime != null">
-                and create_time = #{createTime}
+            <if test="goods.goodsName != null">
+                and goods_name like #{goods.goodsName}
             </if>
-            <if test="goodsName != null">
-                and goods_name = #{goodsName}
+            <if test="goods.goodsBrief != null">
+                and goods_brief like #{goods.goodsBrief}
             </if>
-            <if test="goodsBrief != null">
-                and goods_brief = #{goodsBrief}
+            <if test="goods.goodsDesc != null">
+                and goods_desc like #{ goods.goodsDesc}
             </if>
-            <if test="goodsDesc != null">
-                and goods_desc = #{goodsDesc}
+            <if test="goods.stock != null and goods.stock!=0">
+                and stock = #{ goods.stock}
             </if>
-
-            <if test="stock != null">
-                and stock = #{stock}
+            <if test="goods.goodsSn != null">
+                and goods_sn like #{ goods.goodsSn}
             </if>
-            <if test="goodsSn != null">
-                and goods_sn = #{goodsSn}
+            <if test="goods.isDelete != null">
+                and is_delete = #{goods.isDelete}
             </if>
-            <if test="isDelete != null">
-                and is_delete = #{isDelete}
+            <if test="goods.isHot != null ">
+                and is_hot = #{goods.isHot}
             </if>
-            <if test="isHot != null ">
-                and is_hot = #{isHot}
+            <if test="goods.isNew != null">
+                and is_new = #{goods.isNew}
             </if>
-            <if test="isNew != null">
-                and is_new = #{isNew}
+            <if test="goods.isPromote != null">
+                and is_promote = #{goods.isPromote}
             </if>
-            <if test="isPromote != null">
-                and is_promote = #{isPromote}
+            <if test="goods.isSale != null">
+                and is_sale = #{goods.isSale}
             </if>
-            <if test="isSale != null">
-                and is_sale = #{isSale}
+            <if test="goods.keywords != null">
+                and keywords like #{goods.keywords}
             </if>
-            <if test="keywords != null">
-                and keywords = #{keywords}
+            <if test="goods.marketPrice != null">
+                and market_price = #{goods.marketPrice}
             </if>
-            <if test="lastUpdate != null">
-                and last_update = #{lastUpdate}
+            <if test="goods.promoteEndDate != null">
+                and promote_end_date = #{goods.promoteEndDate}
             </if>
-            <if test="marketPrice != null">
-                and market_price = #{marketPrice}
+            <if test="goods.promotePrice != null">
+                and promote_price = #{goods.promotePrice}
             </if>
-            <if test="promoteEndDate != null">
-                and promote_end_date = #{promoteEndDate}
+            <if test="goods.promoteStartDate != null ">
+                and promote_start_date = #{goods.promoteStartDate}
             </if>
-            <if test="promotePrice != null">
-                and promote_price = #{promotePrice}
+            <if test="goods.sellerNote != null">
+                and seller_note like #{goods.sellerNote}
             </if>
-            <if test="promoteStartDate != null ">
-                and promote_start_date = #{promoteStartDate}
+            <if test="goods.shopPrice != null">
+                and shop_price = #{goods.shopPrice}
             </if>
-            <if test="sellerNote != null">
-                and seller_note = #{sellerNote}
-            </if>
-            <if test="shopPrice != null">
-                and shop_price = #{shopPrice}
+            <if test="limit!=null and offset!=null">
+                and limit ${offset},${limit}
             </if>
         </where>
     </select>

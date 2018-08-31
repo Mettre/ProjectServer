@@ -33,20 +33,20 @@ public class CategoryController {
     public Result<Object> addCategory(@ModelAttribute Category category) {
 
         if (category.getCategoryId() > 0) {
-            List<Category> categoryList3 = categoryService.findCategory(category.getCategoryId(), null);
+            List<Category> categoryList3 = categoryService.findCategory(category.getCategoryId(), null,0);
             if (categoryList3 != null && categoryList3.size() > 0) {
                 return new ResultUtil<Object>().setErrorMsg("该分类已存在");
             }
         }
 
         if (StrUtil.isNotBlank(category.getCategoryName())) {
-            List<Category> categoryList3 = categoryService.findCategory(null, category.getCategoryName());
+            List<Category> categoryList3 = categoryService.findCategory(null, category.getCategoryName(),category.getParentId());
             if (categoryList3 != null && categoryList3.size() > 0) {
                 return new ResultUtil<Object>().setErrorMsg("该分类已存在");
             }
         }
         if (category.getParentId() > 0) {
-            List<Category> categoryList2 = categoryService.findCategory(category.getParentId(), null);
+            List<Category> categoryList2 = categoryService.findCategory(category.getParentId(), null,0);
             if (categoryList2 == null || categoryList2.size() == 0) {
                 return new ResultUtil<Object>().setErrorMsg("父分类不存在");
             }
@@ -59,10 +59,36 @@ public class CategoryController {
         return new ResultUtil<Object>().setSuccessMsg("添加分类成功");
     }
 
+    @RequestMapping(value = "/category/modifyCategory", method = RequestMethod.POST)
+    @ApiOperation(value = "修改商品分类")
+    public Result<Object> modifyCategory(@ModelAttribute Category category) {
+
+        if (category.getCategoryId() > 0) {
+            List<Category> categoryList3 = categoryService.findCategory(category.getCategoryId(), null,0);
+            if (categoryList3 == null || categoryList3.size() == 0) {
+                return new ResultUtil<Object>().setErrorMsg("该分类不存在");
+            }
+        }
+
+        if (category.getParentId() > 0) {
+            List<Category> categoryList2 = categoryService.findCategory(category.getParentId(), null,0);
+            if (categoryList2 == null || categoryList2.size() == 0) {
+                return new ResultUtil<Object>().setErrorMsg("父分类不存在");
+            }
+        }
+
+        int result = categoryService.modifyCategory(category);
+        if (result != 1) {
+            return new ResultUtil<Object>().setErrorMsg("修改分类失败");
+        }
+        return new ResultUtil<Object>().setSuccessMsg("修改分类成功");
+    }
+
+
     @RequestMapping(value = "/category/findCategory", method = RequestMethod.POST)
     @ApiOperation(value = "查找具体分类")
-    public Result<Object> findCategory(@RequestParam(value = "categoryId", required = false) Integer categoryId, @RequestParam(value = "categoryName", required = false) String categoryName) {
-        List<Category> categoryList = categoryService.findCategory(categoryId, categoryName);
+    public Result<Object> findCategory(@RequestParam(value = "categoryId", required = false) Integer categoryId, @RequestParam(value = "categoryName", required = false) String categoryName,@RequestParam(value = "parentId", required = false) Integer parentId) {
+        List<Category> categoryList = categoryService.findCategory(categoryId, categoryName,parentId);
         return new ResultUtil<Object>().setData(categoryList);
     }
 

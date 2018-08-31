@@ -2,6 +2,7 @@ package com.example.myproject.controller;
 
 import com.example.myproject.pojo.*;
 import com.example.myproject.service.GoodsService;
+import com.example.myproject.utils.BigDecimalUtils;
 import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 
@@ -23,18 +26,57 @@ public class GoodsController {
 
     @RequestMapping(value = "/goods/addGoods", method = RequestMethod.POST)
     @ApiOperation(value = "新增商品")
-    public Result<Object> addGoods(@ModelAttribute Goods goods) {
+    public Result<Object> addGoods(@RequestParam(value = "goodsName") String goodsName
+            , @RequestParam(value = "categoryId") int categoryId
+            , @RequestParam(value = "brandId") int brandId
+            , @RequestParam(value = "stock") int stock
+            , @RequestParam(value = "marketPrice") BigDecimal marketPrice
+            , @RequestParam(value = "shopPrice") BigDecimal shopPrice
+            , @RequestParam(value = "promotePrice", required = false) BigDecimal promotePrice
+            , @RequestParam(value = "promoteStartDate", required = false) Date promoteStartDate
+            , @RequestParam(value = "promoteEndDate", required = false) Date promoteEndDate
+            , @RequestParam(value = "keywords", required = false) String keywords
+            , @RequestParam(value = "goodsBrief", required = false) String goodsBrief
+            , @RequestParam(value = "goodsDesc", required = false) String goodsDesc
+            , @RequestParam(value = "sellerNote", required = false) String sellerNote) {
 
-        List<Goods> categoryList3 = goodsService.findGoods(goods);
-        if (categoryList3 != null && categoryList3.size() > 0) {
-            return new ResultUtil<Object>().setErrorMsg("该商品id已存在");
-        }
+        Goods goods = new Goods();
+        goods.setGoodsName(goodsName);
+        goods.setCategoryId(categoryId);
+        goods.setBrandId(brandId);
+        goods.setStock(stock);
+        goods.setMarketPrice(marketPrice);
+        goods.setShopPrice(shopPrice);
+        goods.setPromotePrice(promotePrice);
+        goods.setIsPromote(BigDecimalUtils.greaterThanZero(promotePrice));
+        goods.setPromoteStartDate(promoteStartDate);
+        goods.setPromoteEndDate(promoteEndDate);
+        goods.setKeywords(keywords);
+        goods.setGoodsBrief(goodsBrief);
+        goods.setGoodsDesc(goodsDesc);
+        goods.setSellerNote(sellerNote);
 
         int result = goodsService.addGoods(goods);
         if (result != 1) {
             return new ResultUtil<Object>().setErrorMsg("添加商品失败");
         }
         return new ResultUtil<Object>().setSuccessMsg("添加商品成功");
+    }
+
+    @RequestMapping(value = "/goods/modifyGoods", method = RequestMethod.POST)
+    @ApiOperation(value = "修改商品")
+    public Result<Object> modifyGoods(@ModelAttribute Goods goods) {
+        Goods goods2 = new Goods(goods.getGoodsId());
+        List<Goods> categoryList3 = goodsService.findGoods(goods2, 1, 0);
+        if (categoryList3 == null && categoryList3.size() == 0) {
+            return new ResultUtil<Object>().setErrorMsg("该商品不存在");
+        }
+
+        int result = goodsService.modifyGoods(goods);
+        if (result != 1) {
+            return new ResultUtil<Object>().setErrorMsg("修改商品失败");
+        }
+        return new ResultUtil<Object>().setSuccessMsg("修改商品成功");
     }
 
 
@@ -66,8 +108,20 @@ public class GoodsController {
 
     @RequestMapping(value = "/goods/findGoods", method = RequestMethod.POST)
     @ApiOperation(value = "查找商品")
-    public Result<Object> findBrand(@ModelAttribute Goods goods) {
-        List<Goods> categoryList = goodsService.findGoods(goods);
+    public Result<Object> findGoods(@ModelAttribute Goods goods
+            , @RequestParam(value = "page", required = false) int page
+            , @RequestParam(value = "size", required = false) int size) {
+
+
+        int limit = size;
+        int offset = 0;
+        if (page > 1) {
+            offset = size * (page - 1) - 1;
+        } else {
+            offset = 0;
+        }
+        log.info("--" + goods + "--" + limit + "--" + offset);
+        List<Goods> categoryList = goodsService.findGoods(goods, limit, offset);
         return new ResultUtil<Object>().setData(categoryList);
     }
 

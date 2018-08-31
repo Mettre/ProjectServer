@@ -8,7 +8,9 @@ public interface GoodsService {
 
     int addGoods(Goods goods);
 
+    int modifyGoods(Goods goods);
+
     int deleteGoods(int id);
 
-    List<Goods> findGoods(Goods goods);
+    List<Goods> findGoods(Goods goods,int limit,int offset);
 }

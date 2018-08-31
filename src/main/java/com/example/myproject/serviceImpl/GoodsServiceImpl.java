@@ -24,12 +24,17 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public int modifyGoods(Goods goods) {
+        return brandMapper.modifyGoods(goods);
+    }
+
+    @Override
     public int deleteGoods(int id) {
         return brandMapper.deleteGoods(id);
     }
 
     @Override
-    public List<Goods> findGoods(Goods goods) {
-        return brandMapper.findGoods(goods);
+    public List<Goods> findGoods(Goods goods,int limit,int offset) {
+        return brandMapper.findGoods(goods,limit,offset);
     }
 }

@@ -9,9 +9,11 @@ public interface CategoryService {
 
     int addCategory(Category category);
 
+    int modifyCategory(Category category);
+
     int deleteCategory(int id);
 
-    List<Category> findCategory(Integer categoryId, String categoryName);
+    List<Category> findCategory(Integer categoryId, String categoryName,Integer parentId);
 
     List<CategoryBean> findAllCategory(Boolean isShow);
 }

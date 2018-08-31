@@ -24,7 +24,7 @@ public class Goods {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @ApiModelProperty(value = "商品id", hidden = true)
+    @ApiModelProperty(value = "商品id")
     private Long goodsId;
 
     @ApiModelProperty(value = "商品名称")
@@ -35,10 +35,10 @@ public class Goods {
 
     @Transient
     @ApiModelProperty(value = "商品分类名称", hidden = true)
-    private int categoryName;
+    private String categoryName;
 
     @ApiModelProperty(value = "商品的唯一货号")
-    private Long goodsSn = SnowFlakeUtil.getFlowIdInstance().nextId();
+    private Long goodsSn;
 
     @ApiModelProperty(value = "品牌id，取值于brand 的brandId")
     private int brandId;
@@ -105,5 +105,9 @@ public class Goods {
     private String sellerNote;
 
     public Goods() {
+    }
+
+    public Goods(Long goodsId) {
+        this.goodsId = goodsId;
     }
 }
