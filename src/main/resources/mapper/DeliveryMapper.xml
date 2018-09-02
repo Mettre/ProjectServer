@@ -79,6 +79,7 @@
         </trim>
     </insert>
 
+    <!--修改收货地址-->
     <update id="update" parameterType="com.example.myproject.pojo.Address">
         UPDATE t_address
         <set>

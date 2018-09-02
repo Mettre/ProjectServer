@@ -13,4 +13,6 @@ public interface GoodsService {
     int deleteGoods(int id);
 
     List<Goods> findGoods(Goods goods,int limit,int offset);
+
+    Goods findGoodDetails(long goodsId);
 }

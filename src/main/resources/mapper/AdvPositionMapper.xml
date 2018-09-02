@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.myproject.mapper.AdvPositionMapper">
+    <!--<cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>-->
+    <resultMap id="BaseResultMap" type="com.example.myproject.pojo.AdPosition">
+        <id column="ad_position_id" property="adPositionId" jdbcType="BIGINT"/>
+        <result column="ad_height" property="adHeight" jdbcType="INTEGER"/>
+        <result column="ad_position_describe" property="adPositionDescribe" jdbcType="VARCHAR"/>
+        <result column="ad_position_name" property="adPositionName" jdbcType="VARCHAR"/>
+        <result column="ad_width" property="adWidth" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="examples_image" property="examplesImage" jdbcType="VARCHAR"/>
+        <result column="last_update" property="lastUpdate" jdbcType="DATETIMEOFFSET"/>
+        <result column="is_show" property="isShow" jdbcType="BIT"/>
+    </resultMap>
+
+
+    <sql id="Base_adPosition_List">
+      ad_position_id, ad_position_name,ad_height,ad_width,examples_image,ad_position_describe,is_show
+    </sql>
+
+
+    <!--新增广告位-->
+    <insert id="addAdvPosition" parameterType="com.example.myproject.pojo.AdPosition">
+        insert into t_ad_position
+
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adPositionId != null">
+                ad_position_id,
+            </if>
+            <if test="adPositionName != null">
+                ad_position_name,
+            </if>
+            <if test="adHeight != null">
+                ad_height,
+            </if>
+            <if test="adWidth != null">
+                ad_width,
+            </if>
+            <if test="examplesImage != null">
+                examples_image,
+            </if>
+            <if test="adPositionDescribe != null">
+                ad_position_describe,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="lastUpdate != null">
+                last_update,
+            </if>
+            <if test="isShow != null">
+                is_show,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adPositionId != null">
+                #{adPositionId,jdbcType=BIGINT},
+            </if>
+            <if test="adPositionName != null">
+                #{adPositionName,jdbcType=VARCHAR},
+            </if>
+            <if test="adHeight != null">
+                #{adHeight,jdbcType=INTEGER},
+            </if>
+            <if test="adWidth != null">
+                #{adWidth,jdbcType=INTEGER},
+            </if>
+            <if test="examplesImage != null">
+                #{examplesImage,jdbcType=VARCHAR},
+            </if>
+            <if test="adPositionDescribe != null">
+                #{adPositionDescribe,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATETIMEOFFSET},
+            </if>
+            <if test="lastUpdate != null">
+                #{lastUpdate,jdbcType=DATETIMEOFFSET},
+            </if>
+            <if test="isShow != null">
+                #{isShow,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!--修改广告位-->
+    <update id="updateAdvPosition" parameterType="com.example.myproject.pojo.AdPosition">
+        UPDATE t_ad_position
+        <set>
+            <if test="adPositionName != null">
+                ad_position_name = #{adPositionName,jdbcType=VARCHAR},
+            </if>
+            <if test="adHeight != null">
+                ad_height = #{adHeight,jdbcType=INTEGER},
+            </if>
+            <if test="adWidth != null">
+                ad_width = #{adWidth,jdbcType=INTEGER},
+            </if>
+            <if test="examplesImage != null">
+                examples_image = #{examplesImage,jdbcType=VARCHAR},
+            </if>
+            <if test="adPositionDescribe != null">
+                ad_position_describe = #{adPositionDescribe,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdate != null">
+                last_update = #{lastUpdate,jdbcType=DATETIMEOFFSET},
+            </if>
+            <if test="isShow != null">
+                is_show = #{isShow,jdbcType=BIT},
+            </if>
+        </set>
+        where ad_position_id = #{adPositionId,jdbcType=BIGINT}
+    </update>
+
+
+    <!-- 查找全部显示的广告位 -->
+    <select id="findAllAdvPosition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_adPosition_List"></include>
+        from t_ad_position
+        <where>
+            1=1
+            <if test="isShow != null">
+                and is_show = true
+            </if>
+        </where>
+    </select>
+
+    <!--搜索广告位-->
+    <select id="findSpecificAdvPosition" resultMap="BaseResultMap">
+        select
+        <include refid="Base_adPosition_List"></include>
+        from t_ad_position
+        <where>
+            1=1
+            and is_show = true
+            <if test="adPositionId != null and adPositionId!=0">
+                and ad_position_id = #{adPositionId,jdbcType=BIGINT}
+            </if>
+            <if test="adPositionName != null">
+                and ad_position_name = #{adPositionName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--删除广告位-->
+    <delete id="deleteAdvPosition" parameterType="java.lang.Long">
+		delete from
+		   t_ad_position
+		where ad_position_id=#{adPositionId,jdbcType=BIGINT}
+	</delete>
+</mapper>

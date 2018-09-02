@@ -40,6 +40,9 @@ public class AdPosition {
     @ApiModelProperty(value = "广告位示例图片")
     private String examplesImage;
 
+    @ApiModelProperty(value = "是否显示")
+    private Boolean isShow = true;
+
     @CreatedDate
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

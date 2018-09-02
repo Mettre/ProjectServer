@@ -28,6 +28,7 @@ public class GoodsController {
     @ApiOperation(value = "新增商品")
     public Result<Object> addGoods(@RequestParam(value = "goodsName") String goodsName
             , @RequestParam(value = "categoryId") int categoryId
+            , @RequestParam(value = "goodsSn") Long goodsSn
             , @RequestParam(value = "brandId") int brandId
             , @RequestParam(value = "stock") int stock
             , @RequestParam(value = "marketPrice") BigDecimal marketPrice
@@ -43,12 +44,13 @@ public class GoodsController {
         Goods goods = new Goods();
         goods.setGoodsName(goodsName);
         goods.setCategoryId(categoryId);
+        goods.setGoodsSn(goodsSn);
         goods.setBrandId(brandId);
         goods.setStock(stock);
         goods.setMarketPrice(marketPrice);
         goods.setShopPrice(shopPrice);
         goods.setPromotePrice(promotePrice);
-        goods.setIsPromote(BigDecimalUtils.greaterThanZero(promotePrice));
+        goods.setIsPromote(promotePrice != null);
         goods.setPromoteStartDate(promoteStartDate);
         goods.setPromoteEndDate(promoteEndDate);
         goods.setKeywords(keywords);
@@ -107,11 +109,10 @@ public class GoodsController {
     }
 
     @RequestMapping(value = "/goods/findGoods", method = RequestMethod.POST)
-    @ApiOperation(value = "查找商品")
+    @ApiOperation(value = "查找商品列表")
     public Result<Object> findGoods(@ModelAttribute Goods goods
-            , @RequestParam(value = "page", required = false) int page
-            , @RequestParam(value = "size", required = false) int size) {
-
+            , @RequestParam(value = "page", defaultValue = "1", required = false) int page
+            , @RequestParam(value = "size", defaultValue = "10", required = false) int size) {
 
         int limit = size;
         int offset = 0;
@@ -120,9 +121,23 @@ public class GoodsController {
         } else {
             offset = 0;
         }
-        log.info("--" + goods + "--" + limit + "--" + offset);
-        List<Goods> categoryList = goodsService.findGoods(goods, limit, offset);
-        return new ResultUtil<Object>().setData(categoryList);
+        List<Goods> goodsList = goodsService.findGoods(goods, limit, offset);
+
+        return new ResultUtil<Object>().setData(goodsList);
     }
+
+    @RequestMapping(value = "/goods/findGoodDetails", method = RequestMethod.POST)
+    @ApiOperation(value = "查找商品详情")
+    public Result<Object> findGoodDetails(@RequestParam(value = "goodsId") long goodsId) {
+
+        if (goodsId <= 0) {
+            return new ResultUtil<Object>().setErrorMsg("商品id不能为空");
+        }
+        Goods goodDetails = goodsService.findGoodDetails(goodsId);
+        goodDetails.setCreateTime(null);
+        goodDetails.setLastUpdate(null);
+        return new ResultUtil<Object>().setData(goodDetails);
+    }
+
 
 }

@@ -9,7 +9,6 @@
         <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
         <result column="category_id" property="categoryId" jdbcType="INTEGER"/>
         <result column="category_name" property="categoryName" jdbcType="VARCHAR"/>
-        <result column="create_time" property="createTime" jdbcType="DATETIMEOFFSET"/>
         <result column="goods_brief" property="goodsBrief" jdbcType="VARCHAR"/>
         <result column="goods_desc" property="goodsDesc" jdbcType="VARCHAR"/>
         <result column="stock" property="stock" jdbcType="INTEGER"/>
@@ -30,8 +29,8 @@
     </resultMap>
 
     <sql id="Base_List">
-      goodS_id,goods_name,brand_id, category_id,create_time,goods_brief,goods_desc,stock,goods_sn,
-      is_promote,shop_price,promote_price,market_price,promote_end_date,promote_start_date
+      goodS_id,goods_name,t_goods.brand_id, t_goods.category_id,goods_brief,goods_desc,stock,goods_sn,
+      is_promote,shop_price,promote_price,market_price,promote_end_date,promote_start_date,t_brand.brand_name,t_category.category_name
     </sql>
 
     <!--新增商品-->
@@ -252,16 +251,20 @@
         select
         <include refid="Base_List"></include>
         from t_goods
+        left join t_brand
+        on t_goods.brand_id = t_brand.brand_id
+        left join t_category
+        on t_goods.category_id=t_category.category_id
         <where>
             1=1
             <if test="goods.goodsId != null and goods.goodsId!=0">
                 and goods_id = #{goods.goodsId}
             </if>
             <if test="goods.brandId != null and goods.brandId!=0">
-                and brand_id = #{goods.brandId}
+                and t_goods.brand_id = #{goods.brandId}
             </if>
             <if test="goods.categoryId != null and goods.categoryId!=0">
-                and category_id = #{goods.categoryId}
+                and t_goods.category_id = #{goods.categoryId}
             </if>
             <if test="goods.goodsName != null">
                 and goods_name like #{goods.goodsName}
@@ -315,9 +318,28 @@
                 and shop_price = #{goods.shopPrice}
             </if>
             <if test="limit!=null and offset!=null">
-                and limit ${offset},${limit}
+                limit #{offset} ,#{limit}
             </if>
         </where>
+    </select>
+
+
+    <!-- id查找商品详情-->
+    <select id="findGoodDetails" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_List"></include>
+        from t_goods
+        left join t_brand
+        on t_goods.brand_id = t_brand.brand_id
+        left join t_category
+        on t_goods.category_id=t_category.category_id
+        <where>
+        1=1
+            <if test="goodsId != null and goodsId!=0">
+                and t_goods.goods_id = #{goodsId,jdbcType=BIT}
+            </if>
+        </where>
+        limit 1
     </select>
 
 

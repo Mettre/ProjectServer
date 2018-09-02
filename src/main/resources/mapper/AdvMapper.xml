@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.myproject.mapper.AdvMapper">
+    <!--<cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>-->
+    <resultMap id="BaseResultMap" type="com.example.myproject.pojo.Adv">
+        <id column="ad_id" property="adId" jdbcType="BIGINT"/>
+        <result column="ad_name" property="adName" jdbcType="VARCHAR"/>
+        <result column="ad_position_id" property="adPositionId" jdbcType="BIGINT"/>
+        <result column="ad_describe" property="adDescribe" jdbcType="VARCHAR"/>
+        <result column="ad_image" property="adImage" jdbcType="VARCHAR"/>
+        <result column="ad_link" property="adLink" jdbcType="VARCHAR"/>
+        <result column="ad_type" property="adType" jdbcType="INTEGER"/>
+        <result column="click_count" property="clickCount" jdbcType="INTEGER"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="start_time" property="startTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="end_time" property="endTime" jdbcType="DATETIMEOFFSET"/>
+    </resultMap>
+
+
+    <sql id="Base_adv_List">
+      ad_id, ad_name,ad_position_id,ad_describe,ad_image,ad_link,ad_type,click_count,enabled,start_time,end_time
+    </sql>
+
+
+    <!--新增广告-->
+    <insert id="addAdv" parameterType="com.example.myproject.pojo.Adv">
+        insert into t_ad
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adId != null and adId > 0">
+                ad_id,
+            </if>
+            <if test="adName != null">
+                ad_name,
+            </if>
+            <if test="adPositionId != null and adPositionId > 0">
+                ad_position_id,
+            </if>
+            <if test="adDescribe != null">
+                ad_describe,
+            </if>
+            <if test="adImage != null">
+                ad_image,
+            </if>
+            <if test="adLink != null">
+                ad_link,
+            </if>
+            <if test="adType != null">
+                ad_type,
+            </if>
+            <if test="clickCount != null">
+                click_count,
+            </if>
+            <if test="enabled != null">
+                enabled,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adId != null and adId > 0">
+                #{adId,jdbcType=BIGINT},
+            </if>
+            <if test="adName != null">
+                #{adName,jdbcType=VARCHAR},
+            </if>
+            <if test="adPositionId != null">
+                #{adPositionId,jdbcType=BIGINT},
+            </if>
+            <if test="adDescribe != null">
+                #{adDescribe,jdbcType=VARCHAR},
+            </if>
+            <if test="adImage != null">
+                #{adImage,jdbcType=VARCHAR},
+            </if>
+            <if test="adLink != null">
+                #{adLink,jdbcType=VARCHAR},
+            </if>
+            <if test="adType != null">
+                #{adType,jdbcType=INTEGER},
+            </if>
+            <if test="clickCount != null">
+                #{clickCount,jdbcType=INTEGER},
+            </if>
+            <if test="enabled != null">
+                #{enabled,jdbcType=BIT},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=DATETIMEOFFSET},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=DATETIMEOFFSET},
+            </if>
+        </trim>
+    </insert>
+
+    <!--搜索广告位-->
+    <select id="findSpecificAdv" resultMap="BaseResultMap">
+        select
+        <include refid="Base_adv_List"></include>
+        from t_ad
+        <where>
+            1=1
+            and enabled = true
+            <if test="adId != null and adId!=0">
+                and ad_id = #{adId,jdbcType=BIGINT}
+            </if>
+            <if test="adPositionId != null and adPositionId!=0">
+                and ad_position_id = #{adPositionId,jdbcType=BIGINT}
+            </if>
+            <if test="adName != null">
+                and ad_name = #{adName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--增加点击数-->
+    <update id="addAdvRead">
+        UPDATE t_ad
+        <set>
+            <if test="clickCount != null">
+                click_count = #{clickCount,jdbcType=INTEGER},
+            </if>
+        </set>
+        where ad_id = #{adId,jdbcType=BIGINT}
+    </update>
+</mapper>

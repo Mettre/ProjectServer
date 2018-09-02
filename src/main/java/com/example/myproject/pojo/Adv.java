@@ -16,7 +16,7 @@ import java.util.Date;
 @Entity
 @Table(name = "t_ad")
 @TableName("t_ad")
-public class Ad {
+public class Adv {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,13 +46,13 @@ public class Ad {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "广告位的结束时间")
-    private Date endTime = new Date();
+    private Date endTime;
 
     @ApiModelProperty(value = "广告图片")
     private String adImage;
 
     @ApiModelProperty(value = "该广告是否关闭;1开启; 0关闭; 关闭后广告将不再有效")
-    private boolean enabled;
+    private boolean enabled = true;
 
     @ApiModelProperty(value = "该广告点击数")
     private int clickCount;

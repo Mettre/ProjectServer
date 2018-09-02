@@ -34,7 +34,12 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<Goods> findGoods(Goods goods,int limit,int offset) {
-        return brandMapper.findGoods(goods,limit,offset);
+    public List<Goods> findGoods(Goods goods, int limit, int offset) {
+        return brandMapper.findGoods(goods, limit, offset);
+    }
+
+    @Override
+    public Goods findGoodDetails(long goodsId) {
+        return brandMapper.findGoodDetails(goodsId);
     }
 }

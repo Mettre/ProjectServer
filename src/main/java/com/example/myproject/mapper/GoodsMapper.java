@@ -14,4 +14,6 @@ public interface GoodsMapper {
     int modifyGoods(Goods goods);
 
     List<Goods> findGoods(@Param(value = "goods")Goods goods, @Param(value = "limit") int limit, @Param(value = "offset") int size);
+
+    Goods findGoodDetails(@Param(value="goodsId") long goodsId);
 }
