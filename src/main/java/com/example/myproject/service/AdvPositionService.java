@@ -14,5 +14,5 @@ public interface AdvPositionService {
 
     List<AdPosition> findAllAdvPosition();
 
-    List<AdPosition> findSpecificAdvPosition(Long adPositionId, String adPositionName);
+    List<AdPosition> findSpecificAdvPosition(Long adPositionId, String adPositionName,String adPositionNo);
 }

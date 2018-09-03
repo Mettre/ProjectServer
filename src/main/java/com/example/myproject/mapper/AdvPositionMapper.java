@@ -16,7 +16,7 @@ public interface AdvPositionMapper {
 
     List<AdPosition> findAllAdvPosition();
 
-    List<AdPosition> findSpecificAdvPosition(@Param(value = "adPositionId") Long adPositionId, @Param(value = "adPositionName") String adPositionName);
+    List<AdPosition> findSpecificAdvPosition(@Param(value = "adPositionId") Long adPositionId, @Param(value = "adPositionName") String adPositionName,@Param(value = "adPositionNo") String adPositionNo);
 
     int addAd(Adv adv);
 }

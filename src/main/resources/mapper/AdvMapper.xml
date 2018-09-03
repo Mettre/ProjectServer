@@ -18,7 +18,7 @@
 
 
     <sql id="Base_adv_List">
-      ad_id, ad_name,ad_position_id,ad_describe,ad_image,ad_link,ad_type,click_count,enabled,start_time,end_time
+      ad_id, ad_name,t_ad.ad_position_id,ad_describe,ad_image,ad_link,ad_type,click_count,enabled,start_time,end_time
     </sql>
 
 
@@ -97,11 +97,13 @@
         </trim>
     </insert>
 
-    <!--搜索广告位-->
+    <!--搜索广告-->
     <select id="findSpecificAdv" resultMap="BaseResultMap">
         select
         <include refid="Base_adv_List"></include>
         from t_ad
+        left join t_ad_position
+        on t_ad.ad_position_id = t_ad_position.ad_position_id
         <where>
             1=1
             and enabled = true
@@ -109,11 +111,15 @@
                 and ad_id = #{adId,jdbcType=BIGINT}
             </if>
             <if test="adPositionId != null and adPositionId!=0">
-                and ad_position_id = #{adPositionId,jdbcType=BIGINT}
+                and t_ad.ad_position_id = #{adPositionId,jdbcType=BIGINT}
             </if>
             <if test="adName != null">
                 and ad_name = #{adName,jdbcType=VARCHAR}
             </if>
+            <if test="adPositionNo != null">
+                and t_ad_position.ad_position_no = #{adPositionNo,jdbcType=BIGINT}
+            </if>
+            and now() between start_time and end_time
         </where>
     </select>
 

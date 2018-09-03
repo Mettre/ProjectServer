@@ -18,10 +18,8 @@ import java.util.List;
 @Api(description = "广告位")
 public class AdvPositionController {
 
-
     @Autowired
     public AdvPositionService advPositionService;
-
 
     @RequestMapping(value = "/adv/addAdvPosition", method = RequestMethod.POST)
     @ApiOperation(value = "新增广告位")
@@ -30,6 +28,15 @@ public class AdvPositionController {
         if (StrUtil.isBlank(adPosition.getAdPositionName())) {
             return new ResultUtil<Object>().setErrorMsg("请输入广告位名称");
         }
+        if (StrUtil.isBlank(adPosition.getAdPositionNo())) {
+            return new ResultUtil<Object>().setErrorMsg("请输入广告位编码");
+        }
+
+        List<AdPosition> adPositions2 = advPositionService.findSpecificAdvPosition(null, null, adPosition.getAdPositionNo());
+        if (adPositions2 != null && adPositions2.size() > 0) {
+            return new ResultUtil<Object>().setErrorMsg("已存在的广告位编码");
+        }
+
         int result = advPositionService.addAdvPosition(adPosition);
         if (result != 1) {
             return new ResultUtil<Object>().setErrorMsg("添加广告位失败");
@@ -47,12 +54,11 @@ public class AdvPositionController {
 
     @RequestMapping(value = "/adv/findSpecificAdvPosition", method = RequestMethod.POST)
     @ApiOperation(value = "搜索广告位")
-    public Result<Object> findSpecificAdvPosition(Long adPositionId, String adPositionName) {
+    public Result<Object> findSpecificAdvPosition(Long adPositionId, String adPositionName, String adPositionNo) {
 
-        List<AdPosition> adPositions = advPositionService.findSpecificAdvPosition(adPositionId, adPositionName);
+        List<AdPosition> adPositions = advPositionService.findSpecificAdvPosition(adPositionId, adPositionName, adPositionNo);
         return new ResultUtil<Object>().setData(adPositions);
     }
-
 
     @RequestMapping(value = "/adv/updateAdvPosition", method = RequestMethod.POST)
     @ApiOperation(value = "修改广告位")
@@ -61,23 +67,29 @@ public class AdvPositionController {
         if (adPositionId <= 0) {
             return new ResultUtil<Object>().setErrorMsg("请输入广告位id");
         }
-        List<AdPosition> adPositions = advPositionService.findSpecificAdvPosition(adPositionId, null);
+        List<AdPosition> adPositions = advPositionService.findSpecificAdvPosition(adPositionId, null, null);
         if (adPositions == null || adPositions.size() == 0) {
             return new ResultUtil<Object>().setErrorMsg("没有查到该广告位");
         }
+
         if (adPositions.size() > 1) {
             return new ResultUtil<Object>().setErrorMsg("广告位id重复");
         }
-
-        if (StrUtil.isBlank(adPosition.getAdPositionName())) {
-            return new ResultUtil<Object>().setErrorMsg("请输入广告位名称");
+        if (StrUtil.isNotBlank(adPosition.getAdPositionNo())) {
+            List<AdPosition> adPositions2 = advPositionService.findSpecificAdvPosition(null, null, adPosition.getAdPositionNo());
+            if (adPositions2 != null && adPositions2.size() > 0) {
+                if (adPositions2.get(0).getAdPositionId() != adPositionId) {
+                    return new ResultUtil<Object>().setErrorMsg("广告位编码已存在");
+                }
+            }
         }
+
         adPosition.setAdPositionId(adPositionId);
         int result = advPositionService.updateAdvPosition(adPosition);
         if (result != 1) {
             return new ResultUtil<Object>().setErrorMsg("修改广告位失败");
         }
-        return new ResultUtil<Object>().setSuccessMsg("添修改广告位成功");
+        return new ResultUtil<Object>().setSuccessMsg("修改广告位成功");
     }
 
     @RequestMapping(value = "/adv/deleteAdvPosition", method = RequestMethod.POST)

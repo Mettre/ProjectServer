@@ -27,7 +27,6 @@ public class AdvController {
     @Autowired
     public AdvPositionService advPositionService;
 
-
     @RequestMapping(value = "/adv/addAdv", method = RequestMethod.POST)
     @ApiOperation(value = "新增广告")
     public Result<Object> addAdv(@ModelAttribute Adv adv) {
@@ -39,7 +38,7 @@ public class AdvController {
         if (adv.getAdPositionId() <= 0) {
             return new ResultUtil<Object>().setErrorMsg("请输入广告位id");
         } else {
-            List<AdPosition> adPositions = advPositionService.findSpecificAdvPosition(adv.getAdPositionId(), null);
+            List<AdPosition> adPositions = advPositionService.findSpecificAdvPosition(adv.getAdPositionId(), null, null);
             if (adPositions == null || adPositions.size() == 0) {
                 return new ResultUtil<Object>().setErrorMsg("广告位不存在");
             } else if (adPositions.size() > 1) {
@@ -56,9 +55,8 @@ public class AdvController {
 
     @RequestMapping(value = "/adv/findSpecificAdv", method = RequestMethod.POST)
     @ApiOperation(value = "搜索广告")
-    public Result<Object> findSpecificAdv(Long adPositionId, Long adId, String adName) {
-
-        List<Adv> advsd = advService.findSpecificAdv(adPositionId, adId, adName);
+    public Result<Object> findSpecificAdv(Long adPositionId, Long adId, String adName, String adPositionNo) {
+        List<Adv> advsd = advService.findSpecificAdv(adPositionId, adId, adName, adPositionNo);
         return new ResultUtil<Object>().setData(advsd);
     }
 
@@ -70,7 +68,7 @@ public class AdvController {
         if (adId <= 0) {
             return new ResultUtil<Object>().setErrorMsg("请输入广告id");
         }
-        List<Adv> adPositions = advService.findSpecificAdv(null, adId, null);
+        List<Adv> adPositions = advService.findSpecificAdv(null, adId, null, null);
         if (adPositions == null || adPositions.size() == 0) {
             return new ResultUtil<Object>().setErrorMsg("广告位不存在");
         }

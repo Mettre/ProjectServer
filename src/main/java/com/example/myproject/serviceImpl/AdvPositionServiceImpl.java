@@ -40,7 +40,7 @@ public class AdvPositionServiceImpl implements AdvPositionService {
     }
 
     @Override
-    public List<AdPosition> findSpecificAdvPosition(Long adPositionId, String adPositionName) {
-        return advPositionMapper.findSpecificAdvPosition(adPositionId, adPositionName);
+    public List<AdPosition> findSpecificAdvPosition(Long adPositionId, String adPositionName,String adPositionNo) {
+        return advPositionMapper.findSpecificAdvPosition(adPositionId, adPositionName,adPositionNo);
     }
 }

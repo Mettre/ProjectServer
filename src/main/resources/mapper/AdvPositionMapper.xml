@@ -7,6 +7,7 @@
         <result column="ad_height" property="adHeight" jdbcType="INTEGER"/>
         <result column="ad_position_describe" property="adPositionDescribe" jdbcType="VARCHAR"/>
         <result column="ad_position_name" property="adPositionName" jdbcType="VARCHAR"/>
+        <result column="ad_position_no" property="adPositionNo" jdbcType="VARCHAR"/>
         <result column="ad_width" property="adWidth" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="DATETIMEOFFSET"/>
         <result column="examples_image" property="examplesImage" jdbcType="VARCHAR"/>
@@ -16,7 +17,7 @@
 
 
     <sql id="Base_adPosition_List">
-      ad_position_id, ad_position_name,ad_height,ad_width,examples_image,ad_position_describe,is_show
+      ad_position_id, ad_position_name,ad_position_no,ad_height,ad_width,examples_image,ad_position_describe,is_show
     </sql>
 
 
@@ -30,6 +31,9 @@
             </if>
             <if test="adPositionName != null">
                 ad_position_name,
+            </if>
+            <if test="adPositionNo != null">
+                ad_position_no,
             </if>
             <if test="adHeight != null">
                 ad_height,
@@ -59,6 +63,9 @@
             </if>
             <if test="adPositionName != null">
                 #{adPositionName,jdbcType=VARCHAR},
+            </if>
+            <if test="adPositionNo != null">
+                #{adPositionNo,jdbcType=VARCHAR},
             </if>
             <if test="adHeight != null">
                 #{adHeight,jdbcType=INTEGER},
@@ -91,6 +98,9 @@
         <set>
             <if test="adPositionName != null">
                 ad_position_name = #{adPositionName,jdbcType=VARCHAR},
+            </if>
+            <if test="adPositionNo != null">
+                ad_position_no = #{adPositionNo,jdbcType=VARCHAR},
             </if>
             <if test="adHeight != null">
                 ad_height = #{adHeight,jdbcType=INTEGER},
@@ -141,6 +151,9 @@
             </if>
             <if test="adPositionName != null">
                 and ad_position_name = #{adPositionName,jdbcType=VARCHAR}
+            </if>
+            <if test="adPositionNo != null">
+                and ad_position_no = #{adPositionNo,jdbcType=VARCHAR}
             </if>
         </where>
     </select>

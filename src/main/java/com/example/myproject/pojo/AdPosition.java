@@ -28,6 +28,9 @@ public class AdPosition {
     @ApiModelProperty(value = "广告位名称")
     private String adPositionName;
 
+    @ApiModelProperty(value = "广告位编码")
+    private String adPositionNo;
+
     @ApiModelProperty(value = "广告位描述")
     private String adPositionDescribe;
 

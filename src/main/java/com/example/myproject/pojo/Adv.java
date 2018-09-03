@@ -54,7 +54,7 @@ public class Adv {
     @ApiModelProperty(value = "该广告是否关闭;1开启; 0关闭; 关闭后广告将不再有效")
     private boolean enabled = true;
 
-    @ApiModelProperty(value = "该广告点击数")
-    private int clickCount;
+    @ApiModelProperty(value = "该广告点击数", hidden = true)
+    private int clickCount = 0;
 
 }

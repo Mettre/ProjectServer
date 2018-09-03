@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -30,7 +31,7 @@ public class AdServiceImpl implements AdvService {
     }
 
     @Override
-    public List<Adv> findSpecificAdv(Long adPositionId, Long adId, String adName) {
-        return addAdv.findSpecificAdv(adPositionId, adId, adName);
+    public List<Adv> findSpecificAdv(Long adPositionId, Long adId, String adName,String adPositionNo) {
+        return addAdv.findSpecificAdv(adPositionId, adId, adName,adPositionNo);
     }
 }

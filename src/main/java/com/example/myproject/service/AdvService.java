@@ -10,5 +10,5 @@ public interface AdvService {
 
     int addRead(Long adId,Integer clickCount);
 
-    List<Adv> findSpecificAdv(Long adPositionId, Long adId, String adName);
+    List<Adv> findSpecificAdv(Long adPositionId, Long adId, String adName,String adPositionNo);
 }
