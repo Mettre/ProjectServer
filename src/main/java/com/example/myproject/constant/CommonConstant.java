@@ -105,4 +105,11 @@ public interface CommonConstant {
      * 权限参数头
      */
     String AUTHORITIES = "authorities";
+
+
+    // 1：所有人 2：群体 3：单个用户
+    int AllUSER = 1;
+    int GROUP = 2;
+    int SINGLE = 3;
+
 }
