@@ -11,9 +11,9 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-@Table(name = "t_category")
-@TableName("t_category")
-public class UserGroup {
+@Table(name = "t_group")
+@TableName("t_group")
+public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

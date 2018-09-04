@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/shop")
@@ -22,7 +24,7 @@ public class NoticeController {
 
     @RequestMapping(value = "/notice/addNotice", method = RequestMethod.POST)
     @ApiOperation(value = "新增公告")
-    public Result<Object> addNotice(@ModelAttribute Notice notice, Integer noticeGroup, Integer userId, Boolean allUser) {
+    public Result<Object> addNotice(@ModelAttribute Notice notice, Integer groupId, List<Integer> userIds, Boolean allUser) {
 
 
         if (notice.getNoticeType() <= 0) {
@@ -31,19 +33,21 @@ public class NoticeController {
         int result = 0;
         switch (notice.getNoticeType()) {
             case CommonConstant.AllUSER:
-                result = noticeService.addNotice(notice, null, null,true);
+                result = noticeService.addNotice(notice, null, null, true);
                 break;
             case CommonConstant.GROUP:
-                result = noticeService.addNotice(notice, null, null,true);
+                result = noticeService.addNotice(notice, groupId, null, false);
                 break;
             case CommonConstant.SINGLE:
-                result = noticeService.addNotice(notice, null, null,true);
+                for (Integer userId : userIds) {
+                    result = noticeService.addNotice(notice, null, userId, false);
+                }
                 break;
         }
-        if (result != 1) {
-            return new ResultUtil<Object>().setErrorMsg("修改商品失败");
+        if (result < 1) {
+            return new ResultUtil<Object>().setErrorMsg("新增公告失败");
         }
-        return new ResultUtil<Object>().setSuccessMsg("修改商品成功");
+        return new ResultUtil<Object>().setSuccessMsg("新增公告成功");
     }
 
 
