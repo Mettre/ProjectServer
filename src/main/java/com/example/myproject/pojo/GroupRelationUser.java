@@ -40,6 +40,6 @@ public class GroupRelationUser {
     @LastModifiedDate
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "最近一次更新商品配置的时间", hidden = true)
+    @ApiModelProperty(value = "最近一次更新配置的时间", hidden = true)
     private Date lastUpdate = new Date();
 }

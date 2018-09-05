@@ -37,27 +37,25 @@ public class NoticeController {
             return new ResultUtil<Object>().setErrorMsg("请输入推送用户类型");
         }
         int result = noticeService.addNotice(notice);
+        int result2 = 0;
         if (result < 1) {
             return new ResultUtil<Object>().setErrorMsg("新增公告失败");
         }
         switch (notice.getNoticeType()) {
             case CommonConstant.AllUSER:
-                result = noticeService.addNotice(notice);
-//                if (result == 1) {
-//                    noticeService.
-//                }
+                result2 = noticeService.sendNotice(noticeId, null, null, true);
                 break;
             case CommonConstant.GROUP:
-
+                result2 = noticeService.sendNotice(noticeId, groupId, null, null);
                 break;
             case CommonConstant.SINGLE:
                 String ids[] = userIds.split(",");
                 for (String userId : ids) {
-                    result = noticeService.sendNotice(noticeId, null, Long.parseLong(userId), null);
+                    result2 = noticeService.sendNotice(noticeId, null, Long.parseLong(userId), null);
                 }
                 break;
         }
-        if (result < 1) {
+        if (result2 < 1) {
             return new ResultUtil<Object>().setErrorMsg("新增公告失败");
         }
         return new ResultUtil<Object>().setSuccessMsg("新增公告成功");

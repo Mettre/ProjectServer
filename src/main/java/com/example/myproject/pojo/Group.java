@@ -45,5 +45,6 @@ public class Group {
     private Date lastUpdate = new Date();
 
     @Transient
+    @ApiModelProperty(value = "用户信息", hidden = true)
     private List<Users> users;
 }

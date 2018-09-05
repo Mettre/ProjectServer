@@ -29,17 +29,17 @@ public class GroupRelationUserController {
 
     @RequestMapping(value = "/groupRelation/addGroupRelation", method = RequestMethod.POST)
     @ApiOperation(value = "新增群组成员关系")
-    public Result<Object> addGroupRelation(@RequestParam(value = "groupId") Long groupId, @RequestParam(value = "userId") String userId) {
+    public Result<Object> addGroupRelation(@ModelAttribute GroupRelationUser groupRelationUser) {
 
-        List<Group> groups = groupService.findGroupByNameOrName(groupId, null);
+        List<Group> groups = groupService.findGroupByNameOrName(groupRelationUser.getGroupId(), null);
         if (groups == null || groups.size() == 0) {
             return new ResultUtil<Object>().setErrorMsg("群组不存在");
         }
-        Users user = userService.findUserByUserId(userId);
+        Users user = userService.findUserByUserId(groupRelationUser.getUserId());
         if (user == null) {
             return new ResultUtil<Object>().setErrorMsg("用户不存在");
         }
-        int result = groupRelationUserService.addGroupRelation(groupId, userId);
+        int result = groupRelationUserService.addGroupRelation(groupRelationUser);
         if (result != 1) {
             return new ResultUtil<Object>().setErrorMsg("群组成员关系绑定失败");
         }

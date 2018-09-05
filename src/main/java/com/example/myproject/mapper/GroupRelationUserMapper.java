@@ -1,10 +1,10 @@
 package com.example.myproject.mapper;
 
-import org.apache.ibatis.annotations.Param;
+import com.example.myproject.pojo.GroupRelationUser;
 
 public interface GroupRelationUserMapper {
 
-    int addGroupRelation(@Param(value = "groupId") Long groupId, @Param(value = "userId") String userId);
+    int addGroupRelation(GroupRelationUser groupRelationUser);
 
     int deleteGroupRelation(Long relationId);
 }

@@ -3,8 +3,6 @@ package com.example.myproject.mapper;
 import com.example.myproject.pojo.Notice;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 public interface NoticeMapper {
 
     int addNotice(@Param(value = "notice") Notice notice);
