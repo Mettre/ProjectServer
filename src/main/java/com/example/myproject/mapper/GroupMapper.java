@@ -11,6 +11,9 @@ public interface GroupMapper {
 
     int deleteGroup(Long groupId);
 
+    int modifyGroup(@Param(value = "group") Group group, @Param(value = "groupId") Long groupId);
 
     List<Group> findGroupByNameOrName(@Param(value = "groupId") Long groupId, @Param(value = "groupName") String groupName);
+
+    List<Group> findGroupDetails(@Param(value = "groupId") Long groupId, @Param(value = "groupName") String groupName);
 }

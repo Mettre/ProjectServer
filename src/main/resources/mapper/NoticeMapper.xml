@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.myproject.mapper.NoticeMapper">
+    <!--<cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>-->
+    <resultMap id="BaseResultMap" type="com.example.myproject.pojo.Notice">
+        <id column="notice_id" property="noticeId" jdbcType="BIGINT"/>
+        <result column="notice_name" property="noticeName" jdbcType="VARCHAR"/>
+        <result column="notice_describe" property="noticeDescribe" jdbcType="VARCHAR"/>
+        <result column="notice_link" property="noticeLink" jdbcType="VARCHAR"/>
+        <result column="notice_type" property="noticeType" jdbcType="INTEGER"/>
+        <result column="read_count" property="readCount" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_List">
+      notice_id, notice_name,notice_describe,notice_link,read_count
+    </sql>
+
+    <!--新增公告-->
+    <insert id="addNotice" parameterType="com.example.myproject.pojo.Notice">
+        insert into t_notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="notice.noticeId != null">
+                notice_id,
+            </if>
+            <if test="notice.noticeName != null">
+                notice_name,
+            </if>
+            <if test="notice.noticeDescribe != null">
+                notice_describe,
+            </if>
+            <if test="notice.noticeLink != null">
+                notice_link,
+            </if>
+            <if test="notice.noticeType != null">
+                notice_type,
+            </if>
+            <if test="notice.readCount != null">
+                read_count,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="notice.noticeId != null">
+                #{notice.noticeId,jdbcType=VARCHAR},
+            </if>
+            <if test="notice.noticeName != null">
+                #{notice.noticeName,jdbcType=VARCHAR},
+            </if>
+            <if test="notice.noticeDescribe != null">
+                #{notice.noticeDescribe,jdbcType=VARCHAR},
+            </if>
+            <if test="notice.noticeLink != null">
+                #{notice.noticeLink,jdbcType=VARCHAR},
+            </if>
+            <if test="notice.noticeType != null">
+                #{notice.noticeType,jdbcType=INTEGER},
+            </if>
+            <if test="notice.readCount != null">
+                #{notice.readCount,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!--发送给公告对象-->
+    <insert id="sendNotice" parameterType="com.example.myproject.pojo.NoticeUser">
+        insert into t_notice_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="noticeGroup != null">
+                notice_group,
+            </if>
+            <if test="noticeId != null">
+                notice_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="allUser != null">
+                all_user,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="noticeGroup != null">
+                #{noticeGroup,jdbcType=INTEGER},
+            </if>
+            <if test="noticeId != null">
+                #{noticeId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="allUser != null">
+                #{allUser,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 删除群组 -->
+    <delete id="deleteGroupRelation" parameterType="java.lang.Long">
+		delete from
+		   t_group_relation_user
+		where
+		relation_id=#{relation_id,jdbcType=BIGINT}
+	</delete>
+</mapper>

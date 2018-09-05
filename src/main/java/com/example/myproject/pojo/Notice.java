@@ -22,7 +22,7 @@ public class Notice {
 
     @Id
     @ApiModelProperty(value = "公告id", hidden = true)
-    private Long noticeId = SnowFlakeUtil.getFlowIdInstance().nextId();
+    private Long noticeId;
 
     @ApiModelProperty(value = "公告名称")
     private String noticeName;
@@ -44,16 +44,5 @@ public class Notice {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间", hidden = true)
     private Date creationTime = new Date();
-
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "广告位的开始时间")
-    private Date startTime = new Date();
-
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "广告位的结束时间")
-    private Date endTime;
-
 
 }

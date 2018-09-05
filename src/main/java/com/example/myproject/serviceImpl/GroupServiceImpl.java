@@ -29,7 +29,17 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public int modifyGroup(Group group, Long groupId) {
+        return groupMapper.modifyGroup(group, groupId);
+    }
+
+    @Override
     public List<Group> findGroupByNameOrName(Long groupId, String groupName) {
         return groupMapper.findGroupByNameOrName(groupId, groupName);
+    }
+
+    @Override
+    public List<Group> findGroupDetails(Long groupId, String groupName) {
+        return groupMapper.findGroupDetails(groupId, groupName);
     }
 }

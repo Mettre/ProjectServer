@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.myproject.mapper.GroupRelationUserMapper">
+    <!--<cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>-->
+    <resultMap id="BaseResultMap" type="com.example.myproject.pojo.GroupRelationUser">
+        <id column="relation_id" property="relationId" jdbcType="BIGINT"/>
+        <result column="group_id" property="group_id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_List">
+      relation_id, t_group.group_id,t_group.group_name,t_user.user_id,t_user.name
+    </sql>
+
+    <!--新增群组关系-->
+    <insert id="addGroupRelation" parameterType="com.example.myproject.pojo.GroupRelationUser">
+        insert into t_group_relation_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="groupId != null">
+                group_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="groupId != null">
+                #{groupId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATETIMEOFFSET},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 删除群组 -->
+    <delete id="deleteGroupRelation" parameterType="java.lang.Long">
+		delete from
+		   t_group_relation_user
+		where
+		relation_id=#{relation_id,jdbcType=BIGINT}
+	</delete>
+</mapper>

@@ -4,7 +4,7 @@ import com.example.myproject.constant.CommonConstant;
 
 public class MettreMenu {
 
-    public static String getSexStr(int sex) {
+    public static String getSexStr(Integer sex) {
         return sex == CommonConstant.SEX_MAN ? "男" : "女";
     }
 

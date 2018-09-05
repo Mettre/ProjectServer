@@ -18,7 +18,12 @@ public class NoticeServiceImpl implements NoticeService {
 
 
     @Override
-    public int addNotice(Notice notice, Integer groupId, Integer userId, Boolean allUser) {
-        return noticeMapper.addNotice(notice, groupId, userId, allUser);
+    public int addNotice(Notice notice) {
+        return noticeMapper.addNotice(notice);
+    }
+
+    @Override
+    public int sendNotice(Long noticeId, Integer noticeGroup, Long userId, Boolean allUser) {
+        return noticeMapper.sendNotice(noticeId, noticeGroup, userId, allUser);
     }
 }

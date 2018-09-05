@@ -46,7 +46,7 @@
         * FROM
         t_user
         WHERE
-        id = #{id,jdbcType=BIGINT}
+        id = #{id,jdbcType=VARCHAR}
     </select>
 
     <update id="modifyPassword" parameterType="String">

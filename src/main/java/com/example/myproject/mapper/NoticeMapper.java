@@ -7,6 +7,9 @@ import java.util.List;
 
 public interface NoticeMapper {
 
-    int addNotice(@Param(value = "notice") Notice notice, @Param(value = "groupId") Integer groupId, @Param(value = "userId") Integer userIds, @Param(value = "allUser") Boolean allUser);
+    int addNotice(@Param(value = "notice") Notice notice);
+
+    int sendNotice(@Param(value = "noticeId") Long noticeId, @Param(value = "noticeGroup") Integer noticeGroup, @Param(value = "userId") Long userId, @Param(value = "allUser") Boolean allUser);
+
 
 }

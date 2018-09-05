@@ -34,7 +34,7 @@ public class Users extends MettreBaseEntity {
     private String password;
 
     @ApiModelProperty(value = "年龄")
-    private int age;
+    private Integer age;
 
     @ApiModelProperty(value = "性别")
     private String sex;
@@ -46,7 +46,7 @@ public class Users extends MettreBaseEntity {
     private Date lastLogin;
 
     @ApiModelProperty(value = "身份类型")
-    private int type;
+    private Integer type;
 
     @ApiModelProperty(value = "token")
     private String token;
@@ -54,7 +54,7 @@ public class Users extends MettreBaseEntity {
     public Users() {
     }
 
-    public Users(String name, String phone, String password, int age, int sex) {
+    public Users(String name, String phone, String password, Integer age, Integer sex) {
         this.name = name;
         this.phone = phone;
         this.password = password;
