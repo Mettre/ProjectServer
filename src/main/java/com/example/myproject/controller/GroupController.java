@@ -26,7 +26,7 @@ public class GroupController {
     @ApiOperation(value = "新增群组")
     public Result<Object> addNotice(@ModelAttribute Group group) {
 
-        List<Group> groups = groupService.findGroupByNameOrName(group.getGroupId(), group.getGroupName());
+        List<Group> groups = groupService.findGroupByIdOrName(group.getGroupId(), group.getGroupName());
         if (groups != null && groups.size() > 0) {
             return new ResultUtil<Object>().setErrorMsg("该群组已存在");
         }
@@ -42,7 +42,7 @@ public class GroupController {
     @ApiOperation(value = "查询群组")
     public Result<Object> findGroup(Long groupId, String groupName) {
 
-        List<Group> groups = groupService.findGroupByNameOrName(groupId, groupName);
+        List<Group> groups = groupService.findGroupByIdOrName(groupId, groupName);
         return new ResultUtil<Object>().setData(groups);
     }
 

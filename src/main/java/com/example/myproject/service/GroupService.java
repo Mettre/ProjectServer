@@ -14,7 +14,7 @@ public interface GroupService {
 
     int modifyGroup(Group group, Long groupId);
 
-    List<Group> findGroupByNameOrName(Long groupId, String groupName);
+    List<Group> findGroupByIdOrName(Long groupId, String groupName);
 
     List<Group> findGroupDetails(@Param(value = "groupId") Long groupId, @Param(value = "groupName") String groupName);
 }

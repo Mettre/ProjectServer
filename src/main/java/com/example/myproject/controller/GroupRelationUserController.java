@@ -31,7 +31,7 @@ public class GroupRelationUserController {
     @ApiOperation(value = "新增群组成员关系")
     public Result<Object> addGroupRelation(@ModelAttribute GroupRelationUser groupRelationUser) {
 
-        List<Group> groups = groupService.findGroupByNameOrName(groupRelationUser.getGroupId(), null);
+        List<Group> groups = groupService.findGroupByIdOrName(groupRelationUser.getGroupId(), null);
         if (groups == null || groups.size() == 0) {
             return new ResultUtil<Object>().setErrorMsg("群组不存在");
         }

@@ -1,24 +1,22 @@
 package com.example.myproject;
 
-import com.example.myproject.jwt.IgnoredUrls;
 import com.example.myproject.jwt.JwtFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
-@EnableAutoConfiguration
 @ComponentScan
 @Configuration
+@EnableAutoConfiguration(exclude = {
+        JpaRepositoriesAutoConfiguration.class //禁止springboot自动加载持久化bean
+})
 public class MyprojectApplication {
-
-    @Autowired
-    private IgnoredUrls ignoredUrls;
 
     public static void main(String[] args) {
         SpringApplication.run(MyprojectApplication.class, args);

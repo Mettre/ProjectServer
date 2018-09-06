@@ -7,7 +7,7 @@ public interface NoticeMapper {
 
     int addNotice(@Param(value = "notice") Notice notice);
 
-    int sendNotice(@Param(value = "noticeId") Long noticeId, @Param(value = "noticeGroup") Integer noticeGroup, @Param(value = "userId") Long userId, @Param(value = "allUser") Boolean allUser);
+    int sendNotice(@Param(value = "noticeId") Long noticeId, @Param(value = "noticeGroup") Long noticeGroup, @Param(value = "userId") Long userId, @Param(value = "allUser") Boolean allUser);
 
 
 }

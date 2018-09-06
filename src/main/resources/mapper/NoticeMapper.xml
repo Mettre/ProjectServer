@@ -80,7 +80,7 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="noticeGroup != null">
-                #{noticeGroup,jdbcType=INTEGER},
+                #{noticeGroup,jdbcType=BITINT},
             </if>
             <if test="noticeId != null">
                 #{noticeId,jdbcType=BIGINT},

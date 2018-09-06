@@ -34,7 +34,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<Group> findGroupByNameOrName(Long groupId, String groupName) {
+    public List<Group> findGroupByIdOrName(Long groupId, String groupName) {
         return groupMapper.findGroupByNameOrName(groupId, groupName);
     }
 

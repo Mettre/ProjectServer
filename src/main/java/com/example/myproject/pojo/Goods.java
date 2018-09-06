@@ -30,6 +30,9 @@ public class Goods {
     @ApiModelProperty(value = "商品名称")
     private String goodsName;
 
+    @ApiModelProperty(value = "商品的简短描述")
+    private String goodsBrief;
+
     @ApiModelProperty(value = "商品分类id，取值category的categoryId")
     private int categoryId;
 
@@ -67,9 +70,6 @@ public class Goods {
 
     @ApiModelProperty(value = "商品关键字，放在商品页的关键字中，为搜索引擎收录用")
     private String keywords;
-
-    @ApiModelProperty(value = "商品的简短描述")
-    private String goodsBrief;
 
     @ApiModelProperty(value = "商品的详细描述")
     private String goodsDesc;

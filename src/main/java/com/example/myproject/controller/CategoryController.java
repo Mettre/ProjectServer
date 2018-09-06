@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/shop")
-@Api(description = "商城相关")
+@Api(description = "商品相关")
 public class CategoryController {
 
     @Autowired

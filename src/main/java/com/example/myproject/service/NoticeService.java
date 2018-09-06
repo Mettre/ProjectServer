@@ -6,5 +6,5 @@ public interface NoticeService {
 
     int addNotice(Notice notice);
 
-    int sendNotice(Long noticeId, Integer noticeGroup, Long userId, Boolean allUser);
+    int sendNotice(Long noticeId, Long noticeGroup, Long userId, Boolean allUser);
 }

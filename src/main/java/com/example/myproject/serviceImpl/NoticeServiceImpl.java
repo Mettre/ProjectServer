@@ -23,7 +23,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public int sendNotice(Long noticeId, Integer noticeGroup, Long userId, Boolean allUser) {
+    public int sendNotice(Long noticeId, Long noticeGroup, Long userId, Boolean allUser) {
         return noticeMapper.sendNotice(noticeId, noticeGroup, userId, allUser);
     }
 }

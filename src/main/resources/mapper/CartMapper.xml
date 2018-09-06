@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.myproject.mapper.BrandMapper">
+    <!--<cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>-->
+    <resultMap id="BaseResultMap" type="com.example.myproject.vojo.CartBean">
+        <id column="cart_id" property="cartId" jdbcType="BIGINT"/>
+        <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
+        <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
+        <collection property="goodsItem" ofType="com.example.myproject.vojo.CartGoodsItem">
+            <id column="goods_id" property="goodsId"/>
+            <result column="goods_name" property="goodsName"/>
+            <result column="goods_brief" property="goodsBrief"/>
+            <result column="cart_price" property="cartPrice"/>
+            <result column="shop_price" property="goodsPrice"/>
+            <result column="cart_number" property="cartNumber"/>
+            <result column="stock" property="stock"/>
+        </collection>
+    </resultMap>
+
+
+    <sql id="Base_cart_List">
+      cart_id, brand_id,brand_name,goods_id,goods_name,goods_brief,cart_price,shop_price,cart_number,stock
+    </sql>
+
+    <!--新加入购物车-->
+    <insert id="addCart" parameterType="com.example.myproject.pojo.Cart">
+        insert into t_cart
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="sessionId != null">
+                session_id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="cartPrice != null">
+                cart_price,
+            </if>
+            <if test="cartNumber != null">
+                cart_number,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="sessionId != null">
+                #{sessionId,jdbcType=BIGINT},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=BIGINT},
+            </if>
+            <if test="cartPrice != null">
+                #{cartPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="cartNumber != null">
+                #{cartNumber,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATETIMEOFFSET},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!-- 购物车列表 -->
+    <select id="findAllBrand" resultMap="BaseResultMap">
+        select
+        <include refid="Base_cart_List"></include>
+        from t_cart
+        <where>
+            1=1
+            <if test="isShow != null">
+                and is_show = #{isShow,jdbcType=BIT}
+            </if>
+            <if test="recommend != null">
+                and recommend = #{recommend,jdbcType=BIT}
+            </if>
+        </where>
+    </select>
+
+    <!-- 删除品牌 -->
+    <delete id="deleteBrand" parameterType="java.lang.Integer">
+		delete from
+		   t_brand
+		where brand_id=#{brandId,jdbcType=BIGINT}
+	</delete>
+</mapper>
