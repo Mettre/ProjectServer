@@ -26,7 +26,7 @@ public class Cart {
     @ApiModelProperty(value = "购物车id", hidden = true)
     private Long cartId;
 
-    @ApiModelProperty(value = "用户id")
+    @ApiModelProperty(value = "用户id", hidden = true)
     private Long userId;
 
     @ApiModelProperty(value = "设备id 如果该用户退出,该Session_id对应的购物车中所有记录都将被删除")
@@ -35,10 +35,10 @@ public class Cart {
     @ApiModelProperty(value = "商品id")
     private Long goodsId;
 
-    @ApiModelProperty(value = "加入购物车时的价格")
+    @ApiModelProperty(value = "加入购物车时的价格",hidden = true)
     private BigDecimal cartPrice;
 
-    @ApiModelProperty(value = "购物车数量")
+    @ApiModelProperty(value = "购物车数量", hidden = true)
     private int cartNumber;
 
     @CreatedDate

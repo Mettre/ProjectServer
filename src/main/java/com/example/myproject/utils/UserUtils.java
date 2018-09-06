@@ -7,7 +7,9 @@ import com.example.myproject.service.CartService;
 import com.example.myproject.service.GoodsService;
 import com.example.myproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public class UserUtils {
 
     @Autowired
@@ -23,7 +25,7 @@ public class UserUtils {
         return MyUserUtilsHolder.INSTANCE;
     }
 
-    private static class MyUserUtilsHolder {
+    public static class MyUserUtilsHolder {
         private static final UserUtils INSTANCE = new UserUtils();
     }
 

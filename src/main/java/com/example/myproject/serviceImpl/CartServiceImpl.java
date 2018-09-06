@@ -3,6 +3,7 @@ package com.example.myproject.serviceImpl;
 import com.example.myproject.mapper.CartMapper;
 import com.example.myproject.pojo.Cart;
 import com.example.myproject.service.CartService;
+import com.example.myproject.vojo.CartBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,12 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public int deleteAllCart(Long userId) {
-        return categoryMapper.deleteAllCart(userId);
+    public int deleteAllCart(Long userId,Long sessionId) {
+        return categoryMapper.deleteAllCart(userId,sessionId);
+    }
+
+    @Override
+    public CartBean findAllCart(Long userId,Long sessionId) {
+        return categoryMapper.findAllCart(userId,sessionId);
     }
 }
