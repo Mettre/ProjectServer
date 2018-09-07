@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.myproject.mapper.OrderMapper">
+    <!--<cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>-->
+    <resultMap id="BaseResultMap" type="com.example.myproject.vojo.OrderResponseBean">
+        <id column="order_id" property="orderId" jdbcType="BIGINT"/>
+        <result column="order_no" property="orderNo" jdbcType="BIGINT"/>
+        <result column="order_price" property="orderPrice" jdbcType="DECIMAL"/>
+        <result column="payment" property="payment" jdbcType="DECIMAL"/>
+        <result column="payment_type" property="paymentType" jdbcType="INTEGER"/>
+        <result column="postage" property="postage" jdbcType="DECIMAL"/>
+        <result column="buyer_message" property="buyerMessage" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="payment_time" property="paymentTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="send_time" property="sendTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="complete_time" property="completeTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="close_time" property="closeTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="creation_time" property="creationTime" jdbcType="DATETIMEOFFSET"/>
+        <collection property="orderItem" ofType="com.example.myproject.vojo.OrderGoodsBean">
+            <result column="goods_id" property="goodsId"/>
+            <result column="order_goods_price" property="orderGoodsPrice"/>
+            <result column="order_number" property="orderNumber"/>
+            <result column="goods_name" property="goodsName"/>
+            <result column="goods_brief" property="goodsBrief"/>
+        </collection>
+    </resultMap>
+
+
+    <sql id="Base_Cart_List">
+      cart_id,t_goods.brand_id
+      ,t_brand.brand_name,t_goods.goods_id
+      ,t_goods.goods_name,t_goods.goods_brief,t_cart.cart_price
+      ,t_goods.shop_price,t_cart.cart_number,t_goods.stock
+    </sql>
+
+    <sql id="Base_Cart_Bean">
+      cart_id,goods_id,cart_number
+    </sql>
+
+    <!--新加入订单-->
+    <insert id="addOrder" parameterType="com.example.myproject.pojo.Order">
+        insert into t_cart
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId!=0">
+                user_id,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="cartId != null">
+                cart_id,
+            </if>
+            <if test="orderPrice != null">
+                order_price,
+            </if>
+            <if test="payment != null">
+                payment,
+            </if>
+            <if test="paymentType != null">
+                payment_type,
+            </if>
+            <if test="postage != null">
+                postage,
+            </if>
+            <if test="buyerMessage != null">
+                buyer_message,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="creationTime != null">
+                creation_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId!=0">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=BIGINT},
+            </if>
+            <if test="cartId != null">
+                #{cartId,jdbcType=BIGINT},
+            </if>
+            <if test="orderPrice != null">
+                #{orderPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="payment != null">
+                #{payment,jdbcType=DECIMAL},
+            </if>
+            <if test="paymentType != null">
+                #{paymentType,jdbcType=INTEGER},
+            </if>
+            <if test="postage != null">
+                #{postage,jdbcType=DECIMAL},
+            </if>
+            <if test="buyerMessage != null">
+                #{buyerMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="creationTime != null">
+                #{creationTime,jdbcType=DATETIMEOFFSET},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!-- 订单列表 -->
+    <select id="findAllCart" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Cart_List"></include>
+        from t_cart
+        left join t_goods
+        on t_cart.goods_id = t_goods.goods_id
+        left join t_brand
+        on t_goods.brand_id = t_brand.brand_id
+        <where>
+            1=1
+            <if test="userId != null and userId > 0">
+                and user_id = #{userId,jdbcType=BIGINT}
+            </if>
+            <if test="sessionId != null and sessionId > 0">
+                and session_id = #{sessionId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -3,11 +3,11 @@
 <mapper namespace="com.example.myproject.mapper.CartMapper">
     <!--<cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>-->
     <resultMap id="BaseResultMap" type="com.example.myproject.vojo.CartBean">
-        <id column="cart_id" property="cartId" jdbcType="BIGINT"/>
         <result column="brand_id" property="brandId" jdbcType="VARCHAR"/>
         <result column="brand_name" property="brandName" jdbcType="VARCHAR"/>
         <collection property="goodsItem" ofType="com.example.myproject.vojo.CartGoodsItem">
-            <id column="goods_id" property="goodsId"/>
+            <id column="cart_id" property="cartId" jdbcType="BIGINT"/>
+            <result column="goods_id" property="goodsId"/>
             <result column="goods_name" property="goodsName"/>
             <result column="goods_brief" property="goodsBrief"/>
             <result column="cart_price" property="cartPrice"/>

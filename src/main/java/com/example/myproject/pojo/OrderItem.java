@@ -38,6 +38,9 @@ public class OrderItem {
     @ApiModelProperty(value = "生成订单的商品单价")
     private BigDecimal goodsPrice;
 
+    @ApiModelProperty(value = "购物车id,订单成功后清除该id下的购物车")
+    private Long cartId;
+
     @ApiModelProperty(value = "订单项商品数量")
     private int goodsNumber;
 

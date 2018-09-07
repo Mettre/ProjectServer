@@ -2,6 +2,7 @@ package com.example.myproject.service;
 
 import com.example.myproject.pojo.Goods;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface GoodsService {
@@ -12,7 +13,9 @@ public interface GoodsService {
 
     int deleteGoods(int id);
 
-    List<Goods> findGoods(Goods goods,int limit,int offset);
+    List<Goods> findGoods(Goods goods, int limit, int offset);
 
     Goods findGoodDetails(long goodsId);
+
+    BigDecimal findPrice(Long goodsId);
 }

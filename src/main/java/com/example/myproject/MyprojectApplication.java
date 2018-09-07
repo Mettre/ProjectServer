@@ -30,6 +30,7 @@ public class MyprojectApplication {
 //        registrationBean.addUrlPatterns(ignoredUrls.getUrls());
         registrationBean.addUrlPatterns("/api/user/loginEd/*");
         registrationBean.addUrlPatterns("/api/delivery/loginEd/*");
+        registrationBean.addUrlPatterns("/api/shop/loginEd/*");
         return registrationBean;
     }
 }

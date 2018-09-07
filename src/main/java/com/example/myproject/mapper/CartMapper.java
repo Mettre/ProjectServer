@@ -4,6 +4,8 @@ import com.example.myproject.pojo.Cart;
 import com.example.myproject.vojo.CartBean;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface CartMapper {
 
     int addCart(Cart cart);
@@ -16,6 +18,6 @@ public interface CartMapper {
 
     int deleteAllCart(Long userId, Long sessionId);
 
-    CartBean findAllCart(@Param(value = "userId") Long userId,@Param(value = "sessionId") Long sessionId);
+    List<CartBean> findAllCart(@Param(value = "userId") Long userId, @Param(value = "sessionId") Long sessionId);
 
 }

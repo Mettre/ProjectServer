@@ -3,6 +3,8 @@ package com.example.myproject.service;
 import com.example.myproject.pojo.Cart;
 import com.example.myproject.vojo.CartBean;
 
+import java.util.List;
+
 public interface CartService {
 
     int addCart(Cart cart);
@@ -15,5 +17,5 @@ public interface CartService {
 
     int deleteAllCart(Long userId,Long sessionId);
 
-    CartBean findAllCart(Long userId,Long sessionId);
+    List<CartBean> findAllCart(Long userId, Long sessionId);
 }

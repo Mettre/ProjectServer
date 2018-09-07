@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 @Data
 public class CartGoodsItem {
 
+    private Long cartId;//购物车id
     private Long goodsId;//商品id
     private BigDecimal cartPrice;//加入购物车时的价格
     private int cartNumber;//购物车数量

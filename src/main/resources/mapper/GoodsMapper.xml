@@ -25,8 +25,9 @@
         <result column="promote_end_date" property="promoteEndDate" jdbcType="DATETIMEOFFSET"/>
         <result column="promote_start_date" property="promoteStartDate" jdbcType="DATETIMEOFFSET"/>
         <result column="seller_note" property="sellerNote" jdbcType="VARCHAR"/>
-
     </resultMap>
+
+    <resultMap id="BigDecimal2" type="java.math.BigDecimal"></resultMap>
 
     <sql id="Base_List">
       goodS_id,goods_name,t_goods.brand_id, t_goods.category_id,goods_brief,goods_desc,stock,goods_sn,
@@ -246,6 +247,15 @@
     </insert>
 
 
+    <!-- 查找商品价格-->
+    <select id="findPrice" resultMap="BigDecimal2" parameterType="java.lang.Long">
+        select
+        shop_price
+        from t_goods
+        where goods_id =#{goodsId}
+    </select>
+
+
     <!-- 查找商品-->
     <select id="findGoods" resultMap="BaseResultMap">
         select
@@ -334,7 +344,7 @@
         left join t_category
         on t_goods.category_id=t_category.category_id
         <where>
-        1=1
+            1=1
             <if test="goodsId != null and goodsId!=0">
                 and t_goods.goods_id = #{goodsId,jdbcType=BIT}
             </if>

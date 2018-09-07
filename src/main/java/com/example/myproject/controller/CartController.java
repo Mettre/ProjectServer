@@ -1,11 +1,9 @@
 package com.example.myproject.controller;
 
-import cn.hutool.core.util.StrUtil;
 import com.example.myproject.pojo.*;
 import com.example.myproject.service.CartService;
 import com.example.myproject.service.GoodsService;
 import com.example.myproject.service.UserService;
-import com.example.myproject.utils.UserUtils;
 import com.example.myproject.vojo.CartBean;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -14,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/shop")
@@ -46,12 +45,12 @@ public class CartController {
         if (cart.getCartNumber() <= 0) {
             return new ResultUtil<Object>().setErrorMsg("请选择商品数量");
         }
-        if(cart.getUserId()>0){
+        if (cart.getUserId() > 0) {
             Users user = loginService.findUserByUserId(userId);
-            if (user==null) {
+            if (user == null) {
                 return new ResultUtil<Object>().setErrorMsg("用户不存在");
             }
-        }else if(cart.getSessionId()<=0){
+        } else if (cart.getSessionId() <= 0) {
             return new ResultUtil<Object>().setErrorMsg("设备号不能为空");
         }
 
@@ -100,17 +99,17 @@ public class CartController {
             userId = claims.getSubject();
         }
 
-        if(!"0".equals(userId)){
+        if (!"0".equals(userId)) {
             Users user = loginService.findUserByUserId(userId);
-            if (user==null) {
+            if (user == null) {
                 return new ResultUtil<Object>().setErrorMsg("用户不存在");
             }
-        }else if(sessionId<=0){
+        } else if (sessionId <= 0) {
             return new ResultUtil<Object>().setErrorMsg("设备号不能为空");
         }
 
-        CartBean cartBean = cartService.findAllCart(Long.parseLong(userId), sessionId);
-        return new ResultUtil<Object>().setData(cartBean);
+        List<CartBean> cartBeans = cartService.findAllCart(Long.parseLong(userId), sessionId);
+        return new ResultUtil<Object>().setData(cartBeans);
     }
 
 
