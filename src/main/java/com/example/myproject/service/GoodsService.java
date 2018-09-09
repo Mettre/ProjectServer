@@ -15,7 +15,7 @@ public interface GoodsService {
 
     List<Goods> findGoods(Goods goods, int limit, int offset);
 
-    Goods findGoodDetails(long goodsId);
+    Goods findGoodDetails(Long goodsId);
 
     BigDecimal findPrice(Long goodsId);
 }

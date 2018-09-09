@@ -39,16 +39,16 @@
 
     <!--新加入订单-->
     <insert id="addOrder" parameterType="com.example.myproject.pojo.Order">
-        insert into t_cart
+        insert into t_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null and orderId!=0">
+                order_id,
+            </if>
             <if test="userId != null and userId!=0">
                 user_id,
             </if>
             <if test="orderNo != null">
                 order_no,
-            </if>
-            <if test="cartId != null">
-                cart_id,
             </if>
             <if test="orderPrice != null">
                 order_price,
@@ -73,14 +73,14 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null and orderId!=0">
+                #{orderId,jdbcType=BIGINT},
+            </if>
             <if test="userId != null and userId!=0">
                 #{userId,jdbcType=BIGINT},
             </if>
             <if test="orderNo != null">
                 #{orderNo,jdbcType=BIGINT},
-            </if>
-            <if test="cartId != null">
-                #{cartId,jdbcType=BIGINT},
             </if>
             <if test="orderPrice != null">
                 #{orderPrice,jdbcType=DECIMAL},
@@ -107,11 +107,69 @@
     </insert>
 
 
+    <!--添加订单项目-->
+    <insert id="addOrderItem">
+        insert into t_order_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null and orderId > 0">
+                order_id,
+            </if>
+            <if test="cartId != null">
+                cart_id,
+            </if>
+            <if test="creationTime != null">
+                creation_time,
+            </if>
+            <if test="goods.goodsId != null">
+                goods_id,
+            </if>
+            <if test="goods.goodsName != null">
+                goods_name,
+            </if>
+            <if test="goodsNumber != null">
+                goods_number,
+            </if>
+            <if test="goods.shopPrice != null">
+                goods_price,
+            </if>
+            <if test="totalPrice != null">
+                total_price,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                #{orderId,jdbcType=BIGINT},
+            </if>
+            <if test="cartId != null">
+                #{cartId,jdbcType=BIGINT},
+            </if>
+            <if test="creationTime != null">
+                #{creationTime,jdbcType=DATETIMEOFFSET},
+            </if>
+            <if test="goods.goodsId != null">
+                #{goods.goodsId,jdbcType=BIGINT},
+            </if>
+            <if test="goods.goodsName != null">
+                #{goods.goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsNumber != null">
+                #{goodsNumber,jdbcType=INTEGER},
+            </if>
+            <if test="goods.shopPrice != null">
+                #{goods.shopPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="totalPrice != null">
+                #{totalPrice,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+
+
     <!-- 订单列表 -->
     <select id="findAllCart" resultMap="BaseResultMap">
         select
         <include refid="Base_Cart_List"></include>
-        from t_cart
+        from t_order
         left join t_goods
         on t_cart.goods_id = t_goods.goods_id
         left join t_brand

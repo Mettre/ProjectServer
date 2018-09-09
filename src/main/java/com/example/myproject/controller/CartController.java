@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -30,19 +31,23 @@ public class CartController {
 
     @RequestMapping(value = "/cart/addCart", method = RequestMethod.POST)
     @ApiOperation(value = "新增购物车")
-    public Result<Object> addCart(HttpServletRequest request, @ModelAttribute Cart cart) {
+    public Result<Object> addCart(HttpServletRequest request, Long sessionId, @RequestParam(value = "goodsId") Long goodsId, @RequestParam(value = "cartNumber") int cartNumber) {
+
+        Cart cart = new Cart();
         final Claims claims = (Claims) request.getAttribute("claims");
         String userId = "0";
         if (claims != null) {//登录
             userId = claims.getSubject();
         }
 
-        cart.setCartNumber(1);
+        cart.setGoodsId(goodsId);
+        cart.setSessionId(sessionId);
+        cart.setCartNumber(cartNumber);
         cart.setUserId(Long.parseLong(userId));
-        if (cart.getUserId() <= 0 && cart.getSessionId() <= 0) {
+        if (cart.getUserId() <= 0 && sessionId <= 0) {
             return new ResultUtil<Object>().setErrorMsg("参数错误");
         }
-        if (cart.getCartNumber() <= 0) {
+        if (cartNumber <= 0) {
             return new ResultUtil<Object>().setErrorMsg("请选择商品数量");
         }
         if (cart.getUserId() > 0) {
@@ -50,21 +55,21 @@ public class CartController {
             if (user == null) {
                 return new ResultUtil<Object>().setErrorMsg("用户不存在");
             }
-        } else if (cart.getSessionId() <= 0) {
+        } else if (sessionId <= 0) {
             return new ResultUtil<Object>().setErrorMsg("设备号不能为空");
         }
 
-        Goods goods = goodsService.findGoodDetails(cart.getGoodsId());
+        Goods goods = goodsService.findGoodDetails(goodsId);
         if (goods == null) {
             return new ResultUtil<Object>().setErrorMsg("商品不存在");
         }
         cart.setCartPrice(goods.getShopPrice());
         int result;
-        Cart cart2 = cartService.finCartByGoodsId(cart.getGoodsId());
+        Cart cart2 = cartService.finCartByGoodsId(goodsId);
         if (cart2 == null) {
             result = cartService.addCart(cart);
         } else {
-            result = cartService.addCartNum(cart.getGoodsId(), cart2.getCartNumber() + 1);
+            result = cartService.editCartNum(Long.parseLong(userId), cart.getSessionId(), cart.getGoodsId(), cart2.getCartNumber() + 1);
         }
         if (result != 1) {
             return new ResultUtil<Object>().setErrorMsg("添加购物车失败");
@@ -72,9 +77,14 @@ public class CartController {
         return new ResultUtil<Object>().setSuccessMsg("添加购物车成功");
     }
 
-    @RequestMapping(value = "/cart/addCartNum", method = RequestMethod.POST)
-    @ApiOperation(value = "购物车数量变化")
-    public Result<Object> addCartNum(@RequestParam Long goodsId, @RequestParam int cartNumber) {
+    @RequestMapping(value = "/cart/editCartNum", method = RequestMethod.POST)
+    @ApiOperation(value = "编辑购物车数量")
+    public Result<Object> editCartNum(HttpServletRequest request, @RequestParam Long goodsId, @RequestParam int cartNumber, Long sessionId) {
+        final Claims claims = (Claims) request.getAttribute("claims");
+        String userId = "0";
+        if (claims != null) {//登录
+            userId = claims.getSubject();
+        }
 
         if (goodsId <= 0) {
             return new ResultUtil<Object>().setErrorMsg("商品不能为空");
@@ -82,7 +92,7 @@ public class CartController {
         if (cartNumber <= 0) {
             return new ResultUtil<Object>().setErrorMsg("数量不能小于0");
         }
-        int result = cartService.addCartNum(goodsId, cartNumber);
+        int result = cartService.editCartNum(Long.parseLong(userId), sessionId, goodsId, cartNumber);
         if (result != 1) {
             return new ResultUtil<Object>().setErrorMsg("购物车数量修改失败");
         }
@@ -115,16 +125,23 @@ public class CartController {
 
     @RequestMapping(value = "/cart/deleteCart", method = RequestMethod.POST)
     @ApiOperation(value = "删除某个购物车项")
-    public Result<Object> deleteCart(@RequestParam Long cartId) {
-
-        if (cartId <= 0) {
-            return new ResultUtil<Object>().setErrorMsg("参数异常");
+    public Result<Object> deleteCart(@RequestParam List<Long> cartIds) {
+        int status = 0;
+        for (Long cartId : cartIds) {
+            status = cartService.deleteCart(cartId);
+            if (status == 0 || status == -1) {
+                break;
+            }
         }
-        int result = cartService.deleteCart(cartId);
-        if (result != 1) {
-            return new ResultUtil<Object>().setErrorMsg("删除失败");
+        if (status != -1) {
+            if (status != 0) {
+                return new ResultUtil<Object>().setSuccessMsg("删除购物车成功");
+            } else {
+                return new ResultUtil<Object>().setErrorMsg("有不存在的id,删除失败");
+            }
+        } else {
+            return new ResultUtil<Object>().setErrorMsg("删除购物车失败");
         }
-        return new ResultUtil<Object>().setSuccessMsg("删除成功");
     }
 
 

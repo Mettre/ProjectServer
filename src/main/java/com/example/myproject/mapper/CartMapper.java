@@ -10,7 +10,7 @@ public interface CartMapper {
 
     int addCart(Cart cart);
 
-    int addCartNum(Long goodsId, int cartNumber);
+    int editCartNum(@Param(value = "userId") Long userId, @Param(value = "sessionId") Long sessionId, @Param(value = "goodsId") Long goodsId, @Param(value = "cartNumber") int cartNumber);
 
     Cart finCartByGoodsId(Long goodsId);
 

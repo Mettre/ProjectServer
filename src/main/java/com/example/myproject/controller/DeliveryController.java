@@ -84,7 +84,7 @@ public class DeliveryController {
         if (address == null) {
             return new ResultUtil<Object>().setErrorMsg("查找默认收货地址失败");
         }
-        return new ResultUtil<Object>().setSuccessMsg("查找默认收货地址成功");
+        return new ResultUtil<Object>().setData(address);
     }
 
     @RequestMapping(value = "/loginEd/findByPage", method = RequestMethod.POST)

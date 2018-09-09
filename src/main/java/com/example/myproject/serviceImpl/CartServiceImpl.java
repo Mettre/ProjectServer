@@ -30,8 +30,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public int addCartNum(Long goodsId, int cartNumber) {
-        return categoryMapper.addCartNum(goodsId, cartNumber);
+    public int editCartNum(Long userId, Long sessionId, Long goodsId, int cartNumber) {
+        return categoryMapper.editCartNum(userId, sessionId, goodsId, cartNumber);
     }
 
     @Override
@@ -40,12 +40,12 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public int deleteAllCart(Long userId,Long sessionId) {
-        return categoryMapper.deleteAllCart(userId,sessionId);
+    public int deleteAllCart(Long userId, Long sessionId) {
+        return categoryMapper.deleteAllCart(userId, sessionId);
     }
 
     @Override
     public List<CartBean> findAllCart(Long userId, Long sessionId) {
-        return categoryMapper.findAllCart(userId,sessionId);
+        return categoryMapper.findAllCart(userId, sessionId);
     }
 }

@@ -11,11 +11,11 @@ public interface CartService {
 
     Cart finCartByGoodsId(Long goodsId);
 
-    int addCartNum(Long goodsId,int cartNumber);
+    int editCartNum(Long userId, Long sessionId, Long goodsId, int cartNumber);
 
     int deleteCart(Long cartId);
 
-    int deleteAllCart(Long userId,Long sessionId);
+    int deleteAllCart(Long userId, Long sessionId);
 
     List<CartBean> findAllCart(Long userId, Long sessionId);
 }

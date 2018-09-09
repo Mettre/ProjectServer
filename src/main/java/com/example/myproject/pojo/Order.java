@@ -25,7 +25,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @ApiModelProperty(value = "订单id", hidden = true)
-    private Long orderId;
+    private Long orderId = SnowFlakeUtil.getFlowIdInstance().nextId();
 
     @ApiModelProperty(value = "订单编号", hidden = true)
     private Long orderNo = SnowFlakeUtil.getFlowIdInstance().nextId();
@@ -40,7 +40,7 @@ public class Order {
     private BigDecimal payment;
 
     @ApiModelProperty(value = "付款类型 1:在线付款  2：线下付款")
-    private int paymentType;
+    private Integer paymentType;
 
     @ApiModelProperty(value = "邮费", hidden = true)
     private BigDecimal postage;

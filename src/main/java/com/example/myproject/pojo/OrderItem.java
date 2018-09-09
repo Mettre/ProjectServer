@@ -42,7 +42,7 @@ public class OrderItem {
     private Long cartId;
 
     @ApiModelProperty(value = "订单项商品数量")
-    private int goodsNumber;
+    private Long goodsNumber;
 
     @ApiModelProperty(value = "订单项总价")
     private BigDecimal totalPrice;

@@ -40,9 +40,10 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public Goods findGoodDetails(long goodsId) {
+    public Goods findGoodDetails(Long goodsId) {
         return brandMapper.findGoodDetails(goodsId);
     }
+
 
     @Override
     public BigDecimal findPrice(Long goodsId) {
