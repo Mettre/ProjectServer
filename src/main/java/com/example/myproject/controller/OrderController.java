@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -40,6 +41,7 @@ public class OrderController {
     @ApiOperation(value = "新增订单")
     public Result<Object> addOrder(HttpServletRequest request, @RequestBody List<OrderRequestBean> orderBeanList) {
 
+        List<Long> cartIds = new ArrayList<>();
         final Claims claims = (Claims) request.getAttribute("claims");
         String userId = claims.getSubject();
 
@@ -64,11 +66,15 @@ public class OrderController {
                     }
                     logger.info(order.getOrderId() + "------------------");
                     result2 = orderService.addOrderItem(goods, order.getOrderId(), goodsItem.getCartId(), goodsItem.getGoodsNumber(), goods.getShopPrice().multiply(new BigDecimal(goodsItem.getGoodsNumber())), order.getCreationTime());
+                    if (goodsItem.getCartId() != null && goodsItem.getCartId() > 0) {
+                        cartIds.add(goodsItem.getCartId());
+                    }
                     if (result2 == 0 || result2 == -1) {
                         break;
                     }
                 }
-                if (result2 > 0) {
+
+                if (result2 > 0 && orderPrice.compareTo(orderBean.getGoodsTotal()) == 0) {
                     order.setOrderPrice(orderPrice);
                     order.setPayment(orderPrice);
                     order.setPostage(orderBean.getPostage());
@@ -83,10 +89,22 @@ public class OrderController {
             }
         }
 
-
         if (result != -1) {
             if (result != 0) {
-                return new ResultUtil<Object>().setSuccessMsg("新增订单成功");
+                int status3 = 1;
+                if (cartIds != null && cartIds.size() > 0) {
+                    for (Long cartId : cartIds) {
+                        status3 = cartService.deleteCart(cartId, Long.parseLong(userId), null);
+                        if (status3 == 0 || status3 == -1) {
+                            break;
+                        }
+                    }
+                }
+                if (status3 >= 1) {
+                    return new ResultUtil<Object>().setSuccessMsg("新增订单成功");
+                } else {
+                    return new ResultUtil<Object>().setErrorMsg("删除购物车失败");
+                }
             } else {
                 return new ResultUtil<Object>().setErrorMsg("订单项新增失败");
             }
@@ -94,5 +112,4 @@ public class OrderController {
             return new ResultUtil<Object>().setErrorMsg("新增订单失败");
         }
     }
-
 }

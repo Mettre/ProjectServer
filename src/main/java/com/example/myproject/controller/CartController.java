@@ -29,7 +29,7 @@ public class CartController {
     @Autowired
     public UserService loginService;
 
-    @RequestMapping(value = "/cart/addCart", method = RequestMethod.POST)
+    @RequestMapping(value = "/loginEd/cart/addCart", method = RequestMethod.POST)
     @ApiOperation(value = "新增购物车")
     public Result<Object> addCart(HttpServletRequest request, Long sessionId, @RequestParam(value = "goodsId") Long goodsId, @RequestParam(value = "cartNumber") int cartNumber) {
 
@@ -92,6 +92,15 @@ public class CartController {
         if (cartNumber <= 0) {
             return new ResultUtil<Object>().setErrorMsg("数量不能小于0");
         }
+
+        Goods goods = goodsService.findGoodDetails(goodsId);
+        if (goods == null) {
+            return new ResultUtil<Object>().setErrorMsg("商品不存在");
+        }
+        if (goods.getStock() < cartNumber) {
+            return new ResultUtil<Object>().setErrorMsg("数量不能小于0");
+        }
+
         int result = cartService.editCartNum(Long.parseLong(userId), sessionId, goodsId, cartNumber);
         if (result != 1) {
             return new ResultUtil<Object>().setErrorMsg("购物车数量修改失败");
@@ -100,7 +109,7 @@ public class CartController {
     }
 
 
-    @RequestMapping(value = "/cart/findAllCart", method = RequestMethod.POST)
+    @RequestMapping(value = "/loginEd/cart/findAllCart", method = RequestMethod.POST)
     @ApiOperation(value = "查询购物车")
     public Result<Object> findAllCart(HttpServletRequest request, Long sessionId) {
         final Claims claims = (Claims) request.getAttribute("claims");
@@ -114,9 +123,14 @@ public class CartController {
             if (user == null) {
                 return new ResultUtil<Object>().setErrorMsg("用户不存在");
             }
+            int result = cartService.cartMerge(sessionId, Long.parseLong(userId));
+            if (result < 0) {
+                return new ResultUtil<Object>().setErrorMsg("购物车合并失败");
+            }
         } else if (sessionId <= 0) {
             return new ResultUtil<Object>().setErrorMsg("设备号不能为空");
         }
+
 
         List<CartBean> cartBeans = cartService.findAllCart(Long.parseLong(userId), sessionId);
         return new ResultUtil<Object>().setData(cartBeans);
@@ -125,10 +139,18 @@ public class CartController {
 
     @RequestMapping(value = "/cart/deleteCart", method = RequestMethod.POST)
     @ApiOperation(value = "删除某个购物车项")
-    public Result<Object> deleteCart(@RequestParam List<Long> cartIds) {
+    public Result<Object> deleteCart(@RequestParam List<Long> cartIds, Long sessionId, HttpServletRequest request) {
+        final Claims claims = (Claims) request.getAttribute("claims");
+        String userId = "0";
+        if (claims != null) {//登录
+            userId = claims.getSubject();
+        }
+        if ("0".equals(userId) && (sessionId == null || sessionId <= 0)) {
+            return new ResultUtil<Object>().setErrorMsg("请输入设备号或者登录");
+        }
         int status = 0;
         for (Long cartId : cartIds) {
-            status = cartService.deleteCart(cartId);
+            status = cartService.deleteCart(cartId, Long.parseLong(userId), sessionId);
             if (status == 0 || status == -1) {
                 break;
             }
@@ -152,6 +174,9 @@ public class CartController {
         String userId = "0";
         if (claims != null) {//登录
             userId = claims.getSubject();
+        }
+        if ("0".equals(userId) && (sessionId == null || sessionId <= 0)) {
+            return new ResultUtil<Object>().setErrorMsg("请输入设备号或者登录");
         }
         int result = cartService.deleteAllCart(Long.parseLong(userId), sessionId);
         if (result != 1) {

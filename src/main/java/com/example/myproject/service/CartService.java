@@ -13,9 +13,11 @@ public interface CartService {
 
     int editCartNum(Long userId, Long sessionId, Long goodsId, int cartNumber);
 
-    int deleteCart(Long cartId);
+    int deleteCart(Long cartId, Long userId, Long sessionId);
 
     int deleteAllCart(Long userId, Long sessionId);
 
     List<CartBean> findAllCart(Long userId, Long sessionId);
+
+    int cartMerge(Long sessionId, Long userId);
 }

@@ -110,9 +110,25 @@
                 and goods_id = #{goodsId,jdbcType=BIGINT}
             </if>
         </where>
-
     </update>
 
+
+    <!--购物车合并-->
+    <update id="cartMerge">
+        UPDATE t_cart
+        <set>
+            <if test="userId != null and userId > 0">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            session_id = null,
+        </set>
+        <where>
+            user_id is null
+            <if test="sessionId != null and sessionId > 0">
+                and session_id = #{sessionId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </update>
 
     <!-- 购物车列表 -->
     <select id="findAllCart" resultMap="BaseResultMap">
@@ -125,11 +141,11 @@
         on t_goods.brand_id = t_brand.brand_id
         <where>
             1=1
-            <if test="userId != null and userId > 0">
+            <if test="userId != null and userId > 0 ">
                 and user_id = #{userId,jdbcType=BIGINT}
             </if>
             <if test="sessionId != null and sessionId > 0">
-                and session_id = #{sessionId,jdbcType=BIGINT}
+                or session_id = #{sessionId,jdbcType=BIGINT}
             </if>
         </where>
     </select>
@@ -145,8 +161,19 @@
 
     <!-- 删除购物车 -->
     <delete id="deleteCart" parameterType="java.lang.Long">
-		delete from
-		   t_cart
-		where cart_id=#{cartId,jdbcType=BIGINT}
-	</delete>
+        delete from
+        t_cart
+        <where>
+            1=1
+            <if test="cartId != null and cartId > 0">
+                and cart_id = #{cartId,jdbcType=BIGINT}
+            </if>
+            <if test="userId != null and userId > 0">
+                and user_id = #{userId,jdbcType=BIGINT}
+            </if>
+            <if test="sessionId != null and sessionId > 0">
+                and session_id = #{sessionId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </delete>
 </mapper>

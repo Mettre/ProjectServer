@@ -14,10 +14,11 @@ public interface CartMapper {
 
     Cart finCartByGoodsId(Long goodsId);
 
-    int deleteCart(Long cartId);
+    int deleteCart(@Param(value = "cartId") Long cartId, @Param(value = "userId") Long userId, @Param(value = "sessionId") Long sessionId);
 
-    int deleteAllCart(Long userId, Long sessionId);
+    int deleteAllCart(@Param(value = "userId") Long userId, @Param(value = "sessionId") Long sessionId);
 
     List<CartBean> findAllCart(@Param(value = "userId") Long userId, @Param(value = "sessionId") Long sessionId);
 
+    int cartMerge(@Param(value = "sessionId") Long sessionId, @Param(value = "userId") Long userId);
 }

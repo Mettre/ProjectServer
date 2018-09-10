@@ -59,10 +59,10 @@ public class JSONLogFilter implements Filter {
 			String name = stringEnumeration.nextElement();
 			header.put(name, httpRequest.getHeader(name));
 		}
-		logger.info("业务号={} 请求：url={} method={},ip={},header={}", request.getAttribute(BEHAVIOR_ID), httpRequest.getRequestURL(),
-				httpRequest.getMethod(),
-				httpRequest.getRemoteAddr(),
-				JSON.toJSONString(header));
+//		logger.info("业务号={} 请求：url={} method={},ip={},header={}", request.getAttribute(BEHAVIOR_ID), httpRequest.getRequestURL(),
+//				httpRequest.getMethod(),
+//				httpRequest.getRemoteAddr(),
+//				JSON.toJSONString(header));
 
 		HttpMethod httpMethod = HttpMethod.resolve(httpRequest.getMethod());
 		if (HttpMethod.POST == httpMethod && request.getContentType() != null && MediaType.parseMediaType(request.getContentType()).includes(MediaType.APPLICATION_JSON)) {
@@ -71,20 +71,22 @@ public class JSONLogFilter implements Filter {
 			LogHttpServletResponseWrapper logHttpServletResponseWrapper = new LogHttpServletResponseWrapper((HttpServletResponse) response);
 			chain.doFilter(logHttpServletRequestWrapper, logHttpServletResponseWrapper);
 			long end = System.currentTimeMillis();
-			logger.info("业务号={} 返回：header={}", request.getAttribute(BEHAVIOR_ID), JSON.toJSONString(getResponseHeader((HttpServletResponse) response)));
+			logger.info("业务号={} 请求：request={}", request.getAttribute(BEHAVIOR_ID), request.getParameterMap()); //args[]
+//			logger.info("业务号={} 返回：header={}", request.getAttribute(BEHAVIOR_ID), JSON.toJSONString(getResponseHeader((HttpServletResponse) response)));
 			logger.info("业务号={} 返回：code={} 耗时={}ms response={}", request.getAttribute(BEHAVIOR_ID), logHttpServletResponseWrapper.getStatus(), (end - (long) request.getAttribute(REQUEST_START_TIME)), new String(logHttpServletResponseWrapper.getBody(), logHttpServletResponseWrapper.getCharacterEncoding())); //args[]
 
 		} else if (HttpMethod.GET == httpMethod) {
 			logger.info("业务号={} 请求：request={}", request.getAttribute(BEHAVIOR_ID), request.getParameterMap()); //args[]
 			chain.doFilter(request, response);
 			long end = System.currentTimeMillis();
-			logger.info("业务号={} 返回：header={}", request.getAttribute(BEHAVIOR_ID), JSON.toJSONString(getResponseHeader((HttpServletResponse) response)));
+//			logger.info("业务号={} 返回：header={}", request.getAttribute(BEHAVIOR_ID), JSON.toJSONString(getResponseHeader((HttpServletResponse) response)));
 			logger.info("业务号={} 返回：code={} 耗时={}ms", request.getAttribute(BEHAVIOR_ID), ((HttpServletResponse) response).getStatus(), (end - (long) request.getAttribute(REQUEST_START_TIME))); //args[]
 
 		} else {
 			chain.doFilter(request, response);
 			long end = System.currentTimeMillis();
-			logger.info("业务号={} 返回：header={}", request.getAttribute(BEHAVIOR_ID), JSON.toJSONString(getResponseHeader((HttpServletResponse) response)));
+			logger.info("业务号={} 请求：request={}", request.getAttribute(BEHAVIOR_ID), request.getParameterMap()); //args[]
+//			logger.info("业务号={} 返回：header={}", request.getAttribute(BEHAVIOR_ID), JSON.toJSONString(getResponseHeader((HttpServletResponse) response)));
 			logger.info("业务号={} 返回：code={} 耗时={}ms", request.getAttribute(BEHAVIOR_ID), ((HttpServletResponse) response).getStatus(), (end - (long) request.getAttribute(REQUEST_START_TIME))); //args[]
 		}
 
