@@ -37,4 +37,9 @@ public class BrandServiceImpl implements BrandService {
     public List<Brand> findAllBrand(Boolean isShow, Boolean recommend) {
         return brandMapper.findAllBrand(isShow, recommend);
     }
+
+    @Override
+    public Brand findBrandById(Long brandId) {
+        return brandMapper.findBrandById(brandId);
+    }
 }

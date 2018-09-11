@@ -13,5 +13,7 @@ public interface BrandMapper {
 
     List<Brand> findBrand(@Param(value = "brandName") String brandName);
 
-    List<Brand> findAllBrand(Boolean isShow, Boolean recommend);
+    List<Brand> findAllBrand(@Param(value = "isShow")Boolean isShow, @Param(value = "recommend") Boolean recommend);
+
+    Brand findBrandById(@Param(value = "brandId") Long brandId);
 }

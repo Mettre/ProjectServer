@@ -75,6 +75,19 @@
         </where>
     </select>
 
+    <!-- 查找品牌 -->
+    <select id="findBrandById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_brand_List"></include>
+        from t_brand
+        <where>
+            1=1
+            <if test="brandId != null">
+                and brand_id like #{brandId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+
 
     <!-- 查找全部可取品牌 -->
     <select id="findAllBrand" resultMap="BaseResultMap">
@@ -93,7 +106,7 @@
     </select>
 
     <!-- 删除品牌 -->
-    <delete id="deleteBrand" parameterType="java.lang.Integer">
+    <delete id="deleteBrand" parameterType="java.lang.Long">
 		delete from
 		   t_brand
 		where brand_id=#{brandId,jdbcType=BIGINT}

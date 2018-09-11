@@ -12,4 +12,5 @@ public class OrderGoodsBean {
     private int orderNumber;//提交订单的商品数量
     private String goodsName;//商品名称
     private String goodsBrief;//商品描述
+    private Long orderItemId;
 }

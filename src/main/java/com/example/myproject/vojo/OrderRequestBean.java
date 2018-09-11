@@ -36,6 +36,12 @@ public class OrderRequestBean {
     @ApiModelProperty(value = "订单总价（商品总价+邮费）")
     private BigDecimal userAllPrice;
 
+    @ApiModelProperty(value = "品牌id")
+    private Long brandId;
+
+    @ApiModelProperty(value = "品牌名称")
+    private String brandName;
+
     @Data
     public static class GoodsItem {
         @ApiModelProperty(value = "商品id")

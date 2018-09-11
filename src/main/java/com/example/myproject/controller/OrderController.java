@@ -1,12 +1,11 @@
 package com.example.myproject.controller;
 
-import com.example.myproject.pojo.Goods;
-import com.example.myproject.pojo.Order;
-import com.example.myproject.pojo.Result;
-import com.example.myproject.pojo.ResultUtil;
+import com.example.myproject.pojo.*;
+import com.example.myproject.service.BrandService;
 import com.example.myproject.service.CartService;
 import com.example.myproject.service.GoodsService;
 import com.example.myproject.service.OrderService;
+import com.example.myproject.vojo.OrderListBean;
 import com.example.myproject.vojo.OrderRequestBean;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -36,6 +35,9 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private BrandService brandService;
 
     @RequestMapping(value = "/loginEd/order/addOrder", method = RequestMethod.POST)
     @ApiOperation(value = "新增订单")
@@ -75,10 +77,17 @@ public class OrderController {
                 }
 
                 if (result2 > 0 && orderPrice.compareTo(orderBean.getGoodsTotal()) == 0) {
+
+                    Brand brand = brandService.findBrandById(orderBean.getBrandId());
+                    if (brand == null) {
+                        break;
+                    }
                     order.setOrderPrice(orderPrice);
                     order.setPayment(orderPrice);
                     order.setPostage(orderBean.getPostage());
                     order.setBuyerMessage(orderBean.getBuyerMessage());
+                    order.setBrandId(orderBean.getBrandId());
+                    order.setBrandName(brand.getBrandName());
                     result = orderService.addOrder(order);
                     if (result == 0 || result == -1) {
                         break;
@@ -111,5 +120,15 @@ public class OrderController {
         } else {
             return new ResultUtil<Object>().setErrorMsg("新增订单失败");
         }
+    }
+
+
+    @RequestMapping(value = "/loginEd/order/findOrderList", method = RequestMethod.POST)
+    @ApiOperation(value = "订单列表")
+    public Result<Object> findOrderList(HttpServletRequest request, Integer status) {
+        final Claims claims = (Claims) request.getAttribute("claims");
+        String userId = claims.getSubject();
+        List<OrderListBean> orderListBeanList = orderService.findOrderList(Long.parseLong(userId), status);
+        return new ResultUtil<Object>().setData(orderListBeanList);
     }
 }

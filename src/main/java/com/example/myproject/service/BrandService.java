@@ -13,4 +13,6 @@ public interface BrandService {
     List<Brand> findBrand(String BrandName);
 
     List<Brand> findAllBrand(Boolean isShow, Boolean recommend);
+
+    Brand findBrandById(Long brandId);
 }

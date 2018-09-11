@@ -48,6 +48,12 @@ public class Order {
     @ApiModelProperty(value = "买家留言")
     private String buyerMessage;
 
+    @ApiModelProperty(value = "品牌id")
+    private Long brandId;
+
+    @ApiModelProperty(value = "品牌名称")
+    private String brandName;
+
     @ApiModelProperty(value = "订单状态 0:已取消  10:未付款  20:已支付  30:已发货  40:交易成功  50:交易关闭", hidden = true)
     private Integer status = 10;
 
