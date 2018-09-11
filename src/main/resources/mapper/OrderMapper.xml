@@ -28,7 +28,6 @@
         </collection>
     </resultMap>
 
-
     <sql id="Base_order_List">
       t_order.order_id,order_no
       ,order_price,postage
