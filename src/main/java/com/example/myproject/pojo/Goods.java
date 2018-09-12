@@ -34,7 +34,7 @@ public class Goods {
     private String goodsBrief;
 
     @ApiModelProperty(value = "商品分类id，取值category的categoryId")
-    private int categoryId;
+    private Integer categoryId;
 
     @Transient
     @ApiModelProperty(value = "商品分类名称", hidden = true)
@@ -44,7 +44,7 @@ public class Goods {
     private Long goodsSn;
 
     @ApiModelProperty(value = "品牌id，取值于brand 的brandId")
-    private int brandId;
+    private Integer brandId;
 
     @Transient
     @ApiModelProperty(value = "品牌名称", hidden = true)

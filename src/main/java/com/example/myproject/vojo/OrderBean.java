@@ -10,7 +10,7 @@ import java.util.List;
  * 订单列表
  */
 @Data
-public class OrderListBean {
+public class OrderBean {
     private Long orderId;//订单id
     private Long orderNo;//订单编号OrderListBean
     private BigDecimal orderPrice;//订单总金额
@@ -27,4 +27,7 @@ public class OrderListBean {
     private Date closeTime;//交易关闭时间
     private Date creationTime;//创建时间
     private List<OrderGoodsBean> orderItem;
+    private String recipientAddress;//收货地址
+    private String recipientName;//收货姓名
+    private String recipientPhoneNumber;//收货电话
 }

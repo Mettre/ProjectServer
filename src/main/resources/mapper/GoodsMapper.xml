@@ -177,12 +177,9 @@
 
 
     <!--修改商品-->
-    <insert id="modifyGoods" parameterType="com.example.myproject.pojo.Goods">
+    <update id="modifyGoods" parameterType="com.example.myproject.pojo.Goods">
         update t_goods
         <set>
-            <if test="goodsId != null and goodsId!=0">
-                goods_id = #{goodsId},
-            </if>
             <if test="brandId != null">
                 brand_id =#{brandId},
             </if>
@@ -244,7 +241,8 @@
                 shop_price =#{shopPrice},
             </if>
         </set>
-    </insert>
+        where goods_id = #{goodsId,jdbcType=BIGINT}
+    </update>
 
 
     <!-- 查找商品价格-->

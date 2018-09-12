@@ -81,5 +81,14 @@ public class Order {
     @ApiModelProperty(value = "更新时间", hidden = true)
     private Date lastUpdate = new Date();
 
+    @ApiModelProperty(value = "收货地址", hidden = true)
+    private String recipientAddress;
+
+    @ApiModelProperty(value = "收货姓名", hidden = true)
+    private String recipientName;
+
+    @ApiModelProperty(value = "收货电话号", hidden = true)
+    private String recipientPhoneNumber;
+
 
 }

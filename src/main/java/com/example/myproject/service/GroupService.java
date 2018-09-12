@@ -16,5 +16,8 @@ public interface GroupService {
 
     List<Group> findGroupByIdOrName(Long groupId, String groupName);
 
-    List<Group> findGroupDetails(@Param(value = "groupId") Long groupId, @Param(value = "groupName") String groupName);
+    List<Group> findGroupDetails(Long groupId, String groupName);
+
+    List<Group> finGroupByUserId(Long userId);
+
 }

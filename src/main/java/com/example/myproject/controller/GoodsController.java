@@ -27,10 +27,10 @@ public class GoodsController {
     @RequestMapping(value = "/goods/addGoods", method = RequestMethod.POST)
     @ApiOperation(value = "新增商品")
     public Result<Object> addGoods(@RequestParam(value = "goodsName") String goodsName
-            , @RequestParam(value = "categoryId") int categoryId
+            , @RequestParam(value = "categoryId") Integer categoryId
             , @RequestParam(value = "goodsSn") Long goodsSn
-            , @RequestParam(value = "brandId") int brandId
-            , @RequestParam(value = "stock") int stock
+            , @RequestParam(value = "brandId") Integer brandId
+            , @RequestParam(value = "stock") Integer stock
             , @RequestParam(value = "marketPrice") BigDecimal marketPrice
             , @RequestParam(value = "shopPrice") BigDecimal shopPrice
             , @RequestParam(value = "promotePrice", required = false) BigDecimal promotePrice

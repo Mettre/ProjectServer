@@ -2,19 +2,19 @@ package com.example.myproject.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.example.myproject.constant.CommonConstant;
-import com.example.myproject.pojo.Group;
-import com.example.myproject.pojo.Notice;
-import com.example.myproject.pojo.Result;
-import com.example.myproject.pojo.ResultUtil;
+import com.example.myproject.pojo.*;
 import com.example.myproject.service.GroupService;
 import com.example.myproject.service.NoticeService;
 import com.example.myproject.utils.SnowFlakeUtil;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -79,5 +79,32 @@ public class NoticeController {
         } else {
             return new ResultUtil<Object>().setErrorMsg("新增公告失败");
         }
+    }
+
+    @RequestMapping(value = "/loginEd/notice/findByPage", method = RequestMethod.POST)
+    @ApiOperation(value = "分页公告")
+    public Result<Object> findByPage(HttpServletRequest request, @RequestParam(value = "page", defaultValue = "1", required = false) int page
+            , @RequestParam(value = "size", defaultValue = "10", required = false) int size) {
+
+        final Claims claims = (Claims) request.getAttribute("claims");
+        String userId = claims.getSubject();
+        int limit = size;
+        int offset = 0;
+        if (page > 1) {
+            offset = size * (page - 1) - 1;
+        } else {
+            offset = 0;
+        }
+        List<Group> groups = groupService.finGroupByUserId(Long.parseLong(userId));
+        List<Long> groupIds = new ArrayList<>();
+        if (groups != null && groups.size() > 0) {
+            for (Group group : groups) {
+                groupIds.add(group.getGroupId());
+            }
+        }
+
+        List<Notice> notices = noticeService.noticeList(groupIds, Long.parseLong(userId));
+
+        return new ResultUtil<Object>().setData(notices);
     }
 }

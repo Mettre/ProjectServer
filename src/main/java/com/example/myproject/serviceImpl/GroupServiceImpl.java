@@ -42,4 +42,9 @@ public class GroupServiceImpl implements GroupService {
     public List<Group> findGroupDetails(Long groupId, String groupName) {
         return groupMapper.findGroupDetails(groupId, groupName);
     }
+
+    @Override
+    public List<Group> finGroupByUserId(Long userId) {
+        return groupMapper.finGroupByUserId(userId);
+    }
 }

@@ -16,4 +16,6 @@ public interface GroupMapper {
     List<Group> findGroupByNameOrName(@Param(value = "groupId") Long groupId, @Param(value = "groupName") String groupName);
 
     List<Group> findGroupDetails(@Param(value = "groupId") Long groupId, @Param(value = "groupName") String groupName);
+
+    List<Group> finGroupByUserId(Long userId);
 }

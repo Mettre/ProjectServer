@@ -4,8 +4,7 @@ import com.example.myproject.mapper.OrderMapper;
 import com.example.myproject.pojo.Goods;
 import com.example.myproject.pojo.Order;
 import com.example.myproject.service.OrderService;
-import com.example.myproject.vojo.OrderListBean;
-import com.example.myproject.vojo.OrderRequestBean;
+import com.example.myproject.vojo.OrderBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderListBean> findOrderList(Long userId, Integer status) {
-        return orderMapper.findOrderList(userId,status);
+    public List<OrderBean> findOrderList(Long userId, Integer status) {
+        return orderMapper.findOrderList(userId, status);
+    }
+
+    @Override
+    public OrderBean findOrderDetails(Long userId, Long orderId) {
+        return orderMapper.findOrderDetails(userId, orderId);
     }
 }

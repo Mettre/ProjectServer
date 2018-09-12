@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.myproject.mapper.OrderMapper">
     <!--<cache eviction="LRU" flushInterval="60000" size="512" readOnly="true"/>-->
-    <resultMap id="BaseResultMap" type="com.example.myproject.vojo.OrderListBean">
+    <resultMap id="BaseResultMap" type="com.example.myproject.vojo.OrderBean">
         <id column="order_id" property="orderId" jdbcType="BIGINT"/>
         <result column="order_no" property="orderNo" jdbcType="BIGINT"/>
         <result column="order_price" property="orderPrice" jdbcType="DECIMAL"/>
@@ -18,10 +18,13 @@
         <result column="complete_time" property="completeTime" jdbcType="DATETIMEOFFSET"/>
         <result column="close_time" property="closeTime" jdbcType="DATETIMEOFFSET"/>
         <result column="creation_time" property="creationTime" jdbcType="DATETIMEOFFSET"/>
+        <result column="recipient_address" property="recipientAddress" jdbcType="VARCHAR"/>
+        <result column="recipient_name" property="recipientName" jdbcType="VARCHAR"/>
+        <result column="recipient_phone_number" property="recipientPhoneNumber" jdbcType="VARCHAR"/>
         <collection property="orderItem" ofType="com.example.myproject.vojo.OrderGoodsBean">
             <result column="goods_id" property="goodsId"/>
             <result column="goods_price" property="orderGoodsPrice"/>
-            <result column="goods_number" property="orderNumber"/>
+            <result column="goods_number" property="quantity"/>
             <result column="goods_name" property="goodsName"/>
             <result column="goods_brief" property="goodsBrief"/>
             <result column="order_item_id" property="orderItemId"/>
@@ -32,8 +35,8 @@
       t_order.order_id,order_no
       ,order_price,postage
       ,status,payment,brand_id
-      ,brand_name,status,goods_id
-      ,goods_name,goods_price,goods_desc,goods_number,order_item_id
+      ,brand_name,status,goods_id,t_order.creation_time
+      ,goods_name,goods_price,goods_desc,goods_number,order_item_id,recipient_address,recipient_name,recipient_phone_number
     </sql>
 
     <!--新加入订单-->
@@ -76,6 +79,15 @@
             <if test="brandName != null">
                 brand_name,
             </if>
+            <if test="recipientAddress != null">
+                recipient_address,
+            </if>
+            <if test="recipientName != null">
+                recipient_name,
+            </if>
+            <if test="recipientPhoneNumber != null">
+                recipient_phone_number,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="orderId != null and orderId!=0">
@@ -113,6 +125,15 @@
             </if>
             <if test="brandName != null">
                 #{brandName,jdbcType=VARCHAR},
+            </if>
+            <if test="recipientAddress != null">
+                #{recipientAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="recipientName != null">
+                #{recipientName,jdbcType=VARCHAR},
+            </if>
+            <if test="recipientPhoneNumber != null">
+                #{recipientPhoneNumber,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -189,5 +210,19 @@
                 and status = #{status,jdbcType=INTEGER}
             </if>
         </where>
+        order by t_order.creation_time desc
     </select>
+
+
+    <!-- 订单详情 -->
+    <select id="findOrderDetails" resultMap="BaseResultMap">
+        select
+        <include refid="Base_order_List"></include>
+        from t_order
+        left join t_order_item
+        on t_order.order_id = t_order_item.order_id
+        where user_id = #{userId,jdbcType=BIGINT}
+        and t_order.order_id = #{orderId,jdbcType=BIGINT}
+    </select>
+
 </mapper>

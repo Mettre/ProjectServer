@@ -4,12 +4,14 @@ import com.example.myproject.pojo.Group;
 import com.example.myproject.pojo.Result;
 import com.example.myproject.pojo.ResultUtil;
 import com.example.myproject.service.GroupService;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Slf4j
@@ -39,7 +41,7 @@ public class GroupController {
 
 
     @RequestMapping(value = "/group/findGroup", method = RequestMethod.POST)
-    @ApiOperation(value = "查询群组")
+    @ApiOperation(value = "查询群组列表")
     public Result<Object> findGroup(Long groupId, String groupName) {
 
         List<Group> groups = groupService.findGroupByIdOrName(groupId, groupName);
@@ -75,6 +77,15 @@ public class GroupController {
             return new ResultUtil<Object>().setErrorMsg("删除群组失败");
         }
         return new ResultUtil<Object>().setSuccessMsg("删除群组成功");
+    }
+
+    @RequestMapping(value = "/loginEd/group/finGroupByUserId", method = RequestMethod.POST)
+    @ApiOperation(value = "查看当前已加入群组")
+    public Result<Object> finGroupByUserId(HttpServletRequest request) {
+        final Claims claims = (Claims) request.getAttribute("claims");
+        String userId = claims.getSubject();
+        List<Group> groups = groupService.finGroupByUserId(Long.parseLong(userId));
+        return new ResultUtil<Object>().setData(groups);
     }
 
 }

@@ -12,7 +12,7 @@
     </resultMap>
 
     <sql id="Base_List">
-      notice_id, notice_name,notice_describe,notice_link,read_count
+      t_notice.notice_id, notice_name,notice_describe,notice_link,read_count
     </sql>
 
     <!--新增公告-->
@@ -94,11 +94,22 @@
         </trim>
     </insert>
 
-    <!-- 删除群组 -->
-    <delete id="deleteGroupRelation" parameterType="java.lang.Long">
-		delete from
-		   t_group_relation_user
-		where
-		relation_id=#{relation_id,jdbcType=BIGINT}
-	</delete>
+    <!-- 分页公告 -->
+    <select id="noticeList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_List"></include>
+        from
+        t_notice_user
+        left join t_notice
+        on t_notice_user.notice_id = t_notice.notice_id
+        where user_id = #{userId,jdbcType=BIGINT}
+        or
+        <if test="groupIds!=null and groupIds.size > 0">
+            notice_group in
+            <foreach item="item" collection="groupIds" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        or all_user =true
+    </select>
 </mapper>

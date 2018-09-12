@@ -97,7 +97,7 @@ public class CartController {
             return new ResultUtil<Object>().setErrorMsg("商品不存在");
         }
         if (goods.getStock() < cartNumber) {
-            return new ResultUtil<Object>().setErrorMsg("数量不能小于0");
+            return new ResultUtil<Object>().setErrorMsg("库存不购");
         }
 
         int result = cartService.editCartNum(Long.parseLong(userId), sessionId, goodsId, cartNumber);
