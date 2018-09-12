@@ -36,7 +36,7 @@
       ,order_price,postage
       ,status,payment,brand_id
       ,brand_name,status,goods_id,t_order.creation_time
-      ,goods_name,goods_price,goods_desc,goods_number,order_item_id,recipient_address,recipient_name,recipient_phone_number
+      ,goods_name,goods_price,goods_number,order_item_id,recipient_address,recipient_name,recipient_phone_number
     </sql>
 
     <!--新加入订单-->
