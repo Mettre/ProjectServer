@@ -11,7 +11,6 @@ import java.util.List;
  */
 @Data
 public class OrderListBean {
-
     private Long orderId;//订单id
     private Long orderNo;//订单编号OrderListBean
     private BigDecimal orderPrice;//订单总金额
