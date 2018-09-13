@@ -140,4 +140,21 @@ public class GoodsController {
     }
 
 
+    @RequestMapping(value = "/goods/promotionGoods", method = RequestMethod.POST)
+    @ApiOperation(value = "查找促销商品")
+    public Result<Object> promotionGoods(@RequestParam(value = "page", defaultValue = "1", required = false) int page
+            , @RequestParam(value = "size", defaultValue = "10", required = false) int size) {
+
+        int limit = size;
+        int offset = 0;
+        if (page > 1) {
+            offset = size * (page - 1) - 1;
+        } else {
+            offset = 0;
+        }
+        List<Goods> goodsList = goodsService.promotionGoods(limit, offset);
+
+        return new ResultUtil<Object>().setData(goodsList);
+    }
+
 }

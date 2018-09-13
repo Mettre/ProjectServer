@@ -351,18 +351,21 @@
     </select>
 
 
-    <!-- 查找全部可取品牌 -->
-    <select id="findAllBrand" resultMap="BaseResultMap">
+    <!-- 查找促销商品 -->
+    <select id="promotionGoods" resultMap="BaseResultMap">
         select
         <include refid="Base_List"></include>
         from t_goods
+        left join t_brand
+        on t_goods.brand_id = t_brand.brand_id
+        left join t_category
+        on t_goods.category_id=t_category.category_id
         <where>
-            1=1
-            <if test="isShow != null">
-                and is_show = #{isShow,jdbcType=BIT}
-            </if>
-            <if test="recommend != null">
-                and recommend = #{recommend,jdbcType=BIT}
+            t_goods.is_sale = true
+            and is_promote =true
+            and stock > 0
+            <if test="limit!=null and offset!=null">
+                limit ${offset},${limit}
             </if>
         </where>
     </select>

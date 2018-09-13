@@ -49,4 +49,9 @@ public class GoodsServiceImpl implements GoodsService {
     public BigDecimal findPrice(Long goodsId) {
         return brandMapper.findPrice(goodsId);
     }
+
+    @Override
+    public List<Goods> promotionGoods(int limit, int offset) {
+        return brandMapper.promotionGoods(limit, offset);
+    }
 }

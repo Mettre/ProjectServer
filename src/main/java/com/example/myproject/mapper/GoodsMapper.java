@@ -19,4 +19,6 @@ public interface GoodsMapper {
     Goods findGoodDetails(@Param(value="goodsId") long goodsId);
 
     BigDecimal findPrice(Long goodsId);
+
+    List<Goods> promotionGoods(@Param(value="limit")int limit, @Param(value="offset")int offset);
 }
