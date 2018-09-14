@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SpringBootApplication
 @ComponentScan
 @Configuration
@@ -27,10 +30,11 @@ public class MyprojectApplication {
     public FilterRegistrationBean jwtFilter() {
         final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(new JwtFilter());
-//        registrationBean.addUrlPatterns(ignoredUrls.getUrls());
-        registrationBean.addUrlPatterns("/api/user/loginEd/*");
-        registrationBean.addUrlPatterns("/api/delivery/loginEd/*");
-        registrationBean.addUrlPatterns("/api/shop/loginEd/*");
+        List<String> urlPatterns = new ArrayList<String>();
+        urlPatterns.add("/api/user/loginEd/*");
+        urlPatterns.add("/api/delivery/loginEd/*");
+        urlPatterns.add("/api/shop/loginEd/*");
+        registrationBean.setUrlPatterns(urlPatterns);
         return registrationBean;
     }
 }

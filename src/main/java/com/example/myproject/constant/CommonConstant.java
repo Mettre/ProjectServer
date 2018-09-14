@@ -99,7 +99,7 @@ public interface CommonConstant {
     Integer FORGET_CAPTCHA = 2;
 
 
-    String JWT_TOKEN = "secretkey";
+    String JWT_TOKEN = "MettreProjectsecretkey";
 
     /**
      * 权限参数头

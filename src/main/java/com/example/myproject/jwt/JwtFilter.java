@@ -1,22 +1,28 @@
 package com.example.myproject.jwt;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.rmi.ServerException;
 
+import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSON;
 import com.example.myproject.constant.CommonConstant;
+import com.example.myproject.pojo.Result;
+import com.example.myproject.pojo.ResultUtil;
+import com.example.myproject.utils.BigDecimalUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
-
-import static com.example.myproject.constant.CommonConstant.AUTHORITIES;
 
 public class JwtFilter extends GenericFilterBean {
 
@@ -24,22 +30,50 @@ public class JwtFilter extends GenericFilterBean {
     public void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain) throws IOException, ServletException {
         final HttpServletRequest request = (HttpServletRequest) req;
 
+        Result<Object> result = new Result<>();
+        SecretKey key = BigDecimalUtils.generalKey();
         //客户端将token封装在请求头中，格式为（Bearer后加空格）：Authorization：Bearer +token
         final String authHeader = request.getHeader(CommonConstant.AUTHORITIES);
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new ServerException("未登录");
+            result = new ResultUtil<Object>().setNotLoggedInMsg();
+        } else {
+            try {
+                //去除Bearer 后部分
+                final String jwt = authHeader.substring(7);
+                //解密token，拿到里面的对象claims
+                final Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(jwt).getBody();
+                //将对象传递给下一个请求
+                request.setAttribute("claims", claims);
+                result.setCode(200);
+            } catch (final SignatureException e) {
+                result = new ResultUtil<Object>().setAuthenticationFailureMsg();
+            }
         }
 
-        //去除Bearer 后部分
-        final String token = authHeader.substring(7);
-
-        try {
-            //解密token，拿到里面的对象claims
-            final Claims claims = Jwts.parser().setSigningKey(CommonConstant.JWT_TOKEN).parseClaimsJws(token).getBody();
-            //将对象传递给下一个请求
-            request.setAttribute("claims", claims);
-        } catch (final SignatureException e) {
-            throw new ServletException("Invalid token.");
+        if (result.getCode() == 401) {// 验证失败
+            PrintWriter writer = null;
+            OutputStreamWriter osw = null;
+            try {
+                osw = new OutputStreamWriter(res.getOutputStream(), "UTF-8");
+                writer = new PrintWriter(osw, true);
+                String jsonStr = JSON.toJSONString(result);
+                writer.write(jsonStr);
+                writer.flush();
+                writer.close();
+                osw.close();
+            } catch (UnsupportedEncodingException e) {
+                logger.error("过滤器返回信息失败:" + e.getMessage(), e);
+            } catch (IOException e) {
+                logger.error("过滤器返回信息失败:" + e.getMessage(), e);
+            } finally {
+                if (null != writer) {
+                    writer.close();
+                }
+                if (null != osw) {
+                    osw.close();
+                }
+            }
+            return;
         }
 
         chain.doFilter(req, res);

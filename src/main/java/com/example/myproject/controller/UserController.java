@@ -8,6 +8,7 @@ import com.example.myproject.pojo.ResultUtil;
 import com.example.myproject.pojo.Users;
 import com.example.myproject.service.UserService;
 import com.example.myproject.utils.AssembleUtils;
+import com.example.myproject.utils.BigDecimalUtils;
 import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,18 +57,18 @@ public class UserController {
         }
 
         Long tokenExpiration = System.currentTimeMillis() + tokenExpireTime * 60 * 1000;
-
+        SecretKey key = BigDecimalUtils.generalKey();//生成签名的时候使用的秘钥secret,这个方法本地封装了的，一般可以从本地配置文件中读取，切记这个秘钥不能外露哦。它就是你服务端的私钥，在任何场景都不应该流露出去。一旦客户端得知这个secret, 那就意味着客户端是可以自我签发jwt了。
         //登陆成功生成token
-        String token = Jwts.builder()
+        String jwt = Jwts.builder()
                 //主题 放入用户名
                 .setSubject(String.valueOf(user.getId()))
                 //失效时间
                 .setExpiration(new Date(tokenExpiration))
                 //签名算法和密钥
-                .signWith(SignatureAlgorithm.HS256, CommonConstant.JWT_TOKEN)
+                .signWith(SignatureAlgorithm.HS256, key)
                 .compact();
 
-        AccessToken accessToken = new AccessToken(token, token, tokenExpireTime);
+        AccessToken accessToken = new AccessToken(jwt, "basic", tokenExpireTime);
         return new ResultUtil<Object>().setData(accessToken);
 
     }
