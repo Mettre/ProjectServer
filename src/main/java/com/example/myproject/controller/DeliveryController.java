@@ -1,6 +1,7 @@
 package com.example.myproject.controller;
 
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.example.myproject.pojo.Address;
 import com.example.myproject.pojo.Result;
 import com.example.myproject.pojo.ResultUtil;
@@ -130,5 +131,20 @@ public class DeliveryController {
         } else {
             return new ResultUtil<Object>().setErrorMsg("删除失败");
         }
+    }
+
+
+    @RequestMapping(value = "/loginEd/selectPageVo", method = RequestMethod.POST)
+    @ApiOperation(value = "分页查找收货地址")
+    public Result<Object> selectPageVo(HttpServletRequest request, @RequestBody HashMap<String, String> map) {
+
+        Integer page = Integer.parseInt(map.get("page"));
+        Integer size = Integer.parseInt(map.get("size"));
+
+        final Claims claims = (Claims) request.getAttribute("claims");
+        String userId = claims.getSubject();
+        Page<Address> page2 = new Page<>(page, size);
+        Page<Address> addressList = addressService.selectPageVo(page2, userId);
+        return new ResultUtil<Object>().setData(addressList);
     }
 }

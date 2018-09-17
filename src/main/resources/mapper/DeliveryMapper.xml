@@ -136,4 +136,10 @@
 		   t_address
 		where id=#{id,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=VARCHAR}
 	</delete>
+
+    <select id="selectPageVo" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_address_List"></include>
+        FROM t_address WHERE user_id=#{userId}
+    </select>
 </mapper>

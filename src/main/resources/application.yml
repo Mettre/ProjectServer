@@ -117,7 +117,7 @@ mybatis-plus:
     field-strategy: 2
     #驼峰下划线转换
     db-column-underline: true
-    #刷新mapper 调试神器
+    #刷新mapper 调试神器MybatisPlusProperties
     refresh-mapper: true
     #数据库大写下划线转换
     #capital-mode: true

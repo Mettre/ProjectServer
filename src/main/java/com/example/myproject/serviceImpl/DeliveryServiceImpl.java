@@ -1,5 +1,6 @@
 package com.example.myproject.serviceImpl;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.example.myproject.mapper.DeliveryMapper;
 import com.example.myproject.pojo.Address;
 import com.example.myproject.service.DeliveryService;
@@ -48,4 +49,10 @@ public class DeliveryServiceImpl implements DeliveryService {
         return addressMapper.deleteAddress(userId, id);
     }
 
+    @Override
+    public Page<Address> selectPageVo(Page<Address> page, String userId) {
+        List<Address> addressList = (List<Address>) addressMapper.selectPageVo(page, userId);
+        page = page.setRecords(addressList);
+        return page;
+    }
 }
