@@ -44,7 +44,6 @@ public class GoodsServiceImpl implements GoodsService {
         return brandMapper.findGoodDetails(goodsId);
     }
 
-
     @Override
     public BigDecimal findPrice(Long goodsId) {
         return brandMapper.findPrice(goodsId);

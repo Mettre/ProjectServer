@@ -18,7 +18,7 @@
 
 
     <sql id="Base_adv_List">
-      ad_id, ad_name,t_ad.ad_position_id,ad_describe,ad_image,ad_link,ad_type,click_count,enabled,start_time,end_time
+      ad_id,ad_name,t_ad.ad_position_id,ad_describe,ad_image,ad_link,ad_type,click_count,enabled,start_time,end_time
     </sql>
 
 

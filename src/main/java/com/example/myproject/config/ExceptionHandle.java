@@ -1,56 +1,28 @@
 package com.example.myproject.config;
 
+import com.example.myproject.pojo.Result;
+import com.example.myproject.pojo.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
- * 创建者：梁建军
- * 创建日期： 2017/11/27
- * 创建时间： 14:52
- * ExceptionHandle
- * 版本：1.0
- * 说明：处理controller异常的
+ * 直接在右边的文件框里编辑你说需要注释的东西，
+ * 然后应用保存之后,当你创建类的时候就会自动生成注释。
  */
-@RestControllerAdvice
+@ControllerAdvice
 public class ExceptionHandle {
 
-	public static final String TAG = "--" + ExceptionHandle.class.getSimpleName();
-	private Logger logger = LoggerFactory.getLogger(ExceptionHandle.class);
+    private final static Logger logger = LoggerFactory.getLogger(ExceptionHandle.class);
 
+    @ExceptionHandler(value = Exception.class)  //申明要捕获的异常类
+    @ResponseBody
+    public Result<Object> handle(Exception e) {
+        logger.error("[系统异常 {}", e);
+        return new ResultUtil<Object>().setErrorMsg("未知错误");
 
-	/**
-	 * 应用到所有@RequestMapping注解方法，在其执行之前初始化数据绑定器
-	 * @param binder
-	 */
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {}
-
-	/**
-	 * 把值绑定到Model中，使全局@RequestMapping可以获取到该值
-	 * @param model
-	 */
-	@ModelAttribute
-	public void addAttributes(Model model) {
-		model.addAttribute("author", "Magical Sam");
-	}
-
-	/**
-	 * 全局异常捕捉处理
-	 * @param ex
-	 * @return
-	 */
-	@ResponseBody
-	@ExceptionHandler(value = Exception.class)
-	public Map errorHandler(Exception ex) {
-		Map map = new HashMap();
-		map.put("code", 100);
-		map.put("msg", ex.getMessage());
-		return map;
-	}
+    }
 }

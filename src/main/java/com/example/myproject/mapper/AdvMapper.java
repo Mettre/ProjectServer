@@ -11,6 +11,5 @@ public interface AdvMapper {
 
     int addAdvRead(@Param(value = "adId") Long adId, @Param(value = "clickCount") Integer clickCount);
 
-
     List<Adv> findSpecificAdv(@Param(value = "adPositionId") Long adPositionId, @Param(value = "adId") Long adId, @Param(value = "adName") String adName, @Param(value = "adPositionNo") String adPositionNo);
 }

@@ -86,11 +86,20 @@ ProjectServer:
   logRecord:
     es: false
 
+    # 打印sql
+    logging:
+      level:
+         com.example.demo.dao : debug
+
+# 打印sql
+logging:
+  level:
+     com.example.myproject.mapper : debug
+
 # 鉴权url
 ignored:
   urls:
-    - /api/user/loginEd/**
-
+    - /api/user/loginEd/**selectPageVo
 
 # Swagger界面内容配置
 swagger:
