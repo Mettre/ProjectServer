@@ -29,13 +29,9 @@ java枚举
 
 接口某一模块走不成功，接口需要返回
 
-@Transactional  事务回滚    ------ Exception可try{}捕获的不会回滚
+@Transactional  事务回滚    ------ Exception可try{}捕获的不会回滚       数据库引擎必须要是InnoDB   更改默认引擎（my.ini）--加 default-storage-engine=INNODB
 
-了解事务和锁
-
-用户同时提交
-
-多用户同时下单
+了解事务和锁  用户同时提交  乐观锁 /  悲观锁   读取频繁用乐观锁，写入频繁用悲观锁
 
 druid阿里巴巴数据库连接池
 

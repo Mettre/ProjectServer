@@ -13,7 +13,6 @@ import java.util.List;
 
 @Slf4j
 @Service
-@Transactional
 public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
