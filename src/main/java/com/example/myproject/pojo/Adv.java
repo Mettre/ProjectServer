@@ -1,6 +1,7 @@
 package com.example.myproject.pojo;
 
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.annotations.Version;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -22,6 +23,9 @@ public class Adv {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @ApiModelProperty(value = "广告id", hidden = true)
     private Long adId;
+
+    @Version
+    private Integer version;
 
     @ApiModelProperty(value = "广告位id")
     private Long adPositionId;
