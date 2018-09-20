@@ -1,7 +1,6 @@
 package com.example.myproject.controller;
 
-
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.myproject.pojo.Address;
 import com.example.myproject.pojo.Result;
 import com.example.myproject.pojo.ResultUtil;
@@ -62,13 +61,13 @@ public class DeliveryController {
             if (address2 != null) {
                 address2.setDefaults(false);
                 int insertResult2 = addressService.update(address2);
-                if (insertResult2 == -1) {
+                if (insertResult2 <= 0) {
                     return new ResultUtil<Object>().setErrorMsg("修改收货地址失败");
                 }
             }
         }
         int insertResult = addressService.update(address);
-        if (insertResult == -1) {
+        if (insertResult <= 0) {
             return new ResultUtil<Object>().setErrorMsg("修改收货地址失败");
         }
         return new ResultUtil<Object>().setSuccessMsg("修改地址成功");

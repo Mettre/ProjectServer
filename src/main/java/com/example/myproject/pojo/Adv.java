@@ -1,7 +1,7 @@
 package com.example.myproject.pojo;
 
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.annotations.Version;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -42,13 +42,9 @@ public class Adv {
     @ApiModelProperty(value = "广告链接地址")
     private String adLink;
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "广告位的开始时间")
     private Date startTime = new Date();
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "广告位的结束时间")
     private Date endTime;
 

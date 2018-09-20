@@ -1,6 +1,6 @@
 package com.example.myproject.pojo;
 
-import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.myproject.base.MettreBaseEntity;
 import com.example.myproject.menu.MettreMenu;
 import io.swagger.annotations.ApiModelProperty;

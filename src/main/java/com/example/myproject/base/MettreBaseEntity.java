@@ -36,8 +36,6 @@ public abstract class MettreBaseEntity implements Serializable {
     public String createBy;
 
     @CreatedDate
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间", hidden = true)
     public Date createTime = new Date();
 
@@ -45,8 +43,6 @@ public abstract class MettreBaseEntity implements Serializable {
     public String updateBy;
 
     @LastModifiedDate
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "更新时间", hidden = true)
     public Date updateTime = new Date();
 

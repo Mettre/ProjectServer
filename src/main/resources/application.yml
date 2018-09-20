@@ -40,6 +40,11 @@ spring:
       max-file-size: 5Mb
       max-request-size: 5Mb
 
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+
 ProjectService:
   # 全局限流
   rateLimit:

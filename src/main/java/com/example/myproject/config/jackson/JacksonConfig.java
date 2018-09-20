@@ -1,9 +1,6 @@
 package com.example.myproject.config.jackson;
 
 
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,16 +8,12 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 〈返回json空值去掉null和""〉 〈功能详细描述〉
@@ -56,21 +49,4 @@ public class JacksonConfig {
         });
         return objectMapper;
     }
-
-    @Bean
-    public HttpMessageConverters fastJsonHttpMessageConverters() {
-        //1.需要定义一个convert转换消息的对象;
-        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
-        //2:添加fastJson的配置信息;
-        FastJsonConfig fastJsonConfig = new FastJsonConfig();
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
-        //3处理中文乱码问题
-        List<MediaType> fastMediaTypes = new ArrayList<>();
-        fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
-        //4.在convert中添加配置信息.
-        fastJsonHttpMessageConverter.setSupportedMediaTypes(fastMediaTypes);
-        fastJsonHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
-        return new HttpMessageConverters(fastJsonHttpMessageConverter);
-    }
-
 }

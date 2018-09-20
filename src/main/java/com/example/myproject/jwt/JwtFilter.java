@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.rmi.ServerException;
 
 import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
@@ -13,11 +12,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import com.alibaba.fastjson.JSON;
 import com.example.myproject.constant.CommonConstant;
 import com.example.myproject.pojo.Result;
 import com.example.myproject.pojo.ResultUtil;
 import com.example.myproject.utils.BigDecimalUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.filter.GenericFilterBean;
 
 import io.jsonwebtoken.Claims;
@@ -56,7 +55,7 @@ public class JwtFilter extends GenericFilterBean {
             try {
                 osw = new OutputStreamWriter(res.getOutputStream(), "UTF-8");
                 writer = new PrintWriter(osw, true);
-                String jsonStr = JSON.toJSONString(result);
+                String jsonStr =  new ObjectMapper().writeValueAsString(result);
                 writer.write(jsonStr);
                 writer.flush();
                 writer.close();

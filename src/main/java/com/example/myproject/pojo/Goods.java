@@ -1,6 +1,6 @@
 package com.example.myproject.pojo;
 
-import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.myproject.utils.SnowFlakeUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
@@ -78,8 +78,6 @@ public class Goods {
     private Boolean isSale;
 
     @CreatedDate
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "商品的添加时间", hidden = true)
     private Date createTime = new Date();
 
@@ -96,8 +94,6 @@ public class Goods {
     private Boolean isPromote;
 
     @LastModifiedDate
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "最近一次更新商品配置的时间", hidden = true)
     private Date lastUpdate = new Date();
 

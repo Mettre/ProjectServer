@@ -1,7 +1,7 @@
 package com.example.myproject.pojo;
 
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.annotations.Version;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
 import com.example.myproject.base.MettreBaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -22,7 +22,7 @@ public class Address extends MettreBaseEntity {
     private String name;
 
     @Version
-    private Integer version = 1;
+    private Integer version;
 
     @ApiModelProperty(value = "省份")
     private String province;

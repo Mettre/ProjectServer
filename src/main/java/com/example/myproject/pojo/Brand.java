@@ -1,6 +1,6 @@
 package com.example.myproject.pojo;
 
-import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -32,8 +32,6 @@ public class Brand {
     private Boolean isShow;
 
     @CreatedDate
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "品牌的添加时间", hidden = true)
     private Date createTime = new Date();
 

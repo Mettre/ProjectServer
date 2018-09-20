@@ -4,7 +4,7 @@ beetl  代码自动生成 bean生成数据库 mapper/service/serviceImpl/mapper 
 
 Json Web Token(JWT)   安全认证
 
-MyBatis-Plus   复杂联表查询
+MyBatis-Plus   复杂联表查询  继承BaseMapper<T> 自动简单的CRUD
 
 Lombok    自动生成set/get 方法 简化清晰代码
 
@@ -27,11 +27,11 @@ java枚举
 
 接口统一抛错/如数据库抛错 -----  ExceptionHandle @ControllerAdvice   集中处理异常  未知错误
 
-接口某一模块走不成功，接口需要返回
-
 @Transactional  事务回滚    ------ Exception可try{}捕获的不会回滚       数据库引擎必须要是InnoDB   更改默认引擎（my.ini）--加 default-storage-engine=INNODB
 
-了解事务和锁  用户同时提交  乐观锁 /  悲观锁   读取频繁用乐观锁，写入频繁用悲观锁
+了解事务和锁  用户同时提交  乐观锁 /  悲观锁   读取频繁用乐观锁，写入频繁用悲观锁   mybatis plus自带@Version乐观锁   继承BaseMapper<T> 自动简单的CRUD
+
+接口某一模块走不成功(订单提交订单)   enum
 
 druid阿里巴巴数据库连接池
 
@@ -41,6 +41,7 @@ bcrypt算法加密密码
 
 name like '%王%'    -------- ok
 
-日期格式
+日期格式        ----------- ok    去掉了fastJson 使用自带的jackSon/  之前两个一起不起作用原因被fastJson覆盖了  但是日志json友好格式消失了 得找到一个方法
+JPA 里面表字段添加@CreatedDate  @LastModifiedDate 自动加入添加时间 修改时间
 
 数据库生成bean

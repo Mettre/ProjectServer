@@ -1,7 +1,6 @@
 package com.example.myproject.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.example.myproject.constant.CommonConstant;
 import com.example.myproject.jwt.AccessToken;
 import com.example.myproject.pojo.Result;
 import com.example.myproject.pojo.ResultUtil;
@@ -9,7 +8,6 @@ import com.example.myproject.pojo.Users;
 import com.example.myproject.service.UserService;
 import com.example.myproject.utils.AssembleUtils;
 import com.example.myproject.utils.BigDecimalUtils;
-import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

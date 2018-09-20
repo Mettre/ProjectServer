@@ -1,7 +1,8 @@
 package com.example.myproject.mapper;
 
 
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.myproject.pojo.Address;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,9 +13,9 @@ import java.util.List;
  *
  * @author Mettre
  */
-public interface DeliveryMapper {
+public interface DeliveryMapper extends BaseMapper<Address> {
 
-    int insert(Address address);
+//    int insert(Address address);
 
     int update(Address address);
 

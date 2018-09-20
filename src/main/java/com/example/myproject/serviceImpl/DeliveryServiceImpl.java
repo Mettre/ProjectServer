@@ -1,6 +1,6 @@
 package com.example.myproject.serviceImpl;
 
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.myproject.mapper.DeliveryMapper;
 import com.example.myproject.pojo.Address;
 import com.example.myproject.service.DeliveryService;
@@ -31,7 +31,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public int update(Address address) {
-        return addressMapper.update(address);
+        return addressMapper.updateById(address);
     }
 
     @Override

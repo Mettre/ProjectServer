@@ -1,6 +1,6 @@
 package com.example.myproject.service;
 
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.myproject.pojo.Address;
 
 import java.util.List;
@@ -22,5 +22,5 @@ public interface DeliveryService {
 
     int deleteAddress(String userId, String id);
 
-    Page<Address> selectPageVo(Page<Address> page,String userId);
+    Page<Address> selectPageVo(Page<Address> page, String userId);
 }
