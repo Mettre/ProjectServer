@@ -2,6 +2,7 @@ package com.example.myproject.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.myproject.base.MettreBaseEntity;
+import com.example.myproject.enumBean.Gender;
 import com.example.myproject.menu.MettreMenu;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -50,6 +51,8 @@ public class Users extends MettreBaseEntity {
 
     @ApiModelProperty(value = "token")
     private String token;
+
+    private Gender gender;
 
     public Users() {
     }
