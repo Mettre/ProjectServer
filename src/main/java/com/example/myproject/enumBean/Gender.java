@@ -2,14 +2,16 @@ package com.example.myproject.enumBean;
 
 public enum Gender {
 
-    FEMALE(0,"男"),
-    MALE(1,"女");
+    FEMALE(0, "男"),
+    MALE(1, "女");
+
     private int status;
     private String text;
 
-    Gender(int status,String text){
-        this.status=status;
-        this.text=text;
+
+    Gender(int status, String text) {
+        this.status = status;
+        this.text = text;
     }
 
     public static Gender get(int v) {
@@ -19,7 +21,7 @@ public enum Gender {
 
     public static Gender get(String str) {
         for (Gender e : values()) {
-            if(e.toString().equals(str)) {
+            if (e.toString().equals(str)) {
                 return e;
             }
         }
