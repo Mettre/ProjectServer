@@ -1,11 +1,11 @@
 package com.example.myproject.controller;
 
-import com.example.myproject.enumBean.Gender;
 import com.example.myproject.pojo.*;
 import com.example.myproject.service.BrandService;
 import com.example.myproject.service.CartService;
 import com.example.myproject.service.GoodsService;
 import com.example.myproject.service.OrderService;
+import com.example.myproject.utils.ResultEnum;
 import com.example.myproject.vojo.OrderBean;
 import com.example.myproject.vojo.OrderRequestBean;
 import io.jsonwebtoken.Claims;
@@ -45,9 +45,6 @@ public class OrderController {
     @RequestMapping(value = "/loginEd/order/addOrder", method = RequestMethod.POST)
     @ApiOperation(value = "新增订单")
     public Result<Object> addOrder(HttpServletRequest request, @RequestBody List<OrderRequestBean> orderBeanList) {
-
-        Gender a = Gender.FEMALE;
-        Gender.get("1").getText();
 
         String message = "";
         List<Long> cartIds = new ArrayList<>();

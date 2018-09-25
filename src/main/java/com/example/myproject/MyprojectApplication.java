@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ import java.util.List;
 @SpringBootApplication
 @ComponentScan
 @Configuration
+@EnableCaching
 @EnableAutoConfiguration(exclude = {JpaRepositoriesAutoConfiguration.class //禁止springboot自动加载持久化bean
 })
 public class MyprojectApplication {

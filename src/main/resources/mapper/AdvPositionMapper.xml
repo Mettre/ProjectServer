@@ -150,7 +150,7 @@
                 and ad_position_id = #{adPositionId,jdbcType=BIGINT}
             </if>
             <if test="adPositionName != null">
-                and ad_position_name = #{adPositionName,jdbcType=VARCHAR}
+                and ad_position_name like concat('%',#{adPositionName},'%')
             </if>
             <if test="adPositionNo != null">
                 and ad_position_no = #{adPositionNo,jdbcType=VARCHAR}

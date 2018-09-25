@@ -42,8 +42,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int modifyPassword(String oldPassword, String newPassword) {
-        return userMapper.modifyPassword(oldPassword, newPassword);
+    public int modifyPassword(Long userId, String newPassword) {
+        return userMapper.modifyPassword(userId, newPassword);
     }
 
     @Override

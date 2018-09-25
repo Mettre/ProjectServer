@@ -18,7 +18,6 @@ public class AdvPositionServiceImpl implements AdvPositionService {
     @Autowired
     private AdvPositionMapper advPositionMapper;
 
-
     @Override
     public int updateAdvPosition(AdPosition adPosition) {
         return advPositionMapper.updateAdvPosition(adPosition);

@@ -1,6 +1,8 @@
 package com.example.myproject.pojo;
 
 
+import com.example.myproject.utils.ResultEnum;
+
 /**
  * @author Exrick
  */
@@ -40,6 +42,13 @@ public class ResultUtil<T> {
         this.result.setSuccess(false);
         this.result.setMessage(msg);
         this.result.setCode(500);
+        return this.result;
+    }
+
+    public Result<T> setErrorResultEnum(ResultEnum resultEnum) {
+        this.result.setSuccess(false);
+        this.result.setMessage(resultEnum.getMsg());
+        this.result.setCode(resultEnum.getCode());
         return this.result;
     }
 

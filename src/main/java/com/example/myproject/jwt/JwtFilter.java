@@ -44,7 +44,7 @@ public class JwtFilter extends GenericFilterBean {
                 //将对象传递给下一个请求
                 request.setAttribute("claims", claims);
                 result.setCode(200);
-            } catch (final SignatureException e) {
+            } catch (Exception e) {
                 result = new ResultUtil<Object>().setAuthenticationFailureMsg();
             }
         }
@@ -55,7 +55,7 @@ public class JwtFilter extends GenericFilterBean {
             try {
                 osw = new OutputStreamWriter(res.getOutputStream(), "UTF-8");
                 writer = new PrintWriter(osw, true);
-                String jsonStr =  new ObjectMapper().writeValueAsString(result);
+                String jsonStr = new ObjectMapper().writeValueAsString(result);
                 writer.write(jsonStr);
                 writer.flush();
                 writer.close();

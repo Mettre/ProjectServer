@@ -15,7 +15,7 @@ public interface UserMapper {
 
     int editUserInfo(Users users);
 
-    int modifyPassword(@Param(value = "oldPassword") String oldPassword, @Param(value = "newPassword") String newPassword);
+    int modifyPassword(@Param(value = "userId") Long userId, @Param(value = "newPassword") String newPassword);
 
     int forgetPassword(@Param(value = "phone") String phone, @Param(value = "password") String password);
 

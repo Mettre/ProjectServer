@@ -5,6 +5,7 @@ import com.example.myproject.jwt.AccessToken;
 import com.example.myproject.pojo.Result;
 import com.example.myproject.pojo.ResultUtil;
 import com.example.myproject.pojo.Users;
+import com.example.myproject.redis.RedisService;
 import com.example.myproject.service.UserService;
 import com.example.myproject.utils.AssembleUtils;
 import com.example.myproject.utils.BigDecimalUtils;
@@ -16,7 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
@@ -37,7 +38,7 @@ public class UserController {
     private Integer saveLoginTime;
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private RedisService redisService;
 
     @Autowired
     public UserService loginService;
@@ -49,11 +50,13 @@ public class UserController {
         String phone = (String) map.get("phone");
         String password = (String) map.get("password");
 
-        Users user = loginService.login(phone, password);
+        Users user = loginService.findUserByPhone(phone);
         if (user == null) {
-            return new ResultUtil<Object>().setErrorMsg("账号或者密码错误");
+            return new ResultUtil<Object>().setErrorMsg("账号未注册");
         }
-
+        if (!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+            return new ResultUtil<Object>().setErrorMsg("密码不正确");
+        }
         Long tokenExpiration = System.currentTimeMillis() + tokenExpireTime * 60 * 1000;
         SecretKey key = BigDecimalUtils.generalKey();//生成签名的时候使用的秘钥secret,这个方法本地封装了的，一般可以从本地配置文件中读取，切记这个秘钥不能外露哦。它就是你服务端的私钥，在任何场景都不应该流露出去。一旦客户端得知这个secret, 那就意味着客户端是可以自我签发jwt了。
         //登陆成功生成token
@@ -77,13 +80,14 @@ public class UserController {
 
         String phone = (String) map.get("phone");
         String password = (String) map.get("password");
+        String encryptPass = new BCryptPasswordEncoder().encode(password.trim());
         String captchaCode = (String) map.get("captchaCode");
 
         if (StrUtil.isBlank(phone)) {
             return new ResultUtil<Object>().setErrorMsg("手机号不能为空");
         }
 
-        String code = redisTemplate.opsForValue().get(AssembleUtils.registerUtils(phone));
+        String code = redisService.get(AssembleUtils.registerUtils(phone));
         if (StrUtil.isBlank(code)) {
             return new ResultUtil<Object>().setErrorMsg("验证码已过期，请重新获取");
         }
@@ -96,7 +100,7 @@ public class UserController {
         if (users != null) {
             return new ResultUtil<Object>().setErrorMsg("该手机号已被注册");
         }
-        Users user = new Users("", phone, password, 22, 1);
+        Users user = new Users("", phone, encryptPass, 22, 1);
         int insertResult = loginService.insert(user);
         if (insertResult == -1) {
             return new ResultUtil<Object>().setSuccessMsg("注册失败");
@@ -121,11 +125,11 @@ public class UserController {
             return new ResultUtil<Object>().setErrorMsg("新密码不能为空");
         }
 
-        if (!StrUtil.equals(oldPassword, user.getPassword())) {
+        if (!new BCryptPasswordEncoder().matches(oldPassword.trim(), user.getPassword())) {
             return new ResultUtil<Object>().setErrorMsg("旧密码错误");
         }
 
-        int completeResult = loginService.modifyPassword(oldPassword, newPassword);
+        int completeResult = loginService.modifyPassword(Long.parseLong(userId), newPassword);
         if (completeResult == -1) {
             return new ResultUtil<Object>().setErrorMsg("修改密码失败");
         }
@@ -136,11 +140,12 @@ public class UserController {
     @ApiOperation(value = "忘记密码")
     public Result<Object> forgetPassword(@RequestParam String phone, @RequestParam String captchaCode, @RequestParam String password) {
 
+        String encryptPass = new BCryptPasswordEncoder().encode(password.trim());
         if (StrUtil.isBlank(phone)) {
             return new ResultUtil<Object>().setErrorMsg("手机号不能为空");
         }
 
-        String code = redisTemplate.opsForValue().get(AssembleUtils.forgetUtils(phone));
+        String code = redisService.get(AssembleUtils.forgetUtils(phone));
         if (StrUtil.isBlank(code)) {
             return new ResultUtil<Object>().setErrorMsg("验证码已过期，请重新获取");
         }
@@ -148,7 +153,7 @@ public class UserController {
             log.error("注册失败，验证码错误：code:" + captchaCode + ",redisCode:" + code.toLowerCase());
             return new ResultUtil<Object>().setErrorMsg("验证码输入错误");
         }
-        int completeResult = loginService.forgetPassword(phone, password);
+        int completeResult = loginService.forgetPassword(phone, encryptPass);
         if (completeResult == -1) {
             return new ResultUtil<Object>().setErrorMsg("修改密码失败");
         }

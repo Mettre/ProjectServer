@@ -4,17 +4,17 @@ import cn.hutool.core.util.StrUtil;
 import com.example.myproject.pojo.Result;
 import com.example.myproject.pojo.ResultUtil;
 import com.example.myproject.pojo.Users;
+import com.example.myproject.redis.RedisService;
 import com.example.myproject.service.UserService;
+import com.example.myproject.utils.AssembleUtils;
 import com.example.myproject.utils.CreateVerifyCode;
 import com.example.myproject.vojo.Captcha;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api/controller")
@@ -26,7 +26,7 @@ public class CaptchaController {
     public UserService loginService;
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private RedisService redisService;
 
 
     @RequestMapping(value = "/captcha", method = RequestMethod.POST)
@@ -58,7 +58,16 @@ public class CaptchaController {
         captcha.setCode(code);
         captcha.setCaptchaType(captchaType);
         //缓存验证码
-        redisTemplate.opsForValue().set(phone + "-" + captchaType, code, 3L, TimeUnit.MINUTES);
+        switch (captchaType) {
+            case 1:
+                redisService.set(AssembleUtils.registerUtils(phone), code);
+                redisService.expire(AssembleUtils.registerUtils(phone), 3 * 60);
+                break;
+            case 2:
+                redisService.set(AssembleUtils.forgetUtils(phone), code);
+                redisService.expire(AssembleUtils.forgetUtils(phone), 3 * 60);
+                break;
+        }
         return new ResultUtil<Object>().setData(captcha);
     }
 }
