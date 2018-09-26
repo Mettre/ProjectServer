@@ -60,8 +60,14 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 
+  resources:
+    static-locations: file:${spring.img.location}
 
-ProjectService:
+  img:
+   location: F:\file\
+
+
+ProjectService: 吧
   # 全局限流
   rateLimit:
     enable: true

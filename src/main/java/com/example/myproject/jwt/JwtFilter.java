@@ -21,7 +21,6 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureException;
 
 public class JwtFilter extends GenericFilterBean {
 

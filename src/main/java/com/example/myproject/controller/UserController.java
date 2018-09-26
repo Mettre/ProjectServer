@@ -17,7 +17,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
@@ -54,7 +53,7 @@ public class UserController {
         if (user == null) {
             return new ResultUtil<Object>().setErrorMsg("账号未注册");
         }
-        if (!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+        if (!password.equals(user.getPassword())) {
             return new ResultUtil<Object>().setErrorMsg("密码不正确");
         }
         Long tokenExpiration = System.currentTimeMillis() + tokenExpireTime * 60 * 1000;
@@ -80,7 +79,6 @@ public class UserController {
 
         String phone = (String) map.get("phone");
         String password = (String) map.get("password");
-        String encryptPass = new BCryptPasswordEncoder().encode(password.trim());
         String captchaCode = (String) map.get("captchaCode");
 
         if (StrUtil.isBlank(phone)) {
@@ -100,7 +98,7 @@ public class UserController {
         if (users != null) {
             return new ResultUtil<Object>().setErrorMsg("该手机号已被注册");
         }
-        Users user = new Users("", phone, encryptPass, 22, 1);
+        Users user = new Users("", phone, password.trim(), 22, 1);
         int insertResult = loginService.insert(user);
         if (insertResult == -1) {
             return new ResultUtil<Object>().setSuccessMsg("注册失败");
@@ -125,7 +123,7 @@ public class UserController {
             return new ResultUtil<Object>().setErrorMsg("新密码不能为空");
         }
 
-        if (!new BCryptPasswordEncoder().matches(oldPassword.trim(), user.getPassword())) {
+        if (!oldPassword.equals(user.getPassword())) {
             return new ResultUtil<Object>().setErrorMsg("旧密码错误");
         }
 
@@ -140,7 +138,6 @@ public class UserController {
     @ApiOperation(value = "忘记密码")
     public Result<Object> forgetPassword(@RequestParam String phone, @RequestParam String captchaCode, @RequestParam String password) {
 
-        String encryptPass = new BCryptPasswordEncoder().encode(password.trim());
         if (StrUtil.isBlank(phone)) {
             return new ResultUtil<Object>().setErrorMsg("手机号不能为空");
         }
@@ -153,7 +150,7 @@ public class UserController {
             log.error("注册失败，验证码错误：code:" + captchaCode + ",redisCode:" + code.toLowerCase());
             return new ResultUtil<Object>().setErrorMsg("验证码输入错误");
         }
-        int completeResult = loginService.forgetPassword(phone, encryptPass);
+        int completeResult = loginService.forgetPassword(phone, password.trim());
         if (completeResult == -1) {
             return new ResultUtil<Object>().setErrorMsg("修改密码失败");
         }
