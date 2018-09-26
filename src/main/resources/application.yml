@@ -67,7 +67,7 @@ spring:
    location: F:\file\
 
 
-ProjectService: 吧
+ProjectService:
   # 全局限流
   rateLimit:
     enable: true
