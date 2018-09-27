@@ -1,4 +1,4 @@
-package com.example.myproject.utils;
+package com.example.myproject.menu;
 
 public enum ResultEnum {
 

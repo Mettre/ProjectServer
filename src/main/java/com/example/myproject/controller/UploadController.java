@@ -5,7 +5,7 @@ import com.example.myproject.pojo.Result;
 import com.example.myproject.pojo.ResultUtil;
 import com.example.myproject.utils.ImageUtil;
 import com.example.myproject.utils.QiniuUtil;
-import com.example.myproject.utils.ResultEnum;
+import com.example.myproject.menu.ResultEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -69,8 +68,7 @@ public class UploadController {
 
     @RequestMapping(value = "/qiniu/upload", method = RequestMethod.POST)
     @ApiOperation(value = "七牛云文件上传")
-    public Result<Object> upload(@RequestParam("file") MultipartFile file,
-                                 HttpServletRequest request) {
+    public Result<Object> upload(@RequestParam("file") MultipartFile file) {
 
         // IP限流 在线Demo所需 5分钟限1个请求
 //        String token1 = redisRaterLimiter.acquireTokenFromBucket("upload:"+IpInfoUtil.getIpAddr(request), 1, 300000);

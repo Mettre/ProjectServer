@@ -16,7 +16,7 @@ public class Captcha implements Serializable {
     private String phone;
 
     @ApiModelProperty(value = "验证码类型")
-    private int captchaType;
+    private String captchaType;
 
     @ApiModelProperty(value = "验证码")
     private String code;

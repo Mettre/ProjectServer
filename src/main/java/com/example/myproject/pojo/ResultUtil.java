@@ -1,7 +1,7 @@
 package com.example.myproject.pojo;
 
 
-import com.example.myproject.utils.ResultEnum;
+import com.example.myproject.menu.ResultEnum;
 
 /**
  * @author Exrick

@@ -5,7 +5,6 @@ import com.example.myproject.service.BrandService;
 import com.example.myproject.service.CartService;
 import com.example.myproject.service.GoodsService;
 import com.example.myproject.service.OrderService;
-import com.example.myproject.utils.ResultEnum;
 import com.example.myproject.vojo.OrderBean;
 import com.example.myproject.vojo.OrderRequestBean;
 import io.jsonwebtoken.Claims;

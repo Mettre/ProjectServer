@@ -30,20 +30,20 @@ public class QiniuUtil {
     /**
      * 生成上传凭证，然后准备上传
      */
-    private static String accessKey = "你的accessKey";
+    private static String accessKey = "lSCqu7Dq1BmC0K4pdKS117zPI7ztXiv954tWt3zi";//你的accessKey
 
-    private static String secretKey = "你的secretKey";
+    private static String secretKey = "3u0uAzDM9xqgVSdZE7Vt2fnNZPhDKdDnEu0mps6U";//你的secretKey
 
-    private static String bucket = "你的bucket名称";
+    private static String bucket = "mettre1";//你的bucket名称
 
-    private static String domain = "你的访问域名，如http://p77xsahe9.bkt.clouddn.com/";
+    private static String domain = "pfp0wl97n.bkt.clouddn.com/";//你的访问域名，如http://p77xsahe9.bkt.clouddn.com/
 
     private static Auth auth = Auth.create(accessKey, secretKey);
 
     /**
      * 构造一个带指定Zone对象的配置类 zone2华南
      */
-    private static Configuration cfg = new Configuration(Zone.zone2());
+    private static Configuration cfg = new Configuration(Zone.zone0());
 
     private static UploadManager uploadManager = new UploadManager(cfg);
 

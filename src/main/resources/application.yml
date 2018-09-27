@@ -50,11 +50,11 @@ spring:
   data:
     elasticsearch:
       cluster-nodes: 127.0.0.1:9300
+
   # 文件大小上传配置
-  servlet:
-    multipart:
-      max-file-size: 5Mb
-      max-request-size: 5Mb
+  multipart:
+    max-file-size: 5Mb
+    max-request-size: 5Mb
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss

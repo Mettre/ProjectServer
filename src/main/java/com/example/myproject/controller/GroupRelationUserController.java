@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/shop")
-@Api(description = "群组成员关系表")
+@Api(description = "群组成员")
 public class GroupRelationUserController {
 
     @Autowired
