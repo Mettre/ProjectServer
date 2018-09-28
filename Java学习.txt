@@ -37,7 +37,7 @@ enum  统一错误回参 Code Message   入参曹总怎么限制的？    ------
 
 druid阿里巴巴数据库连接池       ----------- ok
 
-redis集群
+redis集群    ---暂时只用做接口回参缓存 跟Android缓存没区别 key（详见http://how2j.cn）
 
 bcrypt算法加密密码  ********* spring-boot-starter-security 自带加密算法,不可逆但是却报错401 权限问题没解决 - new BCryptPasswordEncoder().matches(password, user.getPassword())
                                             String encryptPass = new BCryptPasswordEncoder().encode(password.trim());

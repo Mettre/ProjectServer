@@ -17,6 +17,7 @@ import java.util.List;
 @SpringBootApplication
 @ComponentScan
 @Configuration
+@EnableCaching
 @EnableAutoConfiguration(exclude = {JpaRepositoriesAutoConfiguration.class //禁止springboot自动加载持久化bean
 })
 public class MyprojectApplication {

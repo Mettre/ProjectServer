@@ -88,7 +88,7 @@ public class DeliveryController {
     }
 
     @RequestMapping(value = "/loginEd/findByPage", method = RequestMethod.POST)
-    @ApiOperation(value = "分页查找收货地址")
+    @ApiOperation(value = "查找收货地址")
     public Result<Object> findByPage(HttpServletRequest request, @RequestBody HashMap<String, String> map) {
 
         Integer page = Integer.parseInt(map.get("page"));

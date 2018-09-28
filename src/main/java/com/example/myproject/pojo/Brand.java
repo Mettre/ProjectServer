@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -18,7 +19,7 @@ import java.util.Date;
 @Entity
 @Table(name = "t_brand")
 @TableName("t_brand")
-public class Brand {
+public class Brand implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

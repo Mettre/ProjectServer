@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -69,7 +70,7 @@ public class BrandController {
     }
 
     @RequestMapping(value = "/brand/findBrand", method = RequestMethod.POST)
-    @ApiOperation(value = "查找品牌")
+    @ApiOperation(value = "搜索品牌")
     public Result<Object> findBrand(@RequestParam(value = "brandName", required = false) String brandName) {
         List<Brand> categoryList = brandService.findBrand(brandName);
         return new ResultUtil<Object>().setData(categoryList);
