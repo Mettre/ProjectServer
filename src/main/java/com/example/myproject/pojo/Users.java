@@ -5,6 +5,7 @@ import com.example.myproject.base.MettreBaseEntity;
 import com.example.myproject.menu.MettreMenu;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import java.util.Date;
  * 用户
  */
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Table(name = "t_user")
 @Entity
 @TableName("t_user")

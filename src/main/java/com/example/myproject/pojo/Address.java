@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.Version;
 import com.example.myproject.base.MettreBaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -13,6 +14,7 @@ import javax.persistence.Table;
  * 收货地址
  */
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Entity
 @Table(name = "t_address")
 @TableName("t_address")
