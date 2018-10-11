@@ -4,7 +4,7 @@ jasypt:
     password: ProjectServer
 
 server:
-  port: 8888
+  port: 8880
 
 spring:
   # 数据源
@@ -28,6 +28,9 @@ spring:
     timeBetweenEvictionRunsMillis: 60000
     #空闲连接最小空闲时间
     minEvictableIdleTimeMillis: 300000
+
+  thymeleaf:
+    prefix: classpath:/templates/
 
   jpa:
     show-sql: true

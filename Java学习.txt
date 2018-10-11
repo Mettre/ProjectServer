@@ -1,6 +1,6 @@
 请求入参@RequestParam 默认代表不能为空   加不加@RequestParam 接口拿到参数没有影响，区别是参数能不能为空，不加===@RequestParam(required=false)
 
-beetl  代码自动生成 bean生成数据库 mapper/service/serviceImpl/mapper  运行项目后自动生成数据库表
+beetl模板 引擎代码自动生成 bean生成数据库 mapper/service/serviceImpl/mapper  运行项目后自动生成数据库表
 
 Json Web Token(JWT)   安全认证
 
@@ -35,8 +35,6 @@ enum  统一错误回参 Code Message   入参曹总怎么限制的？    ------
 
 druid阿里巴巴数据库连接池       ----------- ok
 
-redis集群    ---暂时只用做接口回参缓存 跟Android缓存没区别 key（详见http://how2j.cn）
-
 bcrypt算法加密密码  ********* spring-boot-starter-security 自带加密算法,不可逆但是却报错401 权限问题没解决 - new BCryptPasswordEncoder().matches(password, user.getPassword())
                                             String encryptPass = new BCryptPasswordEncoder().encode(password.trim());
 
@@ -56,10 +54,14 @@ dubbo 项目框架
 
 Quartz：定时任务
 
+redis集群    ---暂时只用做接口回参缓存 跟Android缓存没区别 key（详见http://how2j.cn）
+
 分布式微服务
 
-项目jar形式打包
+项目jar形式打包           ------- ok
 
 git
 
-linux系统
+ElasticSearch-搜索服务
+
+linux系统               -------  ok
