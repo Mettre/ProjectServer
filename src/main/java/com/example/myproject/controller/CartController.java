@@ -59,10 +59,10 @@ public class CartController {
         }
 
         Goods goods = goodsService.findGoodDetails(goodsId);
-        if (goods == null) {
-            return new ResultUtil<Object>().setErrorMsg("商品不存在");
+        if (goods != null) {
+            cart.setCartPrice(goods.getShopPrice());
         }
-        cart.setCartPrice(goods.getShopPrice());
+
         int result;
         Cart cart2 = cartService.finCartByGoodsId(goodsId);
         if (cart2 == null) {

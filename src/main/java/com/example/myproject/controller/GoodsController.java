@@ -1,5 +1,6 @@
 package com.example.myproject.controller;
 
+import com.example.myproject.exception.CustomerException;
 import com.example.myproject.pojo.*;
 import com.example.myproject.service.GoodsService;
 import io.swagger.annotations.Api;
@@ -127,16 +128,8 @@ public class GoodsController {
     @RequestMapping(value = "/goods/findGoodDetails", method = RequestMethod.POST)
     @ApiOperation(value = "查找商品详情")
     public Result<Object> findGoodDetails(@RequestParam(value = "goodsId") long goodsId) {
-
-        if (goodsId <= 0) {
-            return new ResultUtil<Object>().setErrorMsg("商品id不能为空");
-        }
-        Goods goodDetails = goodsService.findGoodDetails(goodsId);
-        goodDetails.setCreateTime(null);
-        goodDetails.setLastUpdate(null);
-        return new ResultUtil<Object>().setData(goodDetails);
+        return new ResultUtil<Object>().setData(goodsService.findGoodDetails(goodsId));
     }
-
 
     @RequestMapping(value = "/goods/promotionGoods", method = RequestMethod.POST)
     @ApiOperation(value = "查找促销商品")

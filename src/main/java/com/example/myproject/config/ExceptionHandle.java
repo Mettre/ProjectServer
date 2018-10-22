@@ -1,5 +1,6 @@
 package com.example.myproject.config;
 
+import com.example.myproject.exception.CustomerException;
 import com.example.myproject.pojo.Result;
 import com.example.myproject.pojo.ResultUtil;
 import org.slf4j.Logger;
@@ -21,8 +22,13 @@ public class ExceptionHandle {
     @ExceptionHandler(value = Exception.class)  //申明要捕获的异常类
     @ResponseBody
     public Result<Object> handle(Exception e) {
-        logger.error("[系统异常 {}", e);
-        return new ResultUtil<Object>().setErrorMsg("未知错误");
-
+        if (e instanceof CustomerException) {
+            CustomerException customerException = (CustomerException) e;
+            return new ResultUtil<Object>().setErrorMsg(Integer.parseInt(customerException.getErrorCode()), e.getMessage());
+        } else {
+            logger.error("[系统异常 {}", e);
+            return new ResultUtil<Object>().setErrorMsg("未知错误");
+//            return new ResultUtil<Object>().setErrorMsg(e.getMessage());
+        }
     }
 }

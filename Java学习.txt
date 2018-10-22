@@ -50,18 +50,17 @@ JPA 里面表字段添加@CreatedDate  @LastModifiedDate 自动加入添加时�
 
 阿里云短信服务    ------   ok
 
-dubbo 项目框架
-
 Quartz：定时任务
 
 redis集群    ---暂时只用做接口回参缓存 跟Android缓存没区别 key（详见http://how2j.cn）
 
-分布式微服务 --- spring-cloud / eureka   (-数据传输-)   ///////  dubbo zokeeper
+微服务 --- spring-cloud / eureka   (-数据传输-)的话 负载均衡feign/地址ip传输法，在本地应用中像本地服务一下的调用它，并且做到了客户端负载均衡
+               dubbo / zokeeper
 
 项目jar形式打包           ------- ok
 
-git
+git -- OK ----- sourceTree 使用/上传拉取代码/新建分支/合并分支/解决冲突
 
 ElasticSearch-搜索服务
 
-linux系统               -------  ok
+linux系统    VmWare/centos 7系统  XShell6系统间连接  XFtps6文件传输     -------  ok

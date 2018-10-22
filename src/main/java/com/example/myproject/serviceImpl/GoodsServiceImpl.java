@@ -1,7 +1,9 @@
 package com.example.myproject.serviceImpl;
 
+import com.example.myproject.exception.CustomerException;
 import com.example.myproject.mapper.GoodsMapper;
 import com.example.myproject.pojo.Goods;
+import com.example.myproject.pojo.ResultUtil;
 import com.example.myproject.service.GoodsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +42,16 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public Goods findGoodDetails(Long goodsId) {
-        return brandMapper.findGoodDetails(goodsId);
+        if (goodsId <= 0) {
+            throw new CustomerException("商品id不能为空", "400");
+        }
+        Goods goodDetails = brandMapper.findGoodDetails(goodsId);
+        if (goodDetails == null) {
+            throw new CustomerException("商品不存在", "400");
+        }
+        goodDetails.setCreateTime(null);
+        goodDetails.setLastUpdate(null);
+        return goodDetails;
     }
 
     @Override
