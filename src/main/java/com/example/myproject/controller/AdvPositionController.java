@@ -7,8 +7,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -23,11 +25,11 @@ public class AdvPositionController {
 
     @RequestMapping(value = "/adv/addAdvPosition", method = RequestMethod.POST)
     @ApiOperation(value = "新增广告位")
-    public Result<Object> addAdvPosition(@ModelAttribute AdPosition adPosition) {
+    public Result<Object> addAdvPosition(@ModelAttribute @Validated AdPosition adPosition) {
 
-        if (StrUtil.isBlank(adPosition.getAdPositionName())) {
-            return new ResultUtil<Object>().setErrorMsg("请输入广告位名称");
-        }
+//        if (StrUtil.isBlank(adPosition.getAdPositionName())) {
+//            return new ResultUtil<Object>().setErrorMsg("请输入广告位名称");
+//        }
         if (StrUtil.isBlank(adPosition.getAdPositionNo())) {
             return new ResultUtil<Object>().setErrorMsg("请输入广告位编码");
         }

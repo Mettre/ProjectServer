@@ -1,6 +1,8 @@
 请求入参@RequestParam 默认代表不能为空   加不加@RequestParam 接口拿到参数没有影响，区别是参数能不能为空，不加===@RequestParam(required=false)
 
 beetl模板 引擎代码自动生成 bean生成数据库 mapper/service/serviceImpl/mapper  运行项目后自动生成数据库表
+mybatis generator 用数据库自动生成bean，resources下配置generatorConfig.xml
+数据库生成bean   现在用的事jpa的生成数据库操作/手写bean 自动生成数据库
 
 Json Web Token(JWT)   安全认证
 
@@ -41,8 +43,6 @@ bcrypt算法加密密码  ********* spring-boot-starter-security 自带加密算
 日期格式        ----------- ok    去掉了fastJson 使用自带的jackSon/  之前两个一起不起作用原因被fastJson覆盖了  但是日志json友好格式消失了 得找到一个方法
 JPA 里面表字段添加@CreatedDate  @LastModifiedDate 自动加入添加时间 修改时间
 
-数据库生成bean   现在用的事jpa的生成数据库操作/手写bean 自动生成数据库
-
 上传图片        教材    https://blog.csdn.net/wqh8522/article/details/78971260
                 1、上传到本地resources ----- ok
                 2、七牛云文件存储   ------ ok
@@ -64,3 +64,16 @@ git -- OK ----- sourceTree 使用/上传拉取代码/新建分支/合并分支/�
 ElasticSearch-搜索服务
 
 linux系统    VmWare/centos 7系统  XShell6系统间连接  XFtps6文件传输     -------  ok
+
+validation 字段验证   @NotNull、@Min等注解实现字段验证
+
+跨域
+
+aop
+
+反射
+
+用户认证 token 的问题
+
+
+

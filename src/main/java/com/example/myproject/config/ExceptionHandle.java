@@ -27,7 +27,7 @@ public class ExceptionHandle {
             return new ResultUtil<Object>().setErrorMsg(Integer.parseInt(customerException.getErrorCode()), e.getMessage());
         } else {
             logger.error("[系统异常 {}", e);
-            return new ResultUtil<Object>().setErrorMsg("未知错误");
+            return new ResultUtil<Object>().setErrorMsg("未知错误"+e.getMessage());
 //            return new ResultUtil<Object>().setErrorMsg(e.getMessage());
         }
     }
