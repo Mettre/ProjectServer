@@ -1,6 +1,5 @@
 package com.example.myproject.controller;
 
-import com.example.myproject.exception.CustomerException;
 import com.example.myproject.pojo.*;
 import com.example.myproject.service.GoodsService;
 import io.swagger.annotations.Api;

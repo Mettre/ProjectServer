@@ -1,6 +1,7 @@
 package com.example.myproject.serviceImpl;
 
 import com.example.myproject.exception.CustomerException;
+import com.example.myproject.exception.ErrorCode;
 import com.example.myproject.mapper.GoodsMapper;
 import com.example.myproject.pojo.Goods;
 import com.example.myproject.pojo.ResultUtil;
@@ -43,7 +44,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public Goods findGoodDetails(Long goodsId) {
         if (goodsId <= 0) {
-            throw new CustomerException("商品id不能为空", "400");
+            throw new CustomerException("商品id不能为空", ErrorCode.PARAMETEREMPTY);
         }
         Goods goodDetails = brandMapper.findGoodDetails(goodsId);
         if (goodDetails == null) {

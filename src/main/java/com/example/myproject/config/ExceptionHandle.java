@@ -5,6 +5,9 @@ import com.example.myproject.pojo.Result;
 import com.example.myproject.pojo.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,9 +28,13 @@ public class ExceptionHandle {
         if (e instanceof CustomerException) {
             CustomerException customerException = (CustomerException) e;
             return new ResultUtil<Object>().setErrorMsg(Integer.parseInt(customerException.getErrorCode()), e.getMessage());
+        } else if (e instanceof BindException) {
+            BindException exception = (BindException) e;
+            FieldError fieldError = exception.getBindingResult().getFieldError();
+            return new ResultUtil<Object>().setErrorMsg(400, fieldError.getDefaultMessage());
         } else {
             logger.error("[系统异常 {}", e);
-            return new ResultUtil<Object>().setErrorMsg("未知错误"+e.getMessage());
+            return new ResultUtil<Object>().setErrorMsg("未知错误" + e.getMessage());
 //            return new ResultUtil<Object>().setErrorMsg(e.getMessage());
         }
     }

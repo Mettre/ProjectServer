@@ -29,6 +29,7 @@ public class MyprojectApplication {
     //过滤器
     @Bean
     public FilterRegistrationBean jwtFilter() {
+        //拦截器
         final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(new JwtFilter());
         List<String> urlPatterns = new ArrayList<String>();

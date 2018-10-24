@@ -5,6 +5,7 @@ import com.example.myproject.pojo.Address;
 import com.example.myproject.pojo.Result;
 import com.example.myproject.pojo.ResultUtil;
 import com.example.myproject.service.DeliveryService;
+import com.example.myproject.utils.TokenUtils;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,8 +30,7 @@ public class DeliveryController {
     @ApiOperation(value = "新增收货地址")
     public Result<Object> addDelivery(HttpServletRequest request, @RequestBody Address address) {
 
-        final Claims claims = (Claims) request.getAttribute("claims");
-        String userId = claims.getSubject();
+        String userId = TokenUtils.getUserId(request);
         address.setUserId(userId);
         if (address.isDefaults()) {
             Address address2 = addressService.findDefaultDelivery(userId);

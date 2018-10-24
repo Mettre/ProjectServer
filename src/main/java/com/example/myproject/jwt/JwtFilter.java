@@ -13,6 +13,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import com.example.myproject.constant.CommonConstant;
+import com.example.myproject.exception.ErrorCode;
 import com.example.myproject.pojo.Result;
 import com.example.myproject.pojo.ResultUtil;
 import com.example.myproject.utils.BigDecimalUtils;
@@ -42,13 +43,13 @@ public class JwtFilter extends GenericFilterBean {
                 final Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(jwt).getBody();
                 //将对象传递给下一个请求
                 request.setAttribute("claims", claims);
-                result.setCode(200);
+                result.setCode(Integer.parseInt(ErrorCode.UNKNOW));
             } catch (Exception e) {
                 result = new ResultUtil<Object>().setAuthenticationFailureMsg();
             }
         }
 
-        if (result.getCode() == 401) {// 验证失败
+        if (result.getCode() == Integer.parseInt(ErrorCode.NOTLOGGEDIN)) {// 验证失败
             PrintWriter writer = null;
             OutputStreamWriter osw = null;
             try {

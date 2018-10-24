@@ -65,7 +65,7 @@ ElasticSearch-搜索服务
 
 linux系统    VmWare/centos 7系统  XShell6系统间连接  XFtps6文件传输     -------  ok
 
-validation 字段验证   @NotNull、@Min等注解实现字段验证
+validation 字段验证   @NotNull、@Min等注解实现字段验证  ExceptionHandle 统一异常处理(e instanceof BindException)
 
 跨域
 

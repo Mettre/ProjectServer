@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.List;
 
 
@@ -25,20 +23,12 @@ public class AdvPositionController {
 
     @RequestMapping(value = "/adv/addAdvPosition", method = RequestMethod.POST)
     @ApiOperation(value = "新增广告位")
-    public Result<Object> addAdvPosition(@ModelAttribute @Validated AdPosition adPosition) {
-
-//        if (StrUtil.isBlank(adPosition.getAdPositionName())) {
-//            return new ResultUtil<Object>().setErrorMsg("请输入广告位名称");
-//        }
-        if (StrUtil.isBlank(adPosition.getAdPositionNo())) {
-            return new ResultUtil<Object>().setErrorMsg("请输入广告位编码");
-        }
+    public Result<Object> addAdvPosition(@Validated @ModelAttribute AdPosition adPosition) {
 
         List<AdPosition> adPositions2 = advPositionService.findSpecificAdvPosition(null, null, adPosition.getAdPositionNo());
         if (adPositions2 != null && adPositions2.size() > 0) {
             return new ResultUtil<Object>().setErrorMsg("已存在的广告位编码");
         }
-
         int result = advPositionService.addAdvPosition(adPosition);
         if (result != 1) {
             return new ResultUtil<Object>().setErrorMsg("添加广告位失败");

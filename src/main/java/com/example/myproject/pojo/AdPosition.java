@@ -9,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -27,10 +28,11 @@ public class AdPosition {
     private Long adPositionId;
 
     @ApiModelProperty(value = "广告位名称")
-    @NotNull(message = "请输入广告位名称111")
+    @NotNull(message = "请输入广告位名称")
     private String adPositionName;
 
     @ApiModelProperty(value = "广告位编码")
+    @NotNull(message = "请输入广告位编码")
     private String adPositionNo;
 
     @ApiModelProperty(value = "广告位描述")
