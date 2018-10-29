@@ -4,7 +4,6 @@ import com.example.myproject.exception.CustomerException;
 import com.example.myproject.exception.ErrorCode;
 import com.example.myproject.mapper.GoodsMapper;
 import com.example.myproject.pojo.Goods;
-import com.example.myproject.pojo.ResultUtil;
 import com.example.myproject.service.GoodsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import java.util.List;
 
 @Slf4j
 @Service
+@Transactional
 public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
@@ -39,6 +39,10 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public List<Goods> findGoods(Goods goods, int limit, int offset) {
         return brandMapper.findGoods(goods, limit, offset);
+    }
+
+    public String getSay(){
+        return "你好";
     }
 
     @Override

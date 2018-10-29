@@ -10,7 +10,7 @@ MyBatis-Plus   复杂联表查询  继承BaseMapper<T> 自动简单的CRUD
 
 Lombok    自动生成set/get 方法 简化清晰代码
 
-@Test 接口单元测试
+@Test 接口单元测试   ---- ok @Transactional测试数据不会写入数据库   前提设置数据库牵引成InnoDB
 
 入参传入List<String>
 
@@ -50,9 +50,9 @@ JPA 里面表字段添加@CreatedDate  @LastModifiedDate 自动加入添加时�
 
 阿里云短信服务    ------   ok
 
-Quartz：定时任务
+Quartz：定时任务   -----  ok   订单15分钟待支付 一般做法：每隔一分钟搜索全局未支付的订单看未支付状态是否超过15分钟，超过则关闭订单
 
-redis集群    ---暂时只用做接口回参缓存 跟Android缓存没区别 key（详见http://how2j.cn）
+redis集群    ---暂时只用做接口回参缓存 跟Android缓存没区别 key（详见http://how2j.cn） @Cacheable(key="'brand '+ #p0")缓存接口数据
 
 微服务 --- spring-cloud / eureka   (-数据传输-)的话 负载均衡feign/地址ip传输法，在本地应用中像本地服务一下的调用它，并且做到了客户端负载均衡
                dubbo / zokeeper
@@ -72,8 +72,6 @@ validation 字段验证   @NotNull、@Min等注解实现字段验证  ExceptionH
 aop
 
 反射
-
-用户认证 token 的问题
 
 
 
