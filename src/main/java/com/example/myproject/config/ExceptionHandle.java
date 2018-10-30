@@ -27,15 +27,14 @@ public class ExceptionHandle {
     public Result<Object> handle(Exception e) {
         if (e instanceof CustomerException) {
             CustomerException customerException = (CustomerException) e;
-            return new ResultUtil<Object>().setErrorMsg(Integer.parseInt(customerException.getErrorCode()), e.getMessage());
+            return new ResultUtil<Object>().setErrorMsg(customerException.getErrorCode(), e.getMessage());
         } else if (e instanceof BindException) {
             BindException exception = (BindException) e;
             FieldError fieldError = exception.getBindingResult().getFieldError();
-            return new ResultUtil<Object>().setErrorMsg(400, fieldError.getDefaultMessage());
+            return new ResultUtil<Object>().setErrorMsg("400", fieldError.getDefaultMessage());
         } else {
             logger.error("[系统异常 {}", e);
             return new ResultUtil<Object>().setErrorMsg("未知错误" + e.getMessage());
-//            return new ResultUtil<Object>().setErrorMsg(e.getMessage());
         }
     }
 }

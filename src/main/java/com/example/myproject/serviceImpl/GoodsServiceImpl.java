@@ -3,6 +3,7 @@ package com.example.myproject.serviceImpl;
 import com.example.myproject.exception.CustomerException;
 import com.example.myproject.exception.ErrorCode;
 import com.example.myproject.mapper.GoodsMapper;
+import com.example.myproject.menu.ResultEnum;
 import com.example.myproject.pojo.Goods;
 import com.example.myproject.service.GoodsService;
 import lombok.extern.slf4j.Slf4j;
@@ -41,18 +42,18 @@ public class GoodsServiceImpl implements GoodsService {
         return brandMapper.findGoods(goods, limit, offset);
     }
 
-    public String getSay(){
+    public String getSay() {
         return "你好";
     }
 
     @Override
     public Goods findGoodDetails(Long goodsId) {
         if (goodsId <= 0) {
-            throw new CustomerException("商品id不能为空", ErrorCode.PARAMETEREMPTY);
+            throw new CustomerException(ResultEnum.GOODS_ID_NOT_EMPTY);
         }
         Goods goodDetails = brandMapper.findGoodDetails(goodsId);
         if (goodDetails == null) {
-            throw new CustomerException("商品不存在", "400");
+            throw new CustomerException(ResultEnum.GOODS_NOT);
         }
         goodDetails.setCreateTime(null);
         goodDetails.setLastUpdate(null);

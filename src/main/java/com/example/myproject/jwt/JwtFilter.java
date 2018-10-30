@@ -43,13 +43,13 @@ public class JwtFilter extends GenericFilterBean {
                 final Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(jwt).getBody();
                 //将对象传递给下一个请求
                 request.setAttribute("claims", claims);
-                result.setCode(Integer.parseInt(ErrorCode.UNKNOW));
+                result.setCode("200");//未知错误
             } catch (Exception e) {
                 result = new ResultUtil<Object>().setAuthenticationFailureMsg();
             }
         }
 
-        if (result.getCode() == Integer.parseInt(ErrorCode.NOTLOGGEDIN)) {// 验证失败
+        if ("401".equals(result.getCode())) {// 验证成功
             PrintWriter writer = null;
             OutputStreamWriter osw = null;
             try {

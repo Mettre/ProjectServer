@@ -15,26 +15,26 @@ public class ResultUtil<T> {
         result = new Result<>();
         result.setSuccess(true);
         result.setMessage("success");
-        result.setCode(Integer.parseInt(ErrorCode.UNKNOW));
+        result.setCode(ErrorCode.UNKNOW);
     }
 
     public Result<T> setData(T t) {
         this.result.setData(t);
-        this.result.setCode(Integer.parseInt(ErrorCode.UNKNOW));
+        this.result.setCode(ErrorCode.UNKNOW);
         return this.result;
     }
 
     public Result<T> setSuccessMsg(String msg) {
         this.result.setSuccess(true);
         this.result.setMessage(msg);
-        this.result.setCode(Integer.parseInt(ErrorCode.UNKNOW));
+        this.result.setCode(ErrorCode.UNKNOW);
         this.result.setData(null);
         return this.result;
     }
 
     public Result<T> setData(T t, String msg) {
         this.result.setData(t);
-        this.result.setCode(Integer.parseInt(ErrorCode.UNKNOW));
+        this.result.setCode(ErrorCode.UNKNOW);
         this.result.setMessage(msg);
         return this.result;
     }
@@ -42,7 +42,7 @@ public class ResultUtil<T> {
     public Result<T> setErrorMsg(String msg) {
         this.result.setSuccess(false);
         this.result.setMessage(msg);
-        this.result.setCode(Integer.parseInt(ErrorCode.UNKNOW));
+        this.result.setCode(ErrorCode.UNKNOW);
         return this.result;
     }
 
@@ -56,18 +56,18 @@ public class ResultUtil<T> {
     public Result<T> setNotLoggedInMsg() {
         this.result.setSuccess(false);
         this.result.setMessage("未登录");
-        this.result.setCode(Integer.parseInt(ErrorCode.NOTLOGGEDIN));
+        this.result.setCode("401");
         return this.result;
     }
 
     public Result<T> setAuthenticationFailureMsg() {
         this.result.setSuccess(false);
         this.result.setMessage("登录失效");
-        this.result.setCode(Integer.parseInt(ErrorCode.NOTLOGGEDIN));
+        this.result.setCode("401");
         return this.result;
     }
 
-    public Result<T> setErrorMsg(Integer code, String msg) {
+    public Result<T> setErrorMsg(String code, String msg) {
         this.result.setSuccess(false);
         this.result.setMessage(msg);
         this.result.setCode(code);

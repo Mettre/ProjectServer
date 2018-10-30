@@ -1,7 +1,9 @@
 package com.example.myproject.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.example.myproject.exception.CustomerException;
 import com.example.myproject.jwt.AccessToken;
+import com.example.myproject.menu.ResultEnum;
 import com.example.myproject.pojo.Result;
 import com.example.myproject.pojo.ResultUtil;
 import com.example.myproject.pojo.Users;
@@ -15,6 +17,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +33,9 @@ import java.util.HashMap;
 @RequestMapping("/api/user")
 @Api(description = "用户模块")
 public class UserController {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
 
     @Value("${ProjectService.tokenExpireTime}")
     private Long tokenExpireTime;
@@ -136,23 +143,26 @@ public class UserController {
 
     @RequestMapping(value = "/forgetPassword", method = RequestMethod.POST)
     @ApiOperation(value = "忘记密码")
-    public Result<Object> forgetPassword(@RequestParam String phone, @RequestParam String captchaCode, @RequestParam String password) {
+    public Result<Object> forgetPassword(@RequestBody HashMap<String, Object> map) {
+
+        String phone = (String) map.get("phone");
+        String captchaCode = (String) map.get("captchaCode");
+        String password = (String) map.get("password");
 
         if (StrUtil.isBlank(phone)) {
-            return new ResultUtil<Object>().setErrorMsg("手机号不能为空");
+            throw new CustomerException("手机号不能为空");
         }
 
         String code = redisService.get(AssembleUtils.forgetUtils(phone));
         if (StrUtil.isBlank(code)) {
-            return new ResultUtil<Object>().setErrorMsg("验证码已过期，请重新获取");
+            throw new CustomerException(ResultEnum.VERIFICATION_EXPIRES);
         }
         if (!captchaCode.toLowerCase().equals(code.toLowerCase())) {
-            log.error("注册失败，验证码错误：code:" + captchaCode + ",redisCode:" + code.toLowerCase());
-            return new ResultUtil<Object>().setErrorMsg("验证码输入错误");
+            throw new CustomerException(ResultEnum.VERIFICATION_ERROR);
         }
         int completeResult = loginService.forgetPassword(phone, password.trim());
         if (completeResult == -1) {
-            return new ResultUtil<Object>().setErrorMsg("修改密码失败");
+            throw new CustomerException(ResultEnum.PASSWORD_MODIFICATION_FAILED);
         }
         return new ResultUtil<Object>().setSuccessMsg("修改密码成功");
     }
