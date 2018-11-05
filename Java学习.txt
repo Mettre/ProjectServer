@@ -67,6 +67,8 @@ linux系统    VmWare/centos 7系统  XShell6系统间连接  XFtps6文件传输
 
 validation 字段验证   @NotNull、@Min等注解实现字段验证  ExceptionHandle 统一异常处理(e instanceof BindException)
 
+RateLimiter实现限流
+
 跨域
 
 aop
