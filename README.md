@@ -1,2 +1,80 @@
 # ProjectServer
-我的初始项目服务端代码
+
+请求入参@RequestParam 默认代表不能为空   加不加@RequestParam 接口拿到参数没有影响，区别是参数能不能为空，不加===@RequestParam(required=false)
+
+beetl模板 引擎代码自动生成 bean生成数据库 mapper/service/serviceImpl/mapper  运行项目后自动生成数据库表
+mybatis generator 用数据库自动生成bean，resources下配置generatorConfig.xml
+数据库生成bean   现在用的事jpa的生成数据库操作/手写bean 自动生成数据库
+
+Json Web Token(JWT)   安全认证   设置拦截器绕过认证，复杂情况可以使用Security权限进行认证
+
+MyBatis-Plus   复杂联表查询  继承BaseMapper<T> 自动简单的CRUD
+
+Lombok    自动生成set/get 方法 简化清晰代码
+
+@Test 接口单元测试   ---- ok @Transactional测试数据不会写入数据库   前提设置数据库牵引成InnoDB
+
+入参传入List<String>
+
+name like '%王%'  /  like concat('%',#{adPositionName},'%')                  -------- ok
+
+回参按照自己想的字段返回，现在都是返的数据库全部字段，屏蔽部分字段   --------- ok    jackson-JacksonConfig配置屏蔽
+
+分页接口回参        ------- ok   mybatis plus 里面的page框架
+
+服务器日志 sql      -------- ok    mybatis 配合log4j配置输出
+
+购物车内商品如果下架/删除后列表现象   -----不能数据库删除数据，只能下架（加购物车订单时既存入商品名称等，又存入id，列表里检索商品是否存在，取最新的商品信息，如果没有，则取存储信息并已报下架）--总比卡死在某个被删除的商品强些
+订单同样
+
+接口统一抛错/如数据库抛错 -----  ExceptionHandle @ControllerAdvice   集中处理异常  未知错误
+
+@Transactional  事务回滚    ------ Exception可try{}捕获的不会回滚       数据库引擎必须要是InnoDB   更改默认引擎（my.ini）--加 default-storage-engine=INNODB
+
+了解事务和锁  用户同时提交  乐观锁 /  悲观锁   读取频繁用乐观锁，写入频繁用悲观锁   mybatis plus自带@Version乐观锁   继承BaseMapper<T> 自动简单的CRUD
+
+接口某一模块走不成功(订单提交订单)
+
+enum  统一错误回参 Code Message   入参曹总怎么限制的？    ------- ok
+
+druid阿里巴巴数据库连接池       ----------- ok
+
+bcrypt算法加密密码  ********* spring-boot-starter-security 自带加密算法,不可逆但是却报错401 权限问题没解决 - new BCryptPasswordEncoder().matches(password, user.getPassword())
+                                            String encryptPass = new BCryptPasswordEncoder().encode(password.trim());
+
+日期格式        ----------- ok    去掉了fastJson 使用自带的jackSon/  之前两个一起不起作用原因被fastJson覆盖了  但是日志json友好格式消失了 得找到一个方法
+JPA 里面表字段添加@CreatedDate  @LastModifiedDate 自动加入添加时间 修改时间
+
+上传图片        教材    https://blog.csdn.net/wqh8522/article/details/78971260
+                1、上传到本地resources ----- ok
+                2、七牛云文件存储   ------ ok
+                3、FastDFS  ----- Linux系统
+
+阿里云短信服务    ------   ok
+
+Quartz：定时任务   -----  ok   订单15分钟待支付 一般做法：每隔一分钟搜索全局未支付的订单看未支付状态是否超过15分钟，超过则关闭订单
+
+redis集群    ---暂时只用做接口回参缓存 跟Android缓存没区别 key（详见http://how2j.cn） @Cacheable(key="'brand '+ #p0")缓存接口数据
+
+微服务 --- spring-cloud / eureka   (-数据传输-)的话 负载均衡feign/地址ip传输法，在本地应用中像本地服务一下的调用它，并且做到了客户端负载均衡
+               dubbo / zokeeper
+
+项目jar形式打包           ------- ok
+
+git -- OK ----- sourceTree 使用/上传拉取代码/新建分支/合并分支/解决冲突
+
+linux系统    VmWare/centos 7系统  XShell6系统间连接  XFtps6文件传输     -------  ok
+
+validation 字段验证   @NotNull、@Min等注解实现字段验证  ExceptionHandle 统一异常处理(e instanceof BindException)
+
+ElasticSearch-搜索服务
+
+Nginx
+
+分布式限流、同步锁
+
+跨域
+
+aop
+
+反射
