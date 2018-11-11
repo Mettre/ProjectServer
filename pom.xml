@@ -64,6 +64,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
         <!-- MybatisPlus -->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -77,6 +78,7 @@
             <artifactId>spring-boot-starter-redis</artifactId>
             <version>1.4.7.RELEASE</version>
         </dependency>
+
         <!-- Beetl 代码生成使用
              结合generator 自动生成 controller/service/serviceImpl/mapper 项目运行后生成数据库表-->
         <dependency>
@@ -84,35 +86,41 @@
             <artifactId>beetl</artifactId>
             <version>2.8.3</version>
         </dependency>
+
         <!-- Hutool工具包 一些utils 字符串判空等-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>4.0.5</version>
         </dependency>
+
         <!-- Lombok    消除set/get方法  bean类上加@Date-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.20</version>
         </dependency>
+
         <!-- Swagger API文档 -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>2.7.0</version>
         </dependency>
+
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.7.0</version>
         </dependency>
+
         <!--jjwt-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.0</version>
         </dependency>
+
         <!--七牛云图片上传SDK-->
         <dependency>
             <groupId>com.qiniu</groupId>
@@ -126,16 +134,19 @@
             <artifactId>aliyun-java-sdk-core</artifactId>
             <version>4.0.6</version>
         </dependency>
+
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
             <version>1.1.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
             <version>2.2.1</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
