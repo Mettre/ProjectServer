@@ -77,5 +77,5 @@ aop
 
 spring boot 加 vue + element UI
 
-
+数据库 触发器
 

@@ -91,7 +91,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>4.0.5</version>
+            <version>4.1.12</version>
         </dependency>
 
         <!-- Lombok    消除set/get方法  bean类上加@Date-->
