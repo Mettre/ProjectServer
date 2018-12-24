@@ -11,6 +11,7 @@ import com.example.myproject.redis.RedisService;
 import com.example.myproject.service.UserService;
 import com.example.myproject.utils.AssembleUtils;
 import com.example.myproject.utils.CreateVerifyCode;
+import com.example.myproject.vm.CaptchaVM;
 import com.example.myproject.vojo.Captcha;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,8 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 
 import static com.example.myproject.utils.SmsDemo.sendSms;
 
@@ -38,16 +37,16 @@ public class CaptchaController {
 
     @RequestMapping(value = "/captcha", method = RequestMethod.POST)
     @ApiOperation(value = "生成验证码")
-    public Result<Object> login(@RequestBody HashMap<String, Object> map) throws ClientException {
+    public Result<Object> login(@RequestBody CaptchaVM captchaVM) throws ClientException {
 
-        String phone = (String) map.get("phone");
-        String captchaCode = (String) map.get("captchaCode");
+        String phone = captchaVM.getPhone();
+        EnumBean.CaptchaEnum captchaCode = captchaVM.getCaptchaCode();
 
         if (StrUtil.isBlank(phone)) {
             return new ResultUtil<Object>().setErrorMsg("手机号不能为空");
         }
         Users users = loginService.findUserByPhone(phone);
-        switch (EnumBean.CaptchaEnum.valueOf(captchaCode)) {
+        switch (captchaCode) {
             case REGISTER_SMS:
                 if (users != null) {
                     return new ResultUtil<Object>().setErrorMsg("该手机号已被注册");
@@ -63,10 +62,10 @@ public class CaptchaController {
         Captcha captcha = new Captcha();
         captcha.setPhone(phone);
         captcha.setCode(code);
-        captcha.setCaptchaType(captchaCode);
+        captcha.setCaptchaType(captchaCode.getExplain());
         //缓存验证码
-        logger.info(captchaCode);
-        switch (EnumBean.CaptchaEnum.valueOf(captchaCode)) {
+        logger.info(captchaCode.getExplain());
+        switch (captchaCode) {
             case REGISTER_SMS:
                 redisService.set(AssembleUtils.registerUtils(phone), code);
                 redisService.expire(AssembleUtils.registerUtils(phone), 3 * 60);
@@ -76,7 +75,7 @@ public class CaptchaController {
                 redisService.expire(AssembleUtils.forgetUtils(phone), 3 * 60);
                 break;
         }
-        SendSmsResponse response = sendSms(EnumBean.CaptchaEnum.valueOf(captchaCode), captcha);
+        SendSmsResponse response = sendSms(captchaCode, captcha);
         if ("OK".equals(response.getCode()) && "OK".equals(response.getMessage())) {
             return new ResultUtil<Object>().setData(captcha);
         } else {

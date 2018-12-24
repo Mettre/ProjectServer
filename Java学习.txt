@@ -79,3 +79,7 @@ spring boot 加 vue + element UI
 
 数据库 触发器
 
+sql 语法过一遍  http://www.runoob.com/sql/sql-func-count.html
+
+enum 输入抛错
+

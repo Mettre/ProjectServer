@@ -11,6 +11,10 @@ import com.example.myproject.redis.RedisService;
 import com.example.myproject.service.UserService;
 import com.example.myproject.utils.AssembleUtils;
 import com.example.myproject.utils.BigDecimalUtils;
+import com.example.myproject.vm.ForgetPasswordVM;
+import com.example.myproject.vm.LoginVM;
+import com.example.myproject.vm.ModifyPasswordVM;
+import com.example.myproject.vm.RegisterVM;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -25,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -51,10 +56,10 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ApiOperation(value = "用户登录")
-    public Result<Object> login(@RequestBody HashMap<String, Object> map) {
+    public Result<Object> login(@Valid @RequestBody LoginVM loginVM) {
 
-        String phone = (String) map.get("phone");
-        String password = (String) map.get("password");
+        String phone = loginVM.getPhone();
+        String password = loginVM.getPassword();
 
         Users user = loginService.findUserByPhone(phone);
         if (user == null) {
@@ -82,11 +87,11 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ApiOperation(value = "用户注册")
-    public Result<Object> insert(@RequestBody HashMap<String, Object> map) {
+    public Result<Object> insert(@Valid @RequestBody RegisterVM registerVM) {
 
-        String phone = (String) map.get("phone");
-        String password = (String) map.get("password");
-        String captchaCode = (String) map.get("captchaCode");
+        String phone = registerVM.getPhone();
+        String password = registerVM.getPassword();
+        String captchaCode = registerVM.getCaptchaCode();
 
         if (StrUtil.isBlank(phone)) {
             return new ResultUtil<Object>().setErrorMsg("手机号不能为空");
@@ -115,7 +120,7 @@ public class UserController {
 
     @RequestMapping(value = "/loginEd/modifyPassword", method = RequestMethod.POST)
     @ApiOperation(value = "修改密码")
-    public Result<Object> modifyPassword(HttpServletRequest request, @RequestParam String newPassword, @RequestParam String oldPassword) {
+    public Result<Object> modifyPassword(HttpServletRequest request, @Valid @RequestParam ModifyPasswordVM modifyPasswordVM) {
 
         final Claims claims = (Claims) request.getAttribute("claims");
         String userId = claims.getSubject();
@@ -123,18 +128,18 @@ public class UserController {
         if (user == null) {
             return new ResultUtil<Object>().setErrorMsg("用户为空");
         }
-        if (StrUtil.isBlank(oldPassword)) {
+        if (StrUtil.isBlank(modifyPasswordVM.getOldPassword())) {
             return new ResultUtil<Object>().setErrorMsg("老密码不能为空");
         }
-        if (StrUtil.isBlank(newPassword)) {
+        if (StrUtil.isBlank(modifyPasswordVM.getNewPassword())) {
             return new ResultUtil<Object>().setErrorMsg("新密码不能为空");
         }
 
-        if (!oldPassword.equals(user.getPassword())) {
+        if (!modifyPasswordVM.getOldPassword().equals(user.getPassword())) {
             return new ResultUtil<Object>().setErrorMsg("旧密码错误");
         }
 
-        int completeResult = loginService.modifyPassword(Long.parseLong(userId), newPassword);
+        int completeResult = loginService.modifyPassword(Long.parseLong(userId), modifyPasswordVM.getNewPassword());
         if (completeResult == -1) {
             return new ResultUtil<Object>().setErrorMsg("修改密码失败");
         }
@@ -143,11 +148,11 @@ public class UserController {
 
     @RequestMapping(value = "/forgetPassword", method = RequestMethod.POST)
     @ApiOperation(value = "忘记密码")
-    public Result<Object> forgetPassword(@RequestBody HashMap<String, Object> map) {
+    public Result<Object> forgetPassword(@Valid @RequestBody ForgetPasswordVM forgetPasswordVM) {
 
-        String phone = (String) map.get("phone");
-        String captchaCode = (String) map.get("captchaCode");
-        String password = (String) map.get("password");
+        String phone = forgetPasswordVM.getPhone();
+        String captchaCode = forgetPasswordVM.getCaptchaCode();
+        String password = forgetPasswordVM.getPassword();
 
         if (StrUtil.isBlank(phone)) {
             throw new CustomerException("手机号不能为空");
