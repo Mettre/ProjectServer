@@ -71,6 +71,8 @@ RateLimiter实现限流
 
 跨域
 
+权限
+
 aop
 
 反射
@@ -81,5 +83,13 @@ spring boot 加 vue + element UI
 
 sql 语法过一遍  http://www.runoob.com/sql/sql-func-count.html
 
-enum 输入抛错
+spring could微服务 网关合并多端口 spring could zuul
+
+maven 本地jar包安装调用java方法
+
+数据库外键约束，设置完级联删除后父表删除子表跟着删除
+
+enum枚举作入参时报错抛出
+
+
 
