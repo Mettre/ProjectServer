@@ -8,6 +8,7 @@ Json Web Token(JWT)   安全认证
 
 MyBatis-Plus   复杂联表查询  继承BaseMapper<T> 自动简单的CRUD
 
+
 Lombok    自动生成set/get 方法 简化清晰代码
 
 @Test 接口单元测试   ---- ok @Transactional测试数据不会写入数据库   前提设置数据库牵引成InnoDB
@@ -79,17 +80,17 @@ aop
 
 spring boot 加 vue + element UI
 
-数据库 触发器
-
 sql 语法过一遍  http://www.runoob.com/sql/sql-func-count.html
 
-spring could微服务 网关合并多端口 spring could zuul
+spring could微服务 网关合并多端口 spring could zuul         -------  ok
 
 maven 本地jar包安装调用java方法
 
 数据库外键约束，设置完级联删除后父表删除子表跟着删除
 
-enum枚举作入参时报错抛出
+https://www.cnblogs.com/qdhxhz/p/9853265.html
 
+Maven的中央仓库和本地私服
 
+部署自己的阿里云git服务器代码上传
 
