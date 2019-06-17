@@ -63,7 +63,7 @@ redis集群    ---暂时只用做接口回参缓存 跟Android缓存没区别 ke
 
 git -- OK ----- sourceTree 使用/上传拉取代码/新建分支/合并分支/解决冲突
 
-linux系统    VmWare/centos 7系统  XShell6系统间连接  XFtps6文件传输     -------  ok
+linux系统    VmWare/centos 7系统  XShell6系统间连接  XFtps6文件传输(收费很烦)   winscp文件传输  -------  ok
 
 validation 字段验证   @NotNull、@Min等注解实现字段验证  ExceptionHandle 统一异常处理(e instanceof BindException)
 

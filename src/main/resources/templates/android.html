@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>农行支付成功页面</title>
+</head>
+<body>
+<button id="button" style="cursor:pointer ;font-size: large">原生交互返回</button>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="application/javascript">
+
+    // function s() {
+    //     // alert("完成")
+    //     window.NativeFunction.back("你好");
+    // }
+
+    $("#button").on("click", function () {
+        s();
+    })
+
+    function s() {
+        //判断当前系统设备，对应不同的下载链接
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;//android终端
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        if (isAndroid) {// 安卓方法
+            alert("android")
+            window.NativeFunction.back("你好android");
+        } else if (isiOS) {// ios方法
+            alert("ios");
+            if (appJs) {
+                appJs.showMsg("你好ios");
+            }
+        } else {
+            alert("未知浏览器");
+        }
+        document.getElementById("button").innerText = "改名成功";
+    }
+
+
+</script>
+
+</body>
+</html>

@@ -19,4 +19,14 @@ public class HelloController {
         map.put("hello", "欢迎进入HTML页面");
         return "/hello";
     }
+
+    @RequestMapping("/link")
+    public String linkHtml() {
+        return "/link";
+    }
+
+    @RequestMapping("/interactive")
+    public String interactiveHtml() {
+        return "/android";
+    }
 }

@@ -4,7 +4,7 @@ jasypt:
     password: ProjectServer
 
 server:
-  port: 8800
+  port: 8801
 
 spring:
   profiles:
